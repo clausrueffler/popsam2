@@ -1,0 +1,16 @@
+---
+title: "Population and community ecology @ Uppsala University"
+output: 
+  html_document:
+    toc: FALSE
+---
+*Claus' Exercises*
+
+This website contains the exercises for the parts "Structured populations". Click the exercise button and select from the differnt exercises in the drop-down menu. Please do the exercises by copying the R-code and pasting it in the skript window of your R-Studio application.
+
+**Enjoy!**
+
+Claus
+
+
+
