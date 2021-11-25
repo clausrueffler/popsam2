@@ -41,7 +41,7 @@ $$
 \mathbf{N}(t)=\mathsf{L}^t*\mathbf{N}(0).
 $$
 
-In this exercise you use R to explore this dynamics. This exercise also serves to introduce some R-code that you will need later for your independent project work.
+In this exercise, you use R to explore this dynamics. This exercise also serves to introduce some R-code that you will need later for your independent project work.
 
 ```{r}
 L <- matrix(
@@ -101,7 +101,7 @@ for (i in 1:length){# iterates the multiplication L.N(t) as often as specified b
   time.series <- cbind(time.series, L %*% time.series[ , i]) # executes multiplication of the matrix L with current population vector and stores the result as a new column to the matrix time.series
 }
 
-matplot(0:length, t(time.series), type="l", lty=1:3, col = 1, ylab = "abundance", xlab = "time") # plots the time.series for each age-class
+matplot(0:length, t(time.series), type="l", lty=1:3, col = 1, ylab = "abundance", xlab = "time") # plots the time.series for each age-class, not that we have to transpose the matrix time.series in order to obtain the correct plot
 legend("topleft", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1, bty = "N") # adds a legend
 ```
 
@@ -111,7 +111,7 @@ Increase the length of the time series to ```length=40```. What do you observe?
 It is instructive to produce the same plot but with population densities on a log-scale. This can be done by adding the option ```log="y"``` to the plot command.
 
 ```{r eval=FALSE}
-matplot(0:length, t(time.series), type="l", log="y", lty=1:3, col = 1, ylab = " log abundance", xlab = "time") # adding the option log="y" shows the y-axis on a logarithmic scale
+matplot(0:length, t(time.series), type="l", log="y", lty=1:3, col = 1, ylab = "log abundance", xlab = "time") # adding the option log="y" shows the y-axis on a logarithmic scale
 legend("topleft", legend = c("age 1", "age 2", "age 3"),lty = 1:3,col = 1, bty = "N")
 ```
 
@@ -129,10 +129,10 @@ In the population projection matrix, change $s_1=0.3$ to $s_1=0.25$. Then repeat
 Now we know how to simulate the dynamics of a structured population.
 Next, let us investigate the dynamics in a bit more detail.
 
-1) By what factor does each age class as well as the population as a whole grow from one time step to the next?
+1) By what factor does each age class, as well as the population as a whole, grow from one time step to the next?
 2) To what extend does the population dynamics depend on the initial population vector $\mathbf N(0)$?
 
-### 1) By what factor does each age class and the population as a whole grow from one time step to the next?
+### 1) By what factor does each age class, as well as the population as a whole grow from one time step to the next?
 
 In unstructured populations we have
 
@@ -153,15 +153,15 @@ $$
 \lambda_{\mathrm{tot}}(t) = \frac{N_{\mathrm{tot}}(t+1)}{N_{\mathrm{tot}}(t)}.
 $$
 
-Let us begin by calculating this quanity for age-class 1 based on a time series of length 40. Note that before you can execute the following command you first have to create a time series of lenght 40.
+Let us begin by calculating this quanity for age-class 1 based on a time series of length 40. Please first change the survival of one-year old individuals back to $s_1=0.3$.
 
 ```{r echo=FALSE}
-length <-40 # length of the time series
-N.0 <- c(2,2,1) # creates vector N.0 of initial densities
+length <- 40
+N.0 <- c(2, 2, 1) # creates vector N.0 of initial densities
 time.series <- matrix(N.0, nrow = 3) # creates a matrix with three rows, called times.series, in which we will store the time series
 
-for (i in 1:length){# iterates the multiplication L.N(t) for as many time steps as specified by the parameter "length"
-  time.series <- cbind(time.series, L %*% time.series[,i]) # executes multiplication of the matrix L with current population vector and adds the result as a new column to the matrix time.series
+for (i in 1:length){
+  time.series <- cbind(time.series, L %*% time.series[,i])
 }
 
 N.tot <- colSums(time.series) # vector of total densities
@@ -170,7 +170,7 @@ N.tot <- colSums(time.series) # vector of total densities
 ```{r}
 Lambda.1 <- matrix(1, nrow=1) 
 for (i in 1:length){
-  Lambda.1 <- cbind(Lambda.1, time.series[1,i+1]/time.series[1,i])
+  Lambda.1 <- cbind(Lambda.1, time.series[1,i+1]/time.series[1,i]) # here we divide the population size in class 1 in two consecutive time steps by each other and store the result in Lambda.1
 }
 
 plot(0:length, Lambda.1, type="l", ylab = expression(lambda[1](t)=='N'[1](t+1)/'N'[1](t)), xlab = "time")
@@ -221,26 +221,26 @@ What do you observe? What do you conclude from your results about the existence 
 How do the dynamics of a time series depend on the population vector $\mathbf N(0)$ specifying the initial population size?
 To investigate this question we can repeat the above computations but for different initial population vectors $\mathbf N(0)$, say, ten different such vectors. The following code facilitates the computation of many such time series.
 
-```{r}
+```{r eval=FALSE}
 length <- 40
 N.0 <- c(c(1,0,0), c(0,1,0), c(0,0,1), c(2,0,0), c(1,1,0), c(1,0,1), c(0,1,1), c(2,1,0), c(2,0,1), c(0,2,1)) # vector of ten different initial conditions N(0)
-ten.time.series <- matrix(0, nrow = 10*nrow(L), ncol = length+1) # matrix for storing ten time series
-ten.time.series[ ,1] <- N.0 # storing the initial condition in the first column
-#
+ten.time.series <- matrix(0, nrow = 10 * nrow(L), ncol = length + 1) # matrix for storing ten time series; note that this matrix has 10 * 3 = 30 rows (make yourself clear why)
+ten.time.series[ , 1] <- N.0 # storing the initial condition in the first column
+
 for (i in 0:9){# this nested for-loop executes the calculations for the 10 different time series
-  for (j in 1:length) {
-    ten.time.series[(1+3*i):(3+3*i),(j+1)] <- L %*% ten.time.series[(1+3*i):(3+3*i),j]
-  }
+  for (j in 1:length){
+    ten.time.series[(1 + 3 * i):(3 + 3 * i), (j + 1)] <- L %*% ten.time.series[(1 + 3 * i):(3 + 3 * i), j]
+  } # note that there is some "complicated" stuff going on so as to add the new population vector in the correct place in the matrix ten.time.series
 }
 ```
 
 Next, we plot the time series for each age-class for all ten time series.
 
 ```{r eval=FALSE}
-ten.age1 <- ten.time.series[c(1,4,7,10,13,16,19,22,25,28), ] # 10 time series for age class 1
-ten.age2 <- ten.time.series[c(2,5,8,11,14,17,20,23,26,29), ] # 10 time series for age class 2
-ten.age3 <- ten.time.series[c(3,6,9,12,15,18,21,24,27,30), ] # 10 time series for age class 3
-par(mfrow = c(1,3)) # arranges the next three plots in a single figure
+ten.age1 <- ten.time.series[c(1, 4, 7, 10, 13, 16, 19, 22, 25, 28), ] # 10 time series for age class 1
+ten.age2 <- ten.time.series[c(2, 5, 8, 11, 14, 17, 20, 23, 26, 29), ] # 10 time series for age class 2
+ten.age3 <- ten.time.series[c(3, 6, 9, 12, 15, 18, 21, 24, 27, 30), ] # 10 time series for age class 3
+par(mfrow = c(1, 3)) # arranges the next three plots in a single figure
 matplot(0:length, t(ten.age1), type="l", col = rainbow(10), ylab = "abundance age-class 1", xlab = "time")
 matplot(0:length, t(ten.age2), type="l", col = rainbow(10), ylab = "abundance age-class 2", xlab = "time")
 matplot(0:length, t(ten.age3), type="l", col = rainbow(10), ylab = "abundance age-class 3", xlab = "time")
@@ -255,24 +255,24 @@ ten.lambda1 <- matrix(0, nrow = 10, ncol = length)
 ten.lambda2 <- matrix(0, nrow = 10, ncol = length)
 ten.lambda3 <- matrix(0, nrow = 10, ncol = length)
 
-age1 <- c(1,4,7,10,13,16,19,22,25,28) # indices indicating the rows in the matrix ten.time.series containing age-class 1
-age2 <- c(2,5,8,11,14,17,20,23,26,29) # indices indicating the rows in the matrix ten.time.series containing age-class 2
-age3 <- c(3,6,9,12,15,18,21,24,27,30) # indices indicating the rows in the matrix ten.time.series containing age-class 3
+age1 <- c(1, 4, 7, 10, 13, 16, 19, 22, 25, 28) # indices indicating the rows in the matrix ten.time.series containing age-class 1
+age2 <- c(2, 5, 8, 11, 14, 17, 20, 23, 26, 29) # indices indicating the rows in the matrix ten.time.series containing age-class 2
+age3 <- c(3, 6, 9, 12, 15, 18, 21, 24, 27, 30) # indices indicating the rows in the matrix ten.time.series containing age-class 3
 
-par(mfrow = c(1,3)) # arranges the next three plots in a single figure
+par(mfrow = c(1, 3)) # arranges the next three plots in a single figure
 
 for (i in 1:length){
-  ten.lambda1[ ,i] <- ten.time.series[age1,i+1]/ten.time.series[age1,i]
+  ten.lambda1[ , i] <- ten.time.series[age1,i+1]/ten.time.series[age1,i]
 }
 matplot(1:length, t(ten.lambda1), type="l", ylim=c(0,5), col = rainbow(10), ylab = expression(lambda[1](t)=='n'[1](t+1)/'n'[1](t)), xlab = "time")
 
 for (i in 1:length){
-  ten.lambda2[ ,i] <- ten.time.series[age2,i+1]/ten.time.series[age2,i]
+  ten.lambda2[ , i] <- ten.time.series[age2, i + 1]/ten.time.series[age2, i]
 }
 matplot(1:length, t(ten.lambda2), type="l", ylim=c(0,5), col = rainbow(10), ylab = expression(lambda[2](t)=='n'[2](t+1)/'n'[2](t)), xlab = "time")
 
 for (i in 1:length){
-  ten.lambda3[ ,i] <- ten.time.series[age3,i+1]/ten.time.series[age3,i]
+  ten.lambda3[ , i] <- ten.time.series[age3, i + 1]/ten.time.series[age3, i]
 }
 matplot(1:length, t(ten.lambda3), type="l", ylim=c(0,5), col = rainbow(10), ylab = expression(lambda[3](t)=='n'[3](t+1)/'n'[3](t)), xlab = "time")
 ```
