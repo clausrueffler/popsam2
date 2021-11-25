@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Exercise: Structure Populations - Sensitivity I</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Population and community ecology</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Exercises
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="./Exercise-AgeStructure_Growth.html">1. Structured Populations - Growth</a>
+    </li>
+    <li>
+      <a href="./Exercise-AgeStructure_Distribution.html">2. Structured Populations - Stage Distribution</a>
+    </li>
+    <li>
+      <a href="./Exercise-AgeStructure_Sensitivity-I.html">3. Structured Populations - Sensitivity I</a>
+    </li>
+    <li>
+      <a href="./Exercise-AgeStructure_Sensitivity-II.html">4. Structured Populations - Sensitivity II</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<div id="structure-populations---sensitivity-analysis-i" class="section level1 tabset">
+<h1>Structure Populations - Sensitivity Analysis I</h1>
+<p>Matrix models are an important tool in two branches of <em>applied ecology</em>, conservation and pest control. In the first case, one is interested in strategies that would increase the abundance of a rare, endangered species. In the second case, one is interested in strategies that reduce the abundance of an undesired but rapidly increasing species. What do we mean with a strategy here? Conservation strategies concerned with rare species will try to increase survival or fecundity of the target species while pest control strategies have the opposite aim. In the presence of limited financial resources, which life stage should a conservation or control strategy target in order maximize the outcome? We can formalize this question by asking: If we can change different demographic parameters <span class="math inline">\(a_{ij}\)</span> of a population projectin matrix <span class="math inline">\(\mathsf A\)</span> by a certain amount <span class="math inline">\(\Delta a_{ij}\)</span>, which change will increase (in the case of conservation) or decrease (in the case of pest control) the dominant eigenvalue <span class="math inline">\(\lambda\)</span> by the largest amount? In other words, where should we put our money for maximal effect?</p>
+<p>A simple way to answer this question is to change the entries <span class="math inline">\(a_{ij}\)</span> by a value that is considered realistic and then compute the resulting change in <span class="math inline">\(\lambda\)</span>. Let us consider the same population projection matrix as in the previous exercises, assuming that it describes the life cycle of a hypothetical endangered species:</p>
+<p><span class="math display">\[
+\mathsf{L} = 
+\begin{pmatrix}
+0 &amp; f_2 &amp; f_3\\
+s_1 &amp; 0 &amp; 0\\
+0 &amp; s_2 &amp; 0
+\end{pmatrix}
+=
+\begin{pmatrix}
+0 &amp; 1 &amp; 5\\
+0.25 &amp; 0 &amp; 0\\
+0 &amp; 0.5 &amp; 0
+\end{pmatrix}.
+\]</span></p>
+<p>In the first exercise, we found that that the dominant eigenvalue of this matrix <span class="math inline">\(\mathsf L\)</span> equals <span class="math inline">\(\lambda=0.952\)</span>, thus is population is in steep decline.</p>
+<div id="an-equal-change-change-of-demograhic-parameters" class="section level2">
+<h2>An equal change change of demograhic parameters</h2>
+<p>Assume that with the same amount of financial resoruces we can increase each of the four demographic parameters by the same amount <span class="math inline">\(0.1\)</span>, resulting in</p>
+<p><span class="math display">\[
+\begin{align}
+  f_2^{\mathrm{new}}&amp;=f_2+\Delta f_2=1+0.1=1.1\\
+  f_3^{\mathrm{new}}&amp;=f_3+\Delta f_3=5+0.1=5.1\\
+  s_1^{\mathrm{new}}&amp;=s_1+\Delta s_1=0.25+0.1=0.35\\
+  s_2^{\mathrm{new}}&amp;=s_2+\Delta s_2=0.5+0.1=0.6.
+\end{align}
+\]</span></p>
+<p>Let us find out on which demograhic parameter we should focus our effort. To this end, we define the following population projection matrices:</p>
+<pre class="r"><code>L = matrix(c(0, 1, 5, 0.25, 0, 0, 0, 0.5, 0), nrow=3, byrow=T)
+L.f2 = matrix(c(0, 1+0.1, 5, 0.25, 0, 0, 0, 0.5, 0), nrow=3, byrow=T)
+L.f3 = matrix(c(0, 1, 5+0.1, 0.25, 0, 0, 0, 0.5, 0), nrow=3, byrow=T)
+L.s1 = matrix(c(0, 1, 5, 0.25+0.1, 0, 0, 0, 0.5, 0), nrow=3, byrow=T)
+L.s2 = matrix(c(0, 1, 5, 0.25, 0, 0, 0, 0.5+0.1, 0), nrow=3, byrow=T)
+
+N.0 &lt;- c(2,2,1) # vector of initial population densities
+length &lt;- 40 # length of the time series</code></pre>
+<p>Before you execute the following code, please think for a minute about the following two questions:</p>
+<ol style="list-style-type: decimal">
+<li><p>Do you expect that the four new matrices will result in exactly the same altered time series or do you think that the time series will differ depending on which demograhic parameter was increased by 0.1?</p></li>
+<li><p>If you think the latter is true, which altered parameter will affect the dynamics the strongest? Since the original matrix <span class="math inline">\(\mathsf L\)</span> results in extinction (<span class="math inline">\(\lambda=0.952\)</span>), do you expect that any of the altered parameters results in positive population growth, i.e., a value of <span class="math inline">\(\lambda\)</span> that is larger than one?</p></li>
+</ol>
+<p>To find out, let us produce the time series for each of the above matrices and compute their dominant eigenvalue <span class="math inline">\(\lambda\)</span>.</p>
+<pre class="r"><code>par(mfrow = c(2,3)) # arranges the next five plots in a single figure
+###
+time.series &lt;- matrix(0, nrow=nrow(L), ncol=length+1) # creates an empty matrix of dimension 3x(length+1)
+time.series[, 1] &lt;- N.0  # stores the initial population vector N.0 in the matrix &quot;time.series&quot;
+for (i in 1:length){# executes the multiplication of L.N(t) as often as specified by the parameter &quot;length&quot;
+  time.series[ , i+1] &lt;- L %*% time.series[ ,i]
+}
+matplot(0:length, t(time.series), type=&quot;l&quot;, lty=1:3, col = 1, ylab = &quot;abundance&quot;, xlab = &quot;time&quot;, main=&quot;original matrix&quot;) # plots result
+legend(&quot;topright&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1, bty = &quot;n&quot;) # defines legend
+
+### same procedure as above but now for the population projection matrix L.f2
+time.series.f2 &lt;- matrix(0, nrow=nrow(L.f2), ncol=length+1)
+time.series.f2[, 1] &lt;- N.0
+for (i in 1:length){
+  time.series.f2[ , i+1] &lt;- L.f2 %*% time.series.f2[ ,i]
+}
+matplot(0:length, t(time.series.f2), type=&quot;l&quot;, lty=1:3, col = 1, ylab = &quot;abundance&quot;, xlab = &quot;time&quot;, main=&quot;f2 increased&quot;)
+legend(&quot;topright&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1, bty = &quot;n&quot;)
+
+### same procedure as above but now for the population projection matrix L.f3
+time.series.f3 &lt;- matrix(0, nrow=nrow(L.f3), ncol=length+1)
+time.series.f3[, 1] &lt;- N.0
+for (i in 1:length){
+  time.series.f3[ , i+1] &lt;- L.f3 %*% time.series.f3[ ,i]
+}
+matplot(0:length, t(time.series.f3), type=&quot;l&quot;, lty=1:3, col = 1, ylab = &quot;abundance&quot;, xlab = &quot;time&quot;, main=&quot;f3 increased&quot;)
+legend(&quot;topright&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1, bty = &quot;n&quot;)
+
+### same procedure as above but now for the population projection matrix L.s1
+time.series.s1 &lt;- matrix(0, nrow=nrow(L.s1), ncol=length+1)
+time.series.s1[, 1] &lt;- N.0
+for (i in 1:length){
+  time.series.s1[ , i+1] &lt;- L.s1 %*% time.series.s1[ ,i]
+}
+matplot(0:length, t(time.series.s1), type=&quot;l&quot;, lty=1:3, col = 1, ylab = &quot;abundance&quot;, xlab = &quot;time&quot;, main=&quot;s1 increased&quot;)
+legend(&quot;topright&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1, bty = &quot;n&quot;)
+
+### same procedure as above but now for the population projection matrix L.s2
+time.series.s2 &lt;- matrix(0, nrow=nrow(L.s2), ncol=length+1)
+time.series.s2[, 1] &lt;- N.0
+for (i in 1:length){
+  time.series.s2[ , i+1] &lt;- L.s2 %*% time.series.s2[ ,i]
+}
+matplot(0:length, t(time.series.s2), type=&quot;l&quot;, lty=1:3, col = 1, ylab = &quot;abundance&quot;, xlab = &quot;time&quot;, main=&quot;s2 increased&quot;)
+legend(&quot;topright&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1, bty = &quot;n&quot;)</code></pre>
+<p>To compute the dominant eigenvalue for each matrix, we divide the population density at the last time step by the population density at the previous time step. The code below applies this for the population density of individuals in age class 1, but, as we have seen in the first exercise, the densities in age class 2 or 3 or the total density would give the same result.</p>
+<pre class="r"><code>lambda &lt;- time.series[1, length+1]/time.series[1, length] # ratio of population densities at the end of the time series for age-class 1. This gives lambda.
+
+lambda.f2 &lt;- time.series.f2[1, length+1]/time.series.f2[1, length]
+
+lambda.f3 &lt;- time.series.f3[1, length+1]/time.series.f3[1, length]
+
+lambda.s1 &lt;- time.series.s1[1, length+1]/time.series.s1[1, length]
+
+lambda.s2 &lt;- time.series.s2[1, length+1]/time.series.s2[1, length]
+
+t(c(lambda, lambda.f2, lambda.f3, lambda.s1, lambda.s2)) # vector showing the dominant eigenvalue for the five different population projection matrices</code></pre>
+<ol style="list-style-type: decimal">
+<li>What do you observe?</li>
+<li>How do your observations match up with your expectations formulated above?</li>
+<li>What do you conclude from a conservation perspective?</li>
+</ol>
+</div>
+<div id="a-proportional-change-of-demograhic-parameters" class="section level2">
+<h2>A proportional change of demograhic parameters</h2>
+<p>Above we have incresed each non-zero matrix entry by 0.1. We found that increasing survival of one-year old individuals, <span class="math inline">\(s_1\)</span>, by <span class="math inline">\(0.1\)</span> from <span class="math inline">\(0.25\)</span> to <span class="math inline">\(0.35\)</span> has changed the population dynamics from declining to increasing. In contrast, increasing the fecundities <span class="math inline">\(f_2\)</span> and <span class="math inline">\(f_3\)</span> seems to hardly affect the population dynamics while an increase in <span class="math inline">\(s_2\)</span> clearly slows down the population decrease.</p>
+<p>Note, that the survival probabilites <span class="math inline">\(s_1\)</span> and <span class="math inline">\(s_2\)</span> are very different demograhic parameters than the fecundities <span class="math inline">\(f_2\)</span> and <span class="math inline">\(f_3\)</span>: survival probabilities are constrained to be numbers between zero and one while fecundities can take any positive value. Thus, survival probabilites (i.e., state-transition probabilities) can be of a very different scale than fecundites. For this reason, one might wonder whether it is not more informative to increase each matrix entry by the same <em>proportion</em> or percentage. Let us do this for the above example. The increase of <span class="math inline">\(s_1\)</span> from <span class="math inline">\(0.25\)</span> to <span class="math inline">\(0.35\)</span> - which resulted in positive population growth - corresponds to an increase of <span class="math inline">\(40\%\)</span>. Let us compare the population dynamics given an increase of <span class="math inline">\(40\%\)</span> for each of the four demographic parameters by, i.e.,</p>
+<p><span class="math display">\[
+\begin{align}
+  f_2^{\mathrm{new}}&amp;=f_2+\Delta f_2=1+0.4=1.4\\
+  f_3^{\mathrm{new}}&amp;=f_3+\Delta f_3=5+2=7\\
+  s_1^{\mathrm{new}}&amp;=s_1+\Delta s_1=0.25+0.1=0.35\\
+  s_2^{\mathrm{new}}&amp;=s_2+\Delta s_2=0.5+0.2=0.7.
+\end{align}
+\]</span> Thus, compute the time series and dominant eigenvalue of the following five population projection matrices by reusing and adapting the code above.</p>
+<pre class="r"><code>L &lt;- matrix(c(0, 1, 5, 0.25, 0, 0, 0, 0.5, 0), nrow=3, byrow=T) # original matrix
+L.f2.prop &lt;- matrix(c(0, 1+0.4, 5, 0.25, 0, 0, 0, 0.5, 0), nrow=3, byrow=T)
+L.f3.prop &lt;- matrix(c(0, 1, 5+2, 0.25, 0, 0, 0, 0.5, 0), nrow=3, byrow=T)
+L.s1.prop &lt;- matrix(c(0, 1,5, 0.25+0.1, 0, 0, 0, 0.5, 0), nrow=3, byrow=T)
+L.s2.prop &lt;- matrix(c(0, 1, 5, 0.25, 0, 0, 0, 0.5+0.2, 0), nrow=3, byrow=T)
+
+N.0 &lt;- c(2,2,1) # vector of initial population densities
+length &lt;- 40 # length of the time series</code></pre>
+<p>Again, before you execute these computations think for a minute about the following questions:</p>
+<ol style="list-style-type: decimal">
+<li><p>Do you expect that the four new matrices will result in exactly the same altered time series or do you think that the time series will differ depending on which demograhic parameter was increased by <span class="math inline">\(40\%\)</span>?</p></li>
+<li><p>If you think the latter is true, which altered parameter will affect the dynamics the strongest?</p></li>
+</ol>
+<p>To find out, produce the time series for each of the above matrices and compute their dominant eigenvalue <span class="math inline">\(\lambda\)</span>.</p>
+<ol style="list-style-type: decimal">
+<li>What do you observe?</li>
+<li>How do your observations match up with your expectations formulated above?</li>
+<li>What do you conclude from a conservation perspective?</li>
+</ol>
+<!-- Thus far we have done a numerical exploration of how population growth changes in response to changes in the different matrix entries. For this, we plotted the population dynamics and numerically computed lambda for each scenario. But this way of anaylyzing this question has at least two disadvantages. First, the result will depend on the actual interval that is chosen to increase the matrix entries (e.g. 0.1 or 10 %). Second, this method is a bit laborious and more efficient methods exist. -->
+<!-- Sensitivty analysis is such a more efficient method. In this method, we compute the derivative of the dominant eigenvalue lambda with respect to the different matrix entries. In other words, we calculate the slope of lambda as a function of the different matrix entries. This we will do in the next exercise. -->
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

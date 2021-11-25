@@ -1,0 +1,236 @@
+---
+pagetitle: 'Exercise: Structure Populations - Sensitivity I'
+output: 
+  html_document:
+    toc: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Structure Populations - Sensitivity Analysis I {.tabset}
+
+Matrix models are an important tool in two branches of *applied ecology*, conservation and pest control. In the first case, one is interested in strategies that would increase the abundance of a rare, endangered species. In the second case, one is interested in strategies that reduce the abundance of an undesired but rapidly increasing species. What do we mean with a strategy here? Conservation strategies concerned with rare species will try to increase survival or fecundity of the target species while pest control strategies have the opposite aim. In the presence of limited financial resources, which life stage should a conservation or control strategy target in order maximize the outcome? We can formalize this question by asking: If we can change different demographic parameters $a_{ij}$ of a population projectin matrix $\mathsf A$ by a certain amount $\Delta a_{ij}$, which change will increase (in the case of conservation) or decrease (in the case of pest control) the dominant eigenvalue $\lambda$ by the largest amount? In other words, where should we put our money for maximal effect?
+
+A simple way to answer this question is to change the entries $a_{ij}$ by a value that is considered realistic and then compute the resulting change in $\lambda$. Let us consider the same population projection matrix as in the previous exercises, assuming that it describes the life cycle of a hypothetical endangered species:
+
+$$
+\mathsf{L} = 
+\begin{pmatrix}
+0 & f_2 & f_3\\
+s_1 & 0 & 0\\
+0 & s_2 & 0
+\end{pmatrix}
+=
+\begin{pmatrix}
+0 & 1 & 5\\
+0.25 & 0 & 0\\
+0 & 0.5 & 0
+\end{pmatrix}.
+$$
+
+In the first exercise, we found that that the dominant eigenvalue of this matrix $\mathsf L$ equals $\lambda=0.952$, thus is population is in steep decline.
+
+## An equal change change of demograhic parameters
+
+Assume that with the same amount of financial resoruces we can increase each of the four demographic parameters by the same amount $0.1$, resulting in
+
+$$
+\begin{align}
+  f_2^{\mathrm{new}}&=f_2+\Delta f_2=1+0.1=1.1\\
+  f_3^{\mathrm{new}}&=f_3+\Delta f_3=5+0.1=5.1\\
+  s_1^{\mathrm{new}}&=s_1+\Delta s_1=0.25+0.1=0.35\\
+  s_2^{\mathrm{new}}&=s_2+\Delta s_2=0.5+0.1=0.6.
+\end{align}
+$$
+
+Let us find out on which demograhic parameter we should focus our effort. To this end, we define the following population projection matrices:
+
+```{r}
+L = matrix(c(0, 1, 5, 0.25, 0, 0, 0, 0.5, 0), nrow=3, byrow=T)
+L.f2 = matrix(c(0, 1+0.1, 5, 0.25, 0, 0, 0, 0.5, 0), nrow=3, byrow=T)
+L.f3 = matrix(c(0, 1, 5+0.1, 0.25, 0, 0, 0, 0.5, 0), nrow=3, byrow=T)
+L.s1 = matrix(c(0, 1, 5, 0.25+0.1, 0, 0, 0, 0.5, 0), nrow=3, byrow=T)
+L.s2 = matrix(c(0, 1, 5, 0.25, 0, 0, 0, 0.5+0.1, 0), nrow=3, byrow=T)
+
+N.0 <- c(2,2,1) # vector of initial population densities
+length <- 40 # length of the time series
+```
+
+Before you execute the following code, please think for a minute about the following two questions:
+
+  1) Do you expect that the four new matrices will result in exactly the same altered time series or do you think that the time series will differ depending on which demograhic parameter was increased by 0.1?
+  
+  2) If you think the latter is true, which altered parameter will affect the dynamics the strongest? Since the original matrix $\mathsf L$ results in extinction ($\lambda=0.952$), do you expect that any of the altered parameters results in positive population growth, i.e., a value of $\lambda$ that is larger than one?
+
+To find out, let us produce the time series for each of the above matrices and compute their dominant eigenvalue $\lambda$.
+
+```{r eval=FALSE}
+par(mfrow = c(2,3)) # arranges the next five plots in a single figure
+###
+time.series <- matrix(0, nrow=nrow(L), ncol=length+1) # creates an empty matrix of dimension 3x(length+1)
+time.series[, 1] <- N.0  # stores the initial population vector N.0 in the matrix "time.series"
+for (i in 1:length){# executes the multiplication of L.N(t) as often as specified by the parameter "length"
+  time.series[ , i+1] <- L %*% time.series[ ,i]
+}
+matplot(0:length, t(time.series), type="l", lty=1:3, col = 1, ylab = "abundance", xlab = "time", main="original matrix") # plots result
+legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1, bty = "n") # defines legend
+
+### same procedure as above but now for the population projection matrix L.f2
+time.series.f2 <- matrix(0, nrow=nrow(L.f2), ncol=length+1)
+time.series.f2[, 1] <- N.0
+for (i in 1:length){
+  time.series.f2[ , i+1] <- L.f2 %*% time.series.f2[ ,i]
+}
+matplot(0:length, t(time.series.f2), type="l", lty=1:3, col = 1, ylab = "abundance", xlab = "time", main="f2 increased")
+legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1, bty = "n")
+
+### same procedure as above but now for the population projection matrix L.f3
+time.series.f3 <- matrix(0, nrow=nrow(L.f3), ncol=length+1)
+time.series.f3[, 1] <- N.0
+for (i in 1:length){
+  time.series.f3[ , i+1] <- L.f3 %*% time.series.f3[ ,i]
+}
+matplot(0:length, t(time.series.f3), type="l", lty=1:3, col = 1, ylab = "abundance", xlab = "time", main="f3 increased")
+legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1, bty = "n")
+
+### same procedure as above but now for the population projection matrix L.s1
+time.series.s1 <- matrix(0, nrow=nrow(L.s1), ncol=length+1)
+time.series.s1[, 1] <- N.0
+for (i in 1:length){
+  time.series.s1[ , i+1] <- L.s1 %*% time.series.s1[ ,i]
+}
+matplot(0:length, t(time.series.s1), type="l", lty=1:3, col = 1, ylab = "abundance", xlab = "time", main="s1 increased")
+legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1, bty = "n")
+
+### same procedure as above but now for the population projection matrix L.s2
+time.series.s2 <- matrix(0, nrow=nrow(L.s2), ncol=length+1)
+time.series.s2[, 1] <- N.0
+for (i in 1:length){
+  time.series.s2[ , i+1] <- L.s2 %*% time.series.s2[ ,i]
+}
+matplot(0:length, t(time.series.s2), type="l", lty=1:3, col = 1, ylab = "abundance", xlab = "time", main="s2 increased")
+legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1, bty = "n")
+```
+
+To compute the dominant eigenvalue for each matrix, we divide the population density at the last time step by the population density at the previous time step. The code below applies this for the population density of individuals in age class 1, but, as we have seen in the first exercise, the densities in age class 2 or 3 or the total density would give the same result.
+
+```{r eval=FALSE}
+lambda <- time.series[1, length+1]/time.series[1, length] # ratio of population densities at the end of the time series for age-class 1. This gives lambda.
+
+lambda.f2 <- time.series.f2[1, length+1]/time.series.f2[1, length]
+
+lambda.f3 <- time.series.f3[1, length+1]/time.series.f3[1, length]
+
+lambda.s1 <- time.series.s1[1, length+1]/time.series.s1[1, length]
+
+lambda.s2 <- time.series.s2[1, length+1]/time.series.s2[1, length]
+
+t(c(lambda, lambda.f2, lambda.f3, lambda.s1, lambda.s2)) # vector showing the dominant eigenvalue for the five different population projection matrices
+```
+
+1) What do you observe?
+2) How do your observations match up with your expectations formulated above?
+3) What do you conclude from a conservation perspective?
+
+## A proportional change of demograhic parameters
+
+Above we have incresed each non-zero matrix entry by 0.1. We found that increasing survival of one-year old individuals, $s_1$, by $0.1$ from $0.25$ to $0.35$ has changed the population dynamics from declining to increasing. In contrast, increasing the fecundities $f_2$ and $f_3$ seems to hardly affect the population dynamics while an increase in $s_2$ clearly slows down the population decrease.
+
+Note, that the survival probabilites $s_1$ and $s_2$ are very different demograhic parameters than the fecundities $f_2$ and $f_3$: survival probabilities are constrained to be numbers between zero and one while fecundities can take any positive value. Thus, survival probabilites (i.e., state-transition probabilities) can be of a very different scale than fecundites. For this reason, one might wonder whether it is not more informative to increase each matrix entry by the same *proportion* or percentage. Let us do this for the above example. The increase of $s_1$ from $0.25$ to $0.35$ - which resulted in positive population growth - corresponds to an increase of $40\%$. Let us compare the population dynamics given an increase of $40\%$ for each of the four demographic parameters by, i.e.,
+
+$$
+\begin{align}
+  f_2^{\mathrm{new}}&=f_2+\Delta f_2=1+0.4=1.4\\
+  f_3^{\mathrm{new}}&=f_3+\Delta f_3=5+2=7\\
+  s_1^{\mathrm{new}}&=s_1+\Delta s_1=0.25+0.1=0.35\\
+  s_2^{\mathrm{new}}&=s_2+\Delta s_2=0.5+0.2=0.7.
+\end{align}
+$$
+Thus, compute the time series and dominant eigenvalue of the following five population projection matrices by reusing and adapting the code above.
+
+```{r}
+L <- matrix(c(0, 1, 5, 0.25, 0, 0, 0, 0.5, 0), nrow=3, byrow=T) # original matrix
+L.f2.prop <- matrix(c(0, 1+0.4, 5, 0.25, 0, 0, 0, 0.5, 0), nrow=3, byrow=T)
+L.f3.prop <- matrix(c(0, 1, 5+2, 0.25, 0, 0, 0, 0.5, 0), nrow=3, byrow=T)
+L.s1.prop <- matrix(c(0, 1,5, 0.25+0.1, 0, 0, 0, 0.5, 0), nrow=3, byrow=T)
+L.s2.prop <- matrix(c(0, 1, 5, 0.25, 0, 0, 0, 0.5+0.2, 0), nrow=3, byrow=T)
+
+N.0 <- c(2,2,1) # vector of initial population densities
+length <- 40 # length of the time series
+```
+
+Again, before you execute these computations think for a minute about the following questions:
+
+  1) Do you expect that the four new matrices will result in exactly the same altered time series or do you think that the time series will differ depending on which demograhic parameter was increased by $40\%$?
+  
+  2) If you think the latter is true, which altered parameter will affect the dynamics the strongest?
+  
+To find out, produce the time series for each of the above matrices and compute their dominant eigenvalue $\lambda$.
+
+```{r echo=FALSE, eval=FALSE}
+par(mfrow = c(2,3)) # arranges the next five plots in a single figure
+
+time.series <- matrix(0, nrow=nrow(L), ncol=length+1) # creates an empty matrix of dimension 3x(length+1)
+time.series[, 1] <- N.0  # storeshe the initial population vector N.0 in the matrix "time.series"
+for (i in 1:length){# executes the multiplication of L.N(t) as often as specified by the parameter "length"
+  time.series[ , i+1] <- L %*% time.series[ ,i]
+}
+matplot(0:length, t(time.series), type="l", lty=1:3, col = 1, ylab = "abundance", xlab = "time", main="original matrix") # plots result
+legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1, bty = "n") # defines legend
+
+time.series.f2.prop <- matrix(0, nrow=nrow(L.f2.prop), ncol=length+1) # same procedure as above but now for the population projection matrix L.f2
+time.series.f2.prop[, 1] <- N.0
+for (i in 1:length){
+  time.series.f2.prop[ , i+1] <- L.f2.prop %*% time.series.f2.prop[ ,i]
+}
+matplot(0:length, t(time.series.f2.prop), type="l", lty=1:3, col = 1, ylab = "abundance", xlab = "time", main="f2 increased")
+legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1, bty = "n")
+
+time.series.f3.prop <- matrix(0, nrow=nrow(L.f3.prop), ncol=length+1) # same procedure as above but now for the population projection matrix L.f3
+time.series.f3.prop[, 1] <- N.0
+for (i in 1:length){
+  time.series.f3.prop[ , i+1] <- L.f3.prop %*% time.series.f3.prop[ ,i]
+}
+matplot(0:length, t(time.series.f3.prop), type="l", lty=1:3, col = 1, ylab = "abundance", xlab = "time", main="f3 increased")
+legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1, bty = "n")
+
+time.series.s1.prop <- matrix(0, nrow=nrow(L.s1.prop), ncol=length+1) # same procedure as above but now for the population projection matrix L.s1
+time.series.s1.prop[, 1] <- N.0
+for (i in 1:length){
+  time.series.s1.prop[ , i+1] <- L.s1.prop %*% time.series.s1.prop[ ,i]
+}
+matplot(0:length, t(time.series.s1.prop), type="l", lty=1:3, col = 1, ylab = "abundance", xlab = "time", main="s1 increased")
+legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1, bty = "n")
+
+time.series.s2.prop <- matrix(0, nrow=nrow(L.s2.prop), ncol=length+1) # same procedure as above but now for the population projection matrix L.s2
+time.series.s2.prop[, 1] <- N.0
+for (i in 1:length){
+  time.series.s2.prop[ , i+1] <- L.s2.prop %*% time.series.s2.prop[ ,i]
+}
+matplot(0:length, t(time.series.s2.prop), type="l", lty=1:3, col = 1, ylab = "abundance", xlab = "time", main="s2 increased")
+legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1, bty = "n")
+```
+
+```{r echo=FALSE, eval=FALSE}
+lambda <- time.series[1, length+1]/time.series[1, length]
+
+lambda.f2.prop <- time.series.f2.prop[1, length+1]/time.series.f2.prop[1, length]
+
+lambda.f3.prop <- time.series.f3.prop[1, length+1]/time.series.f3.prop[1, length]
+
+lambda.s1.prop <- time.series.s1.prop[1, length+1]/time.series.s1.prop[1, length]
+
+lambda.s2.prop <- time.series.s2.prop[1, length+1]/time.series.s2.prop[1, length]
+
+t(c(lambda, lambda.f2.prop, lambda.f3.prop, lambda.s1.prop, lambda.s2.prop)) # vector showing the dominant eigenvalue for the five different population projection matrices
+```
+
+1) What do you observe?
+2) How do your observations match up with your expectations formulated above?
+3) What do you conclude from a conservation perspective?
+
+<!-- Thus far we have done a numerical exploration of how population growth changes in response to changes in the different matrix entries. For this, we plotted the population dynamics and numerically computed lambda for each scenario. But this way of anaylyzing this question has at least two disadvantages. First, the result will depend on the actual interval that is chosen to increase the matrix entries (e.g. 0.1 or 10 %). Second, this method is a bit laborious and more efficient methods exist. -->
+
+<!-- Sensitivty analysis is such a more efficient method. In this method, we compute the derivative of the dominant eigenvalue lambda with respect to the different matrix entries. In other words, we calculate the slope of lambda as a function of the different matrix entries. This we will do in the next exercise. -->

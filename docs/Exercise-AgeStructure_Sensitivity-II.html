@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Exercise: Structure Populations - Sensitivity II</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Population and community ecology</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Exercises
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="./Exercise-AgeStructure_Growth.html">1. Structured Populations - Growth</a>
+    </li>
+    <li>
+      <a href="./Exercise-AgeStructure_Distribution.html">2. Structured Populations - Stage Distribution</a>
+    </li>
+    <li>
+      <a href="./Exercise-AgeStructure_Sensitivity-I.html">3. Structured Populations - Sensitivity I</a>
+    </li>
+    <li>
+      <a href="./Exercise-AgeStructure_Sensitivity-II.html">4. Structured Populations - Sensitivity II</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<div id="structure-populations---sensitivity-analysis-ii" class="section level1 tabset">
+<h1>Structure Populations - Sensitivity Analysis II</h1>
+<p>In the previous exercise, you expolored numerically how population growth and the dominant eigenvalue <span class="math inline">\(\lambda\)</span> of a population projection matrix <span class="math inline">\(\sf L\)</span> changes in response to changes in the different matrix entries, i.e., the different demographic parameters. But this way of anaylyzing the effect of changes in the different demograhic parameters on <span class="math inline">\(\lambda\)</span> has the disadvantage that the result depends on the actual magnitude by which the matrix entries are increased (e.g., <span class="math inline">\(0.1\)</span> or <span class="math inline">\(40\%\)</span>).</p>
+<p>An alternative method is <em>sensitivty analysis</em>. In this method, we compute the derivative of the dominant eigenvalue <span class="math inline">\(\lambda\)</span> with respect to the different matrix entries. In other words, we calculate the slope of <span class="math inline">\(\lambda\)</span> as a function of the different matrix entries. This is what we will do in the this exercise.</p>
+<div id="sensistivity-analysis" class="section level2">
+<h2>Sensistivity analysis</h2>
+<p>Recall from the lecture that the sensitivity of the dominant eigenvalue with respect to a matrix entry <span class="math inline">\(a_{ij}\)</span> is given by</p>
+<p><span class="math display">\[
+s_{ij} = \frac{\partial\lambda}{\partial a_{ij}}=\frac{v_j u_i}{&lt;\mathbf v, \mathbf u&gt;},
+\]</span></p>
+<p>where <span class="math inline">\(\mathbf u=(u_1, \ldots, u_n)\)</span> and <span class="math inline">\(\mathbf v=(v_1, \ldots, v_n)\)</span> are the right and left eigenvector of an <span class="math inline">\(n\)</span>-dimensional population projection matrix <span class="math inline">\(\mathsf A\)</span> and give the stable age distribution and the vector of reproductive values, respectively. Furthermore, <span class="math inline">\(&lt;\mathbf v, \mathbf u&gt;\)</span> is the <em>inner product</em> of two vectors defined as</p>
+<p><span class="math display">\[
+&lt;\mathbf v, \mathbf u&gt; = v_1u_1+\ldots+v_nu_n.
+\]</span> To compute the whole sensitivity matrix in one step we can make use of the <em>outer product</em> of two vectors defined as</p>
+<p><span class="math display">\[
+\mathbf v^{\mathrm T} \mathbf u = 
+\begin{pmatrix}
+v_1\\
+v_2\\
+\vdots\\
+v_n
+\end{pmatrix}
+\begin{pmatrix}
+u_1 &amp; u_2 \ldots &amp; u_1
+\end{pmatrix}=
+\begin{pmatrix}
+v_1u_1 &amp; \ldots &amp; v_1u_n\\
+v_2u_1 &amp; \ldots &amp; v_2u_n\\
+\vdots &amp; \ddots &amp; \vdots\\
+v_nu_1 &amp; \ldots &amp; v_nu_n
+\end{pmatrix}
+\]</span></p>
+<p>The sensitity matrix <span class="math inline">\(\mathsf S\)</span> can then be computed as</p>
+<p><span class="math display">\[
+\mathsf S=\frac{\mathbf v^{\mathrm T} \mathbf u}{&lt;\mathbf v, \mathbf u&gt;}.
+\]</span></p>
+<p>Thus, in order to calculate the sensitivity matrix <span class="math inline">\(\sf S\)</span>, we first have to calculate the right and left eigenvector of the population projection matrix <span class="math inline">\(\sf L\)</span> corresponding to the dominant eigenvalue <span class="math inline">\(\lambda\)</span>. The right eigenvector gives the <em>stable age-distribution</em>, which we have calculated already in the first exercise. The following code simply repeats this calculation.</p>
+<pre class="r"><code>L &lt;- matrix(
+  c(0,1 ,5, 0.25, 0, 0, 0, 0.5, 0),  # the matrix entries
+  nrow = 3, # number of rows
+  ncol = 3, # number of columns
+  byrow = T) # fill matrix by rows
+
+N.0 &lt;- c(2,2,1) # vector of initial densities
+length &lt;- 40 # lenght of the time series</code></pre>
+<pre class="r"><code>time.series &lt;- matrix(0, nrow=nrow(L), ncol=length+1) # creates an empty matrix of dimension 3x(length+1)
+time.series[, 1] &lt;- N.0  # stores the initial population vector N.0 in the matrix &quot;time.series&quot;
+for (i in 1:length){# executes the multiplication of L.N(t) as often as specified by the parameter &quot;length&quot;
+  time.series[ , i+1] &lt;- L %*% time.series[ ,i]
+}
+matplot(0:length, t(time.series), type=&quot;l&quot;, lty=1:3, col = 1, ylab = &quot;abundance&quot;, xlab = &quot;time&quot;, main=&quot;original matrix&quot;) # plots result
+legend(&quot;topright&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1, bty = &quot;n&quot;) # defines legend
+
+lambda &lt;- time.series[1, length+1]/time.series[1, length] # ratio of population size at the end of the time series for age-class 1 gives lambda
+lambda # print dominant eigenvalue
+
+time.series[ , length+1] # Vector of population sizes at the end of the time series gives the right eigenvector. In order to express the right eigenvector in terms of proportions we divided each entry by the total population size.
+
+N.tot &lt;- sum(time.series[ , length+1]) # Sum of the densities contained in the population vector at the end of the time series.
+
+right.EV &lt;- time.series[ , length+1]/N.tot # Right eigenvector standardized such that its entries sum up to one. This vector represents proportions in the stable age distribution.
+right.EV # print stable age distribution</code></pre>
+<p>In order to obtain the left eigenvector, that is, the vector of reproductive values, we follow exacty the same procedure but using the transpose <span class="math inline">\(\sf L^{\mathrm{T}}\)</span> of the population projection matrix.</p>
+<pre class="r"><code>L.transpose &lt;- t(L) # transpose of the population projection matrix L
+time.series.transpose &lt;- matrix(0, nrow=nrow(L.transpose), ncol=length+1) # creates an empty matrix of dimension 3x(length+1)
+time.series.transpose[, 1] &lt;- N.0  # stores the initial population vector N.0 in the matrix &quot;time.series.transpose&quot;
+for (i in 1:length){# executes the multiplication of L.N.transpose(t) as often as specified by the parameter &quot;length&quot;
+  time.series.transpose[ , i+1] &lt;- L.transpose %*% time.series.transpose[ ,i]
+}
+matplot(0:length, t(time.series.transpose), type=&quot;l&quot;, lty=1:3, col = 1, ylab = &quot;something that is NOT density&quot;, xlab = &quot;time&quot;, main=&quot;transposed matrix&quot;) # plots result, note that this graph has NO biological interpretation, it is only a tool to obtain the left eigenvalue
+legend(&quot;topright&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1, bty = &quot;n&quot;) # defines legend
+
+left.EV &lt;- time.series.transpose[ , length+1]/time.series.transpose[1, length+1] # left eigenvector containing reproductive values with the reproductive value for the first age-class standardized to 1.
+
+left.EV # print left eigenvector</code></pre>
+<p>We now have all ingredients to compute the sensitivity matrix <span class="math inline">\(\sf S\)</span>.</p>
+<pre class="r"><code>inner.prod &lt;-left.EV %*% right.EV # this corresponds to &lt;v, u&gt;
+inner.prod
+outer.prod &lt;- outer(left.EV, right.EV) # this corresponds to v^T*u
+outer.prod
+sensitivities &lt;- outer.prod/inner.prod[1, 1] # note that by writing inner.prod[1,1] we extract the value from a &quot;one-dimensional matrix&quot;
+sensitivities</code></pre>
+<p>Each entry of this matrix contains the sensitivity of <span class="math inline">\(\lambda\)</span> corresponding to the matrix entry at that particular position.</p>
+<ol style="list-style-type: decimal">
+<li><p>Note that this matrix has only non-zero entries while our population projection matrix <span class="math inline">\(\sf L\)</span> has five entries equal to zero. What is the meaning of the sensitivity of matrix entry that is zero? For example, in <span class="math inline">\(\sf L\)</span> fecundity of one year old individuals equals zero, <span class="math inline">\(f_1=0\)</span>. But the derivative of <span class="math inline">\(\lambda\)</span> with respect to <span class="math inline">\(f_1\)</span> equals <span class="math inline">\(0.9023\)</span>. What does this mean?</p></li>
+<li><p>What conclusion do you draw from the sensitivity matrix <span class="math inline">\(\sf S\)</span> from a conservation perspective?</p></li>
+<li><p>Based on <span class="math inline">\(\sf S\)</span>, estimate by how much <span class="math inline">\(\lambda\)</span> increases if <span class="math inline">\(f_3\)</span> is increased by <span class="math inline">\(0.5\)</span>, <span class="math inline">\(1\)</span> and <span class="math inline">\(2\)</span>. Similarly,estimate by how much <span class="math inline">\(\lambda\)</span> increases if <span class="math inline">\(s_1\)</span> is increased by <span class="math inline">\(0.1\)</span> or <span class="math inline">\(0.2\)</span>.</p></li>
+<li><p>How does your prediction based on the sensitivity matrix <span class="math inline">\(\sf S\)</span> compare to the previous exercise when you increased all matrix entries equally by a value of <span class="math inline">\(0.1\)</span>?</p></li>
+</ol>
+</div>
+<div id="elasticity-analysis" class="section level2">
+<h2>Elasticity analysis</h2>
+<p>Sensitivies give the absolute change in <span class="math inline">\(\lambda\)</span> given an absolute change in the demograhic parameters <span class="math inline">\(a_{ij}\)</span>. Thus, sensitivies do not take into account that survival probabilities and fecundities can be on very different scales. To correct for this, we can compute the <em>elasticity matrix</em> <span class="math inline">\(\sf E\)</span>, defined as</p>
+<p><span class="math display">\[
+\mathsf E=\frac{a_{ij}}{\lambda}\mathsf S=\frac{a_{ij}}{\lambda}\frac{\mathbf v^{\mathrm T} \mathbf u}{&lt;\mathbf v, \mathbf u&gt;}.
+\]</span></p>
+<p>This gives the <em>proportional change</em> in <span class="math inline">\(\lambda\)</span> given a proportional change in the demographic parameter <span class="math inline">\(a_{ij}\)</span>. In other words, it gives by how many percentages <span class="math inline">\(\lambda\)</span> changes given a change in percentage of the matrix entry <span class="math inline">\(a_{ij}\)</span>. We can compute the elasity matrix as follows:</p>
+<pre class="r"><code>elasticities &lt;- (1/lambda)*L*sensitivities # matrix of elasticities. Here, L*sensitivities is the &quot;element-wise product matrix&quot;
+elasticities # print elasticities</code></pre>
+<p>Two observations are noteworthy about the elasiticity matrix <span class="math inline">\(\sf E\)</span>. First, for matrix entries <span class="math inline">\(a_{ij}=0\)</span> the corresponding elastity value <span class="math inline">\(e_{ij}\)</span> equals zero as well. This is because we multiply each sensitivity value with the correspoding value <span class="math inline">\(a_{ij}\)</span> when computing the elasticities. Second, the entries of the elasticity matrix <span class="math inline">\(\sf E\)</span> sum up to one. This indicates that its entries indeed give the proportional effect of each matrix entry <span class="math inline">\(a_{ij}\)</span> on <span class="math inline">\(\lambda\)</span>.</p>
+<ol style="list-style-type: decimal">
+<li>How does your prediction based on the elasticity matrix <span class="math inline">\(\sf E\)</span> compare to the previous exercise when you increased all matrix entries equally by <span class="math inline">\(40 \%\)</span>?</li>
+</ol>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

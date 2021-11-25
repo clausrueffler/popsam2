@@ -5,26 +5,14 @@ type: inverse
 left:
   - text: "Exercises"
     menu:
-      - text: "1. Excercise: Population Dynamics"
-        href: ./PopulationDynamics.html
-#      - text: "1. Excercise: Solutions"
-#        href: ./PopulationDynamicsSolutions.html        
-      - text: "2. Excercise: Structured Populations"
-        href: ./StructuredPopulations.html
-#      - text: "2. Excercise: Solutions"
-#        href: ./StructuredPopulationsSolutions.html
-      - text: "3. Excercise: Competition"
-        href: ./Competition.html
-#      - text: "3. Excercise: Solutions"
-#        href: ./CompetitionSolutions.html
-      - text: "4. Excercise: Predator-Prey Interactions"
-        href: ./PredatorPrey.html
-#      - text: "4. Excercise: Solutions"
-#        href: ./PredatorPreySolutions.html
-      - text: "5. Excercise: Sources, sinks, and population regulation"
-        href: ./Pulliam.html
-#      - text: "5. Excercise: Solutions"
-#        href: ./PulliamSolutions.html
+      - text: "1. Structured Populations - Growth"
+        href: ./Exercise-AgeStructure_Growth.html
+      - text: "2. Structured Populations - Stage Distribution"
+        href: ./Exercise-AgeStructure_Distribution.html
+      - text: "3. Structured Populations - Sensitivity I"
+        href: ./Exercise-AgeStructure_Sensitivity-I.html
+      - text: "4. Structured Populations - Sensitivity II"
+        href: ./Exercise-AgeStructure_Sensitivity-II.html
 #- text: "Project"
 #    menu:
 #       - text: "Project part 1"
