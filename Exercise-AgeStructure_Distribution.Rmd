@@ -41,15 +41,15 @@ L # print the matrix
 The following code produces a plot of the time series and is taken from the previous exercise.
 
 ```{r eval=FALSE}
-length <-10 # length of the time series
+length <- 40 # length of the time series
 N.0 <- c(2, 2, 1)
 time.series <- matrix(N.0, nrow = 3) # creates a matrix with three rows, called times.series, in which we will store the time series
 for (i in 1:length){# iterates the multiplication L.N(t) as often as specified by the parameter "length"
   time.series <- cbind(time.series, L %*% time.series[,i]) # executes multiplication of the matrix L with current population vector and stores adds the result as a new column to the matrix time.series
   }
 
-matplot(0:length, t(time.series), type="l", lty=1:3, col = 1, ylab = "abundance", xlab = "time") # plots the time.series for each age-class
-legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1, bty = "N", horiz = TRUE) # adds a legend
+matplot(0:length, t(time.series), type="l", lty=1:3, col = 1:3, ylab = "abundance", xlab = "time") # plots the time.series for each age-class
+legend("topleft", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1:3, bty = "N", horiz = TRUE) # adds a legend
 ```
 
 The next step is to compute at each time $t$ the proportions of the three age-classes based on the population vector (or $p$-state) $\mathbf{N}(t)$. This can be done with the following code.
@@ -60,18 +60,16 @@ time.series.prop1 <- time.series[1, ]/time.series.sum # divides for each t the d
 time.series.prop2 <- time.series[2, ]/time.series.sum # divides for each t the density of individuals at age 2 by total density at that time
 time.series.prop3 <- time.series[3, ]/time.series.sum # divides for each t the density of individuals at age 3 by total density at that time
 
-matplot(0:length, time.series.prop1, type="l", lty=1, ylim = c(0, 1), ylab = "proportions", xlab = "time") # plots proportions of individuals in age class 1 for the whole time series
-lines(0:length, time.series.prop2, type="l", lty=2) # adds proportions for age class 2 to the same plot
-lines(0:length, time.series.prop3, type="l", lty=3) # adds proportions for age class 3 to the same plot
-legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1, bty = "N", horiz = TRUE)
+time.series.prop <- matrix(c(time.series.prop1, time.series.prop2, time.series.prop3), nrow = 3, byrow = TRUE) # new matrix that contains the proportions in each age-class (rows) for the time serices (columns)
+
+matplot(0:length, t(time.series.prop), type="l", lty=1:3, ylim = c(0, 1), ylab = "proportions", xlab = "time") # plots proportions of individuals for the three age classes; note that we have to take the transpose of the matrix time.series.prop in order for matplot show the time series
+legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1:3, bty = "N", horiz = TRUE)
 ```
 
 You can print the relative proportions in each age class at the end of the time series by writing:
 
 ```{r eval=FALSE}
-time.series.prop1[length + 1]
-time.series.prop2[length + 1]
-time.series.prop3[length + 1]
+time.series.prop[, length + 1]
 ```
 
 Increase the length of the time series to $length=40$. What do you conclude about how the proportion of individuals in the different age classes changes over time?
