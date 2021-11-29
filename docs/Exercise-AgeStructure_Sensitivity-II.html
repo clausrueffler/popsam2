@@ -281,8 +281,8 @@ $(document).ready(function () {
 <h1>Structure Populations - Sensitivity Analysis II</h1>
 <p>In the previous exercise, you expolored numerically how population growth and the dominant eigenvalue <span class="math inline">\(\lambda\)</span> of a population projection matrix <span class="math inline">\(\sf L\)</span> changes in response to changes in the different matrix entries, i.e., the different demographic parameters. But this way of anaylyzing the effect of changes in the different demograhic parameters on <span class="math inline">\(\lambda\)</span> has the disadvantage that the result depends on the actual magnitude by which the matrix entries are increased (e.g., <span class="math inline">\(0.1\)</span> or <span class="math inline">\(40\%\)</span>).</p>
 <p>An alternative method is <em>sensitivty analysis</em>. In this method, we compute the derivative of the dominant eigenvalue <span class="math inline">\(\lambda\)</span> with respect to the different matrix entries. In other words, we calculate the slope of <span class="math inline">\(\lambda\)</span> as a function of the different matrix entries. This is what we will do in the this exercise.</p>
-<div id="sensistivity-analysis" class="section level2">
-<h2>Sensistivity analysis</h2>
+<div id="sensistivity-analysis" class="section level3">
+<h3>Sensistivity analysis</h3>
 <p>Recall from the lecture that the sensitivity of the dominant eigenvalue with respect to a matrix entry <span class="math inline">\(a_{ij}\)</span> is given by</p>
 <p><span class="math display">\[
 s_{ij} = \frac{\partial\lambda}{\partial a_{ij}}=\frac{v_j u_i}{&lt;\mathbf v, \mathbf u&gt;},
@@ -322,32 +322,33 @@ v_nu_1 &amp; \ldots &amp; v_nu_n
 
 N.0 &lt;- c(2,2,1) # vector of initial densities
 length &lt;- 40 # lenght of the time series</code></pre>
-<pre class="r"><code>time.series &lt;- matrix(0, nrow=nrow(L), ncol=length+1) # creates an empty matrix of dimension 3x(length+1)
-time.series[, 1] &lt;- N.0  # stores the initial population vector N.0 in the matrix &quot;time.series&quot;
+<pre class="r"><code>time.series &lt;- matrix(N.0) # stores the initial population vector N.0 in the matrix &quot;time.series&quot;
 for (i in 1:length){# executes the multiplication of L.N(t) as often as specified by the parameter &quot;length&quot;
-  time.series[ , i+1] &lt;- L %*% time.series[ ,i]
+  time.series &lt;- cbind(time.series, L %*% time.series[ ,i])
 }
-matplot(0:length, t(time.series), type=&quot;l&quot;, lty=1:3, col = 1, ylab = &quot;abundance&quot;, xlab = &quot;time&quot;, main=&quot;original matrix&quot;) # plots result
-legend(&quot;topright&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1, bty = &quot;n&quot;) # defines legend
+
+matplot(0:length, t(time.series), type=&quot;l&quot;, lty=1:3, col = 1:3, ylab = &quot;abundance&quot;, xlab = &quot;time&quot;, main=&quot;original matrix&quot;) # plots result
+legend(&quot;topright&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1:3, bty = &quot;n&quot;) # defines legend
 
 lambda &lt;- time.series[1, length+1]/time.series[1, length] # ratio of population size at the end of the time series for age-class 1 gives lambda
 lambda # print dominant eigenvalue
 
-time.series[ , length+1] # Vector of population sizes at the end of the time series gives the right eigenvector. In order to express the right eigenvector in terms of proportions we divided each entry by the total population size.
+time.series[ , length+1] # vector of population sizes at the end of the time series gives the right eigenvector. In order to express the right eigenvector in terms of proportions we divided each entry by the total population size.
 
-N.tot &lt;- sum(time.series[ , length+1]) # Sum of the densities contained in the population vector at the end of the time series.
+N.tot &lt;- sum(time.series[ , length+1]) # sum of the densities contained in the population vector at the end of the time series.
 
-right.EV &lt;- time.series[ , length+1]/N.tot # Right eigenvector standardized such that its entries sum up to one. This vector represents proportions in the stable age distribution.
+right.EV &lt;- time.series[ , length+1]/N.tot # right eigenvector standardized such that its entries sum up to one. This vector represents proportions in the stable age distribution.
 right.EV # print stable age distribution</code></pre>
 <p>In order to obtain the left eigenvector, that is, the vector of reproductive values, we follow exacty the same procedure but using the transpose <span class="math inline">\(\sf L^{\mathrm{T}}\)</span> of the population projection matrix.</p>
 <pre class="r"><code>L.transpose &lt;- t(L) # transpose of the population projection matrix L
-time.series.transpose &lt;- matrix(0, nrow=nrow(L.transpose), ncol=length+1) # creates an empty matrix of dimension 3x(length+1)
-time.series.transpose[, 1] &lt;- N.0  # stores the initial population vector N.0 in the matrix &quot;time.series.transpose&quot;
+time.series.transpose &lt;- matrix(N.0)
+
 for (i in 1:length){# executes the multiplication of L.N.transpose(t) as often as specified by the parameter &quot;length&quot;
-  time.series.transpose[ , i+1] &lt;- L.transpose %*% time.series.transpose[ ,i]
+  time.series.transpose &lt;- cbind(time.series.transpose, L.transpose %*% time.series.transpose[ ,i])
 }
-matplot(0:length, t(time.series.transpose), type=&quot;l&quot;, lty=1:3, col = 1, ylab = &quot;something that is NOT density&quot;, xlab = &quot;time&quot;, main=&quot;transposed matrix&quot;) # plots result, note that this graph has NO biological interpretation, it is only a tool to obtain the left eigenvalue
-legend(&quot;topright&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1, bty = &quot;n&quot;) # defines legend
+
+matplot(0:length, t(time.series.transpose), type=&quot;l&quot;, lty=1:3, col = 1:3, ylab = &quot;something that is NOT density&quot;, xlab = &quot;time&quot;, main=&quot;transposed matrix&quot;) # plots result, note that this graph has NO biological interpretation, it is only a tool to obtain the left eigenvalue
+legend(&quot;topright&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1:3, bty = &quot;n&quot;) # defines legend
 
 left.EV &lt;- time.series.transpose[ , length+1]/time.series.transpose[1, length+1] # left eigenvector containing reproductive values with the reproductive value for the first age-class standardized to 1.
 
@@ -367,8 +368,8 @@ sensitivities</code></pre>
 <li><p>How does your prediction based on the sensitivity matrix <span class="math inline">\(\sf S\)</span> compare to the previous exercise when you increased all matrix entries equally by a value of <span class="math inline">\(0.1\)</span>?</p></li>
 </ol>
 </div>
-<div id="elasticity-analysis" class="section level2">
-<h2>Elasticity analysis</h2>
+<div id="elasticity-analysis" class="section level3">
+<h3>Elasticity analysis</h3>
 <p>Sensitivies give the absolute change in <span class="math inline">\(\lambda\)</span> given an absolute change in the demograhic parameters <span class="math inline">\(a_{ij}\)</span>. Thus, sensitivies do not take into account that survival probabilities and fecundities can be on very different scales. To correct for this, we can compute the <em>elasticity matrix</em> <span class="math inline">\(\sf E\)</span>, defined as</p>
 <p><span class="math display">\[
 \mathsf E=\frac{a_{ij}}{\lambda}\mathsf S=\frac{a_{ij}}{\lambda}\frac{\mathbf v^{\mathrm T} \mathbf u}{&lt;\mathbf v, \mathbf u&gt;}.

@@ -32,7 +32,7 @@ $$
 
 In the first exercise, we found that that the dominant eigenvalue of this matrix $\mathsf L$ equals $\lambda=0.952$, thus is population is in steep decline.
 
-## An equal change change of demograhic parameters
+### An equal change change of demograhic parameters
 
 Assume that with the same amount of financial resoruces we can increase each of the four demographic parameters by the same amount $0.1$, resulting in
 
@@ -68,50 +68,55 @@ To find out, let us produce the time series for each of the above matrices and c
 
 ```{r eval=FALSE}
 par(mfrow = c(2,3)) # arranges the next five plots in a single figure
-###
-time.series <- matrix(0, nrow=nrow(L), ncol=length+1) # creates an empty matrix of dimension 3x(length+1)
-time.series[, 1] <- N.0  # stores the initial population vector N.0 in the matrix "time.series"
+
+time.series <- matrix(N.0) # creates a matrix with three rows, called times.series, in which we initialize by storing the the initial population vector N.0 in it
+
 for (i in 1:length){# executes the multiplication of L.N(t) as often as specified by the parameter "length"
-  time.series[ , i+1] <- L %*% time.series[ ,i]
+  time.series <- cbind(time.series, L %*% time.series[ ,i])
 }
-matplot(0:length, t(time.series), type="l", lty=1:3, col = 1, ylab = "abundance", xlab = "time", main="original matrix") # plots result
-legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1, bty = "n") # defines legend
+
+matplot(0:length, t(time.series), type="l", lty=1:3, col = 1:3, ylab = "abundance", xlab = "time", main="original matrix") # plots result
+legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1:3, bty = "n") # defines legend
 
 ### same procedure as above but now for the population projection matrix L.f2
-time.series.f2 <- matrix(0, nrow=nrow(L.f2), ncol=length+1)
-time.series.f2[, 1] <- N.0
+time.series.f2 <- matrix(N.0)
+
 for (i in 1:length){
-  time.series.f2[ , i+1] <- L.f2 %*% time.series.f2[ ,i]
+  time.series.f2 <- cbind(time.series.f2, L.f2 %*% time.series.f2[ ,i])
 }
-matplot(0:length, t(time.series.f2), type="l", lty=1:3, col = 1, ylab = "abundance", xlab = "time", main="f2 increased")
-legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1, bty = "n")
+
+matplot(0:length, t(time.series.f2), type="l", lty=1:3, col = 1:3, ylab = "abundance", xlab = "time", main="f2 increased")
+legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1:3, bty = "n")
 
 ### same procedure as above but now for the population projection matrix L.f3
-time.series.f3 <- matrix(0, nrow=nrow(L.f3), ncol=length+1)
-time.series.f3[, 1] <- N.0
+time.series.f3 <- matrix(N.0)
+
 for (i in 1:length){
-  time.series.f3[ , i+1] <- L.f3 %*% time.series.f3[ ,i]
+  time.series.f3 <- cbind(time.series.f3, L.f3 %*% time.series.f3[ ,i])
 }
-matplot(0:length, t(time.series.f3), type="l", lty=1:3, col = 1, ylab = "abundance", xlab = "time", main="f3 increased")
-legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1, bty = "n")
+
+matplot(0:length, t(time.series.f3), type="l", lty=1:3, col = 1:3, ylab = "abundance", xlab = "time", main="f3 increased")
+legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1:3, bty = "n")
 
 ### same procedure as above but now for the population projection matrix L.s1
-time.series.s1 <- matrix(0, nrow=nrow(L.s1), ncol=length+1)
-time.series.s1[, 1] <- N.0
+time.series.s1 <- matrix(N.0)
+
 for (i in 1:length){
-  time.series.s1[ , i+1] <- L.s1 %*% time.series.s1[ ,i]
+  time.series.s1 <- cbind(time.series.s1, L.s1 %*% time.series.s1[ ,i])
 }
-matplot(0:length, t(time.series.s1), type="l", lty=1:3, col = 1, ylab = "abundance", xlab = "time", main="s1 increased")
-legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1, bty = "n")
+
+matplot(0:length, t(time.series.s1), type="l", lty=1:3, col = 1:3, ylab = "abundance", xlab = "time", main="s1 increased")
+legend("topleft", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1:3, bty = "n")
 
 ### same procedure as above but now for the population projection matrix L.s2
-time.series.s2 <- matrix(0, nrow=nrow(L.s2), ncol=length+1)
-time.series.s2[, 1] <- N.0
+time.series.s2 <- matrix(N.0)
+
 for (i in 1:length){
-  time.series.s2[ , i+1] <- L.s2 %*% time.series.s2[ ,i]
+  time.series.s2 <- cbind(time.series.s2, L.s2 %*% time.series.s2[ ,i])
 }
-matplot(0:length, t(time.series.s2), type="l", lty=1:3, col = 1, ylab = "abundance", xlab = "time", main="s2 increased")
-legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1, bty = "n")
+
+matplot(0:length, t(time.series.s2), type="l", lty=1:3, col = 1:3, ylab = "abundance", xlab = "time", main="s2 increased")
+legend("center", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1:3, bty = "n")
 ```
 
 To compute the dominant eigenvalue for each matrix, we divide the population density at the last time step by the population density at the previous time step. The code below applies this for the population density of individuals in age class 1, but, as we have seen in the first exercise, the densities in age class 2 or 3 or the total density would give the same result.
@@ -134,7 +139,7 @@ t(c(lambda, lambda.f2, lambda.f3, lambda.s1, lambda.s2)) # vector showing the do
 2) How do your observations match up with your expectations formulated above?
 3) What do you conclude from a conservation perspective?
 
-## A proportional change of demograhic parameters
+### A proportional change of demograhic parameters
 
 Above we have incresed each non-zero matrix entry by 0.1. We found that increasing survival of one-year old individuals, $s_1$, by $0.1$ from $0.25$ to $0.35$ has changed the population dynamics from declining to increasing. In contrast, increasing the fecundities $f_2$ and $f_3$ seems to hardly affect the population dynamics while an increase in $s_2$ clearly slows down the population decrease.
 
@@ -172,45 +177,54 @@ To find out, produce the time series for each of the above matrices and compute 
 ```{r echo=FALSE, eval=FALSE}
 par(mfrow = c(2,3)) # arranges the next five plots in a single figure
 
-time.series <- matrix(0, nrow=nrow(L), ncol=length+1) # creates an empty matrix of dimension 3x(length+1)
-time.series[, 1] <- N.0  # storeshe the initial population vector N.0 in the matrix "time.series"
+time.series <- matrix(N.0) # creates a matrix with three rows, called times.series, in which we initialize by storing the the initial population vector N.0 in it
+
 for (i in 1:length){# executes the multiplication of L.N(t) as often as specified by the parameter "length"
-  time.series[ , i+1] <- L %*% time.series[ ,i]
+  time.series <- cbind(time.series, L %*% time.series[ ,i])
 }
-matplot(0:length, t(time.series), type="l", lty=1:3, col = 1, ylab = "abundance", xlab = "time", main="original matrix") # plots result
-legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1, bty = "n") # defines legend
 
-time.series.f2.prop <- matrix(0, nrow=nrow(L.f2.prop), ncol=length+1) # same procedure as above but now for the population projection matrix L.f2
-time.series.f2.prop[, 1] <- N.0
-for (i in 1:length){
-  time.series.f2.prop[ , i+1] <- L.f2.prop %*% time.series.f2.prop[ ,i]
-}
-matplot(0:length, t(time.series.f2.prop), type="l", lty=1:3, col = 1, ylab = "abundance", xlab = "time", main="f2 increased")
-legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1, bty = "n")
+matplot(0:length, t(time.series), type="l", lty=1:3, col = 1:3, ylab = "abundance", xlab = "time", main="original matrix") # plots result
+legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1:3, bty = "n") # defines legend
 
-time.series.f3.prop <- matrix(0, nrow=nrow(L.f3.prop), ncol=length+1) # same procedure as above but now for the population projection matrix L.f3
-time.series.f3.prop[, 1] <- N.0
-for (i in 1:length){
-  time.series.f3.prop[ , i+1] <- L.f3.prop %*% time.series.f3.prop[ ,i]
-}
-matplot(0:length, t(time.series.f3.prop), type="l", lty=1:3, col = 1, ylab = "abundance", xlab = "time", main="f3 increased")
-legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1, bty = "n")
+### same procedure as above but now for the population projection matrix L.f2
+time.series.f2.prop <- matrix(N.0)
 
-time.series.s1.prop <- matrix(0, nrow=nrow(L.s1.prop), ncol=length+1) # same procedure as above but now for the population projection matrix L.s1
-time.series.s1.prop[, 1] <- N.0
 for (i in 1:length){
-  time.series.s1.prop[ , i+1] <- L.s1.prop %*% time.series.s1.prop[ ,i]
+  time.series.f2.prop <- cbind(time.series.f2.prop, L.f2.prop %*% time.series.f2.prop[ ,i])
 }
-matplot(0:length, t(time.series.s1.prop), type="l", lty=1:3, col = 1, ylab = "abundance", xlab = "time", main="s1 increased")
-legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1, bty = "n")
 
-time.series.s2.prop <- matrix(0, nrow=nrow(L.s2.prop), ncol=length+1) # same procedure as above but now for the population projection matrix L.s2
-time.series.s2.prop[, 1] <- N.0
+matplot(0:length, t(time.series.f2.prop), type="l", lty=1:3, col = 1:3, ylab = "abundance", xlab = "time", main="f2 increased")
+legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1:3, bty = "n")
+
+### same procedure as above but now for the population projection matrix L.f3
+time.series.f3.prop <- matrix(N.0)
+
 for (i in 1:length){
-  time.series.s2.prop[ , i+1] <- L.s2.prop %*% time.series.s2.prop[ ,i]
+  time.series.f3.prop <- cbind(time.series.f3.prop, L.f3.prop %*% time.series.f3.prop[ ,i])
 }
-matplot(0:length, t(time.series.s2.prop), type="l", lty=1:3, col = 1, ylab = "abundance", xlab = "time", main="s2 increased")
-legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1, bty = "n")
+
+matplot(0:length, t(time.series.f3.prop), type="l", lty=1:3, col = 1:3, ylab = "abundance", xlab = "time", main="f3 increased")
+legend("topleft", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1:3, bty = "n")
+
+### same procedure as above but now for the population projection matrix L.s1
+time.series.s1.prop <- matrix(N.0)
+
+for (i in 1:length){
+  time.series.s1.prop <- cbind(time.series.s1.prop, L.s1.prop %*% time.series.s1.prop[ ,i])
+}
+
+matplot(0:length, t(time.series.s1.prop), type="l", lty=1:3, col = 1:3, ylab = "abundance", xlab = "time", main="s1 increased")
+legend("topleft", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1:3, bty = "n")
+
+### same procedure as above but now for the population projection matrix L.s2
+time.series.s2.prop <- matrix(N.0)
+
+for (i in 1:length){
+  time.series.s2.prop <- cbind(time.series.s2.prop, L.s2.prop %*% time.series.s2.prop[ ,i])
+}
+
+matplot(0:length, t(time.series.s2.prop), type="l", lty=1:3, col = 1:3, ylab = "abundance", xlab = "time", main="s2 increased")
+legend("topleft", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1:3, bty = "n")
 ```
 
 ```{r echo=FALSE, eval=FALSE}

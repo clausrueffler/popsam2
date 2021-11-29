@@ -296,8 +296,8 @@ s_1 &amp; 0 &amp; 0\\
 \end{pmatrix}.
 \]</span></p>
 <p>In the first exercise, we found that that the dominant eigenvalue of this matrix <span class="math inline">\(\mathsf L\)</span> equals <span class="math inline">\(\lambda=0.952\)</span>, thus is population is in steep decline.</p>
-<div id="an-equal-change-change-of-demograhic-parameters" class="section level2">
-<h2>An equal change change of demograhic parameters</h2>
+<div id="an-equal-change-change-of-demograhic-parameters" class="section level3">
+<h3>An equal change change of demograhic parameters</h3>
 <p>Assume that with the same amount of financial resoruces we can increase each of the four demographic parameters by the same amount <span class="math inline">\(0.1\)</span>, resulting in</p>
 <p><span class="math display">\[
 \begin{align}
@@ -323,50 +323,55 @@ length &lt;- 40 # length of the time series</code></pre>
 </ol>
 <p>To find out, let us produce the time series for each of the above matrices and compute their dominant eigenvalue <span class="math inline">\(\lambda\)</span>.</p>
 <pre class="r"><code>par(mfrow = c(2,3)) # arranges the next five plots in a single figure
-###
-time.series &lt;- matrix(0, nrow=nrow(L), ncol=length+1) # creates an empty matrix of dimension 3x(length+1)
-time.series[, 1] &lt;- N.0  # stores the initial population vector N.0 in the matrix &quot;time.series&quot;
+
+time.series &lt;- matrix(N.0) # creates a matrix with three rows, called times.series, in which we initialize by storing the the initial population vector N.0 in it
+
 for (i in 1:length){# executes the multiplication of L.N(t) as often as specified by the parameter &quot;length&quot;
-  time.series[ , i+1] &lt;- L %*% time.series[ ,i]
+  time.series &lt;- cbind(time.series, L %*% time.series[ ,i])
 }
-matplot(0:length, t(time.series), type=&quot;l&quot;, lty=1:3, col = 1, ylab = &quot;abundance&quot;, xlab = &quot;time&quot;, main=&quot;original matrix&quot;) # plots result
-legend(&quot;topright&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1, bty = &quot;n&quot;) # defines legend
+
+matplot(0:length, t(time.series), type=&quot;l&quot;, lty=1:3, col = 1:3, ylab = &quot;abundance&quot;, xlab = &quot;time&quot;, main=&quot;original matrix&quot;) # plots result
+legend(&quot;topright&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1:3, bty = &quot;n&quot;) # defines legend
 
 ### same procedure as above but now for the population projection matrix L.f2
-time.series.f2 &lt;- matrix(0, nrow=nrow(L.f2), ncol=length+1)
-time.series.f2[, 1] &lt;- N.0
+time.series.f2 &lt;- matrix(N.0)
+
 for (i in 1:length){
-  time.series.f2[ , i+1] &lt;- L.f2 %*% time.series.f2[ ,i]
+  time.series.f2 &lt;- cbind(time.series.f2, L.f2 %*% time.series.f2[ ,i])
 }
-matplot(0:length, t(time.series.f2), type=&quot;l&quot;, lty=1:3, col = 1, ylab = &quot;abundance&quot;, xlab = &quot;time&quot;, main=&quot;f2 increased&quot;)
-legend(&quot;topright&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1, bty = &quot;n&quot;)
+
+matplot(0:length, t(time.series.f2), type=&quot;l&quot;, lty=1:3, col = 1:3, ylab = &quot;abundance&quot;, xlab = &quot;time&quot;, main=&quot;f2 increased&quot;)
+legend(&quot;topright&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1:3, bty = &quot;n&quot;)
 
 ### same procedure as above but now for the population projection matrix L.f3
-time.series.f3 &lt;- matrix(0, nrow=nrow(L.f3), ncol=length+1)
-time.series.f3[, 1] &lt;- N.0
+time.series.f3 &lt;- matrix(N.0)
+
 for (i in 1:length){
-  time.series.f3[ , i+1] &lt;- L.f3 %*% time.series.f3[ ,i]
+  time.series.f3 &lt;- cbind(time.series.f3, L.f3 %*% time.series.f3[ ,i])
 }
-matplot(0:length, t(time.series.f3), type=&quot;l&quot;, lty=1:3, col = 1, ylab = &quot;abundance&quot;, xlab = &quot;time&quot;, main=&quot;f3 increased&quot;)
-legend(&quot;topright&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1, bty = &quot;n&quot;)
+
+matplot(0:length, t(time.series.f3), type=&quot;l&quot;, lty=1:3, col = 1:3, ylab = &quot;abundance&quot;, xlab = &quot;time&quot;, main=&quot;f3 increased&quot;)
+legend(&quot;topright&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1:3, bty = &quot;n&quot;)
 
 ### same procedure as above but now for the population projection matrix L.s1
-time.series.s1 &lt;- matrix(0, nrow=nrow(L.s1), ncol=length+1)
-time.series.s1[, 1] &lt;- N.0
+time.series.s1 &lt;- matrix(N.0)
+
 for (i in 1:length){
-  time.series.s1[ , i+1] &lt;- L.s1 %*% time.series.s1[ ,i]
+  time.series.s1 &lt;- cbind(time.series.s1, L.s1 %*% time.series.s1[ ,i])
 }
-matplot(0:length, t(time.series.s1), type=&quot;l&quot;, lty=1:3, col = 1, ylab = &quot;abundance&quot;, xlab = &quot;time&quot;, main=&quot;s1 increased&quot;)
-legend(&quot;topright&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1, bty = &quot;n&quot;)
+
+matplot(0:length, t(time.series.s1), type=&quot;l&quot;, lty=1:3, col = 1:3, ylab = &quot;abundance&quot;, xlab = &quot;time&quot;, main=&quot;s1 increased&quot;)
+legend(&quot;topleft&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1:3, bty = &quot;n&quot;)
 
 ### same procedure as above but now for the population projection matrix L.s2
-time.series.s2 &lt;- matrix(0, nrow=nrow(L.s2), ncol=length+1)
-time.series.s2[, 1] &lt;- N.0
+time.series.s2 &lt;- matrix(N.0)
+
 for (i in 1:length){
-  time.series.s2[ , i+1] &lt;- L.s2 %*% time.series.s2[ ,i]
+  time.series.s2 &lt;- cbind(time.series.s2, L.s2 %*% time.series.s2[ ,i])
 }
-matplot(0:length, t(time.series.s2), type=&quot;l&quot;, lty=1:3, col = 1, ylab = &quot;abundance&quot;, xlab = &quot;time&quot;, main=&quot;s2 increased&quot;)
-legend(&quot;topright&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1, bty = &quot;n&quot;)</code></pre>
+
+matplot(0:length, t(time.series.s2), type=&quot;l&quot;, lty=1:3, col = 1:3, ylab = &quot;abundance&quot;, xlab = &quot;time&quot;, main=&quot;s2 increased&quot;)
+legend(&quot;center&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1:3, bty = &quot;n&quot;)</code></pre>
 <p>To compute the dominant eigenvalue for each matrix, we divide the population density at the last time step by the population density at the previous time step. The code below applies this for the population density of individuals in age class 1, but, as we have seen in the first exercise, the densities in age class 2 or 3 or the total density would give the same result.</p>
 <pre class="r"><code>lambda &lt;- time.series[1, length+1]/time.series[1, length] # ratio of population densities at the end of the time series for age-class 1. This gives lambda.
 
@@ -385,8 +390,8 @@ t(c(lambda, lambda.f2, lambda.f3, lambda.s1, lambda.s2)) # vector showing the do
 <li>What do you conclude from a conservation perspective?</li>
 </ol>
 </div>
-<div id="a-proportional-change-of-demograhic-parameters" class="section level2">
-<h2>A proportional change of demograhic parameters</h2>
+<div id="a-proportional-change-of-demograhic-parameters" class="section level3">
+<h3>A proportional change of demograhic parameters</h3>
 <p>Above we have incresed each non-zero matrix entry by 0.1. We found that increasing survival of one-year old individuals, <span class="math inline">\(s_1\)</span>, by <span class="math inline">\(0.1\)</span> from <span class="math inline">\(0.25\)</span> to <span class="math inline">\(0.35\)</span> has changed the population dynamics from declining to increasing. In contrast, increasing the fecundities <span class="math inline">\(f_2\)</span> and <span class="math inline">\(f_3\)</span> seems to hardly affect the population dynamics while an increase in <span class="math inline">\(s_2\)</span> clearly slows down the population decrease.</p>
 <p>Note, that the survival probabilites <span class="math inline">\(s_1\)</span> and <span class="math inline">\(s_2\)</span> are very different demograhic parameters than the fecundities <span class="math inline">\(f_2\)</span> and <span class="math inline">\(f_3\)</span>: survival probabilities are constrained to be numbers between zero and one while fecundities can take any positive value. Thus, survival probabilites (i.e., state-transition probabilities) can be of a very different scale than fecundites. For this reason, one might wonder whether it is not more informative to increase each matrix entry by the same <em>proportion</em> or percentage. Let us do this for the above example. The increase of <span class="math inline">\(s_1\)</span> from <span class="math inline">\(0.25\)</span> to <span class="math inline">\(0.35\)</span> - which resulted in positive population growth - corresponds to an increase of <span class="math inline">\(40\%\)</span>. Let us compare the population dynamics given an increase of <span class="math inline">\(40\%\)</span> for each of the four demographic parameters by, i.e.,</p>
 <p><span class="math display">\[
