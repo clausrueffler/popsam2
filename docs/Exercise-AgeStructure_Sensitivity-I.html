@@ -280,7 +280,7 @@ $(document).ready(function () {
 <div id="structure-populations---sensitivity-analysis-i" class="section level1 tabset">
 <h1>Structure Populations - Sensitivity Analysis I</h1>
 <p>Matrix models are an important tool in two branches of <em>applied ecology</em>, conservation and pest control. In the first case, one is interested in strategies that would increase the abundance of a rare, endangered species. In the second case, one is interested in strategies that reduce the abundance of an undesired but rapidly increasing species. What do we mean with a strategy here? Conservation strategies concerned with rare species will try to increase survival or fecundity of the target species while pest control strategies have the opposite aim. In the presence of limited financial resources, which life stage should a conservation or control strategy target in order maximize the outcome? We can formalize this question by asking: If we can change different demographic parameters <span class="math inline">\(a_{ij}\)</span> of a population projectin matrix <span class="math inline">\(\mathsf A\)</span> by a certain amount <span class="math inline">\(\Delta a_{ij}\)</span>, which change will increase (in the case of conservation) or decrease (in the case of pest control) the dominant eigenvalue <span class="math inline">\(\lambda\)</span> by the largest amount? In other words, where should we put our money for maximal effect?</p>
-<p>A simple way to answer this question is to change the entries <span class="math inline">\(a_{ij}\)</span> by a value that is considered realistic and then compute the resulting change in <span class="math inline">\(\lambda\)</span>. Let us consider the same population projection matrix as in the previous exercises, assuming that it describes the life cycle of a hypothetical endangered species:</p>
+<p>A simple way to answer this question is to change the entries <span class="math inline">\(a_{ij}\)</span> by a value that is considered realistic and then compute the resulting change in <span class="math inline">\(\lambda\)</span>. Let us consider the same population projection matrix <span class="math inline">\(\sf L\)</span> as in the previous exercises, assuming that it describes the life cycle of a hypothetical endangered species:</p>
 <p><span class="math display">\[
 \mathsf{L} = 
 \begin{pmatrix}
@@ -295,7 +295,7 @@ s_1 &amp; 0 &amp; 0\\
 0 &amp; 0.5 &amp; 0
 \end{pmatrix}.
 \]</span></p>
-<p>In the first exercise, we found that that the dominant eigenvalue of this matrix <span class="math inline">\(\mathsf L\)</span> equals <span class="math inline">\(\lambda=0.952\)</span>, thus is population is in steep decline.</p>
+<p>In the first exercise, we found that the dominant eigenvalue of this matrix <span class="math inline">\(\mathsf L\)</span> equals <span class="math inline">\(\lambda=0.952\)</span>. Thus, this population is in steep decline.</p>
 <div id="an-equal-change-change-of-demograhic-parameters" class="section level3">
 <h3>An equal change change of demograhic parameters</h3>
 <p>Assume that with the same amount of financial resoruces we can increase each of the four demographic parameters by the same amount <span class="math inline">\(0.1\)</span>, resulting in</p>
@@ -307,7 +307,7 @@ s_1 &amp; 0 &amp; 0\\
   s_2^{\mathrm{new}}&amp;=s_2+\Delta s_2=0.5+0.1=0.6.
 \end{align}
 \]</span></p>
-<p>Let us find out on which demograhic parameter we should focus our effort. To this end, we define the following population projection matrices:</p>
+<p>Now let us compare how each of these changes affects the dominant eigenvalue <span class="math inline">\(\lambda\)</span> of the altered population projection matrix. We start by defining the matrices corresponding to each of the different conservation strategies:</p>
 <pre class="r"><code>L = matrix(c(0, 1, 5, 0.25, 0, 0, 0, 0.5, 0), nrow=3, byrow=T)
 L.f2 = matrix(c(0, 1+0.1, 5, 0.25, 0, 0, 0, 0.5, 0), nrow=3, byrow=T)
 L.f3 = matrix(c(0, 1, 5+0.1, 0.25, 0, 0, 0, 0.5, 0), nrow=3, byrow=T)
@@ -372,7 +372,7 @@ for (i in 1:length){
 
 matplot(0:length, t(time.series.s2), type=&quot;l&quot;, lty=1:3, col = 1:3, ylab = &quot;abundance&quot;, xlab = &quot;time&quot;, main=&quot;s2 increased&quot;)
 legend(&quot;center&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1:3, bty = &quot;n&quot;)</code></pre>
-<p>To compute the dominant eigenvalue for each matrix, we divide the population density at the last time step by the population density at the previous time step. The code below applies this for the population density of individuals in age class 1, but, as we have seen in the first exercise, the densities in age class 2 or 3 or the total density would give the same result.</p>
+<p>To compute the dominant eigenvalue for each matrix, we divide the population density at the last time step by the population density at the previous time step. The code below applies this for the population density of individuals in age class 1, but, as we have seen in the first exercise, using the densities of age class 2 or 3 or the total density would give the same result.</p>
 <pre class="r"><code>lambda &lt;- time.series[1, length+1]/time.series[1, length] # ratio of population densities at the end of the time series for age-class 1. This gives lambda.
 
 lambda.f2 &lt;- time.series.f2[1, length+1]/time.series.f2[1, length]
@@ -392,8 +392,8 @@ t(c(lambda, lambda.f2, lambda.f3, lambda.s1, lambda.s2)) # vector showing the do
 </div>
 <div id="a-proportional-change-of-demograhic-parameters" class="section level3">
 <h3>A proportional change of demograhic parameters</h3>
-<p>Above we have incresed each non-zero matrix entry by 0.1. We found that increasing survival of one-year old individuals, <span class="math inline">\(s_1\)</span>, by <span class="math inline">\(0.1\)</span> from <span class="math inline">\(0.25\)</span> to <span class="math inline">\(0.35\)</span> has changed the population dynamics from declining to increasing. In contrast, increasing the fecundities <span class="math inline">\(f_2\)</span> and <span class="math inline">\(f_3\)</span> seems to hardly affect the population dynamics while an increase in <span class="math inline">\(s_2\)</span> clearly slows down the population decrease.</p>
-<p>Note, that the survival probabilites <span class="math inline">\(s_1\)</span> and <span class="math inline">\(s_2\)</span> are very different demograhic parameters than the fecundities <span class="math inline">\(f_2\)</span> and <span class="math inline">\(f_3\)</span>: survival probabilities are constrained to be numbers between zero and one while fecundities can take any positive value. Thus, survival probabilites (i.e., state-transition probabilities) can be of a very different scale than fecundites. For this reason, one might wonder whether it is not more informative to increase each matrix entry by the same <em>proportion</em> or percentage. Let us do this for the above example. The increase of <span class="math inline">\(s_1\)</span> from <span class="math inline">\(0.25\)</span> to <span class="math inline">\(0.35\)</span> - which resulted in positive population growth - corresponds to an increase of <span class="math inline">\(40\%\)</span>. Let us compare the population dynamics given an increase of <span class="math inline">\(40\%\)</span> for each of the four demographic parameters by, i.e.,</p>
+<p>Above we have incresed each non-zero matrix entry by <span class="math inline">\(0.1\)</span>. We found that increasing survival of one-year old individuals, <span class="math inline">\(s_1\)</span>, by <span class="math inline">\(0.1\)</span> from <span class="math inline">\(0.25\)</span> to <span class="math inline">\(0.35\)</span> has changed the population dynamics from declining to increasing. In contrast, increasing the fecundities <span class="math inline">\(f_2\)</span> and <span class="math inline">\(f_3\)</span> seems to hardly affect the population dynamics while an increase in <span class="math inline">\(s_2\)</span> clearly slows down the population decrease.</p>
+<p>Note, that the survival probabilites <span class="math inline">\(s_1\)</span> and <span class="math inline">\(s_2\)</span> are very different demograhic parameters than the fecundities <span class="math inline">\(f_2\)</span> and <span class="math inline">\(f_3\)</span>: survival probabilities are constrained to be numbers between zero and one while fecundities can take any positive value. Thus, survival probabilites (i.e., state transition probabilities) are generally on a very different scale than fecundites. For this reason, one might wonder whether it is not more informative to increase each matrix entry by the same <em>proportion</em> or percentage. Let us do this for the above example. The increase of <span class="math inline">\(s_1\)</span> from <span class="math inline">\(0.25\)</span> to <span class="math inline">\(0.35\)</span> - which resulted in positive population growth - corresponds to an increase of <span class="math inline">\(40\%\)</span>. Let us compare the population dynamics given an increase of <span class="math inline">\(40\%\)</span> for each of the four demographic parameters by, i.e.,</p>
 <p><span class="math display">\[
 \begin{align}
   f_2^{\mathrm{new}}&amp;=f_2+\Delta f_2=1+0.4=1.4\\
@@ -401,7 +401,8 @@ t(c(lambda, lambda.f2, lambda.f3, lambda.s1, lambda.s2)) # vector showing the do
   s_1^{\mathrm{new}}&amp;=s_1+\Delta s_1=0.25+0.1=0.35\\
   s_2^{\mathrm{new}}&amp;=s_2+\Delta s_2=0.5+0.2=0.7.
 \end{align}
-\]</span> Thus, compute the time series and dominant eigenvalue of the following five population projection matrices by reusing and adapting the code above.</p>
+\]</span></p>
+<p>Thus, compute the time series and dominant eigenvalue of the following five population projection matrices by reusing and adapting the code above.</p>
 <pre class="r"><code>L &lt;- matrix(c(0, 1, 5, 0.25, 0, 0, 0, 0.5, 0), nrow=3, byrow=T) # original matrix
 L.f2.prop &lt;- matrix(c(0, 1+0.4, 5, 0.25, 0, 0, 0, 0.5, 0), nrow=3, byrow=T)
 L.f3.prop &lt;- matrix(c(0, 1, 5+2, 0.25, 0, 0, 0, 0.5, 0), nrow=3, byrow=T)
@@ -410,7 +411,7 @@ L.s2.prop &lt;- matrix(c(0, 1, 5, 0.25, 0, 0, 0, 0.5+0.2, 0), nrow=3, byrow=T)
 
 N.0 &lt;- c(2,2,1) # vector of initial population densities
 length &lt;- 40 # length of the time series</code></pre>
-<p>Again, before you execute these computations think for a minute about the following questions:</p>
+<p>Again, before you execute these computations, think for a minute about the following questions:</p>
 <ol style="list-style-type: decimal">
 <li><p>Do you expect that the four new matrices will result in exactly the same altered time series or do you think that the time series will differ depending on which demograhic parameter was increased by <span class="math inline">\(40\%\)</span>?</p></li>
 <li><p>If you think the latter is true, which altered parameter will affect the dynamics the strongest?</p></li>

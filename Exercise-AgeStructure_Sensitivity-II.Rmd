@@ -13,11 +13,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 In the previous exercise, you expolored numerically how population growth and the dominant eigenvalue $\lambda$ of a population projection matrix $\sf L$ changes in response to changes in the different matrix entries, i.e., the different demographic parameters. But this way of anaylyzing the effect of changes in the different demograhic parameters on $\lambda$ has the disadvantage that the result depends on the actual magnitude by which the matrix entries are increased (e.g., $0.1$ or $40\%$).
 
-An alternative method is *sensitivty analysis*. In this method, we compute the derivative of the dominant eigenvalue $\lambda$ with respect to the different matrix entries. In other words, we calculate the slope of $\lambda$ as a function of the different matrix entries. This is what we will do in the this exercise.
+An alternative method is *sensitivty analysis*. In this method, we compute the derivative of the dominant eigenvalue $\lambda$ with respect to the different matrix entries. In other words, we calculate the slope of $\lambda$ as a function of each of the different matrix entries. This is what we will do in the this exercise.
 
 ### Sensistivity analysis
 
-Recall from the lecture that the sensitivity of the dominant eigenvalue with respect to a matrix entry $a_{ij}$ is given by
+Recall from the lecture that the sensitivity of the dominant eigenvalue with respect to an arbitrary matrix entry $a_{ij}$ is given by
 
 $$
 s_{ij} = \frac{\partial\lambda}{\partial a_{ij}}=\frac{v_j u_i}{<\mathbf v, \mathbf u>},
@@ -110,16 +110,16 @@ We now have all ingredients to compute the sensitivity matrix $\sf S$.
 
 ```{r eval=FALSE}
 inner.prod <-left.EV %*% right.EV # this corresponds to <v, u>
-inner.prod
+inner.prod # prints the inner product
 outer.prod <- outer(left.EV, right.EV) # this corresponds to v^T*u
-outer.prod
-sensitivities <- outer.prod/inner.prod[1, 1] # note that by writing inner.prod[1,1] we extract the value from a "one-dimensional matrix"
-sensitivities
+outer.prod # prints the outer product
+sensitivities <- outer.prod/inner.prod[1, 1] # note that by writing inner.prod[1, 1] we extract the value from a "one-dimensional matrix"
+sensitivities # prints the sensitivity matrix
 ```
 
 Each entry of this matrix contains the sensitivity of $\lambda$ corresponding to the matrix entry at that particular position.
 
-  1) Note that this matrix has only non-zero entries while our population projection matrix $\sf L$ has five entries equal to zero. What is the meaning of the sensitivity of matrix entry that is zero? For example, in $\sf L$ fecundity of one year old individuals equals zero, $f_1=0$. But the derivative of $\lambda$ with respect to $f_1$ equals $0.9023$. What does this mean?
+  1) Note that this matrix has only non-zero entries while our population projection matrix $\sf L$ has five entries that are equal to zero. What is the meaning of the sensitivity of matrix entry that is zero? For example, in $\sf L$ fecundity of one year old individuals equals zero, $f_1=0$. But the derivative of $\lambda$ with respect to $f_1$ equals $0.9023$. What does this mean?
   
   2) What conclusion do you draw from the sensitivity matrix $\sf S$ from a conservation perspective?
   

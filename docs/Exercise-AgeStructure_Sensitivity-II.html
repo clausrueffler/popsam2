@@ -280,10 +280,10 @@ $(document).ready(function () {
 <div id="structure-populations---sensitivity-analysis-ii" class="section level1 tabset">
 <h1>Structure Populations - Sensitivity Analysis II</h1>
 <p>In the previous exercise, you expolored numerically how population growth and the dominant eigenvalue <span class="math inline">\(\lambda\)</span> of a population projection matrix <span class="math inline">\(\sf L\)</span> changes in response to changes in the different matrix entries, i.e., the different demographic parameters. But this way of anaylyzing the effect of changes in the different demograhic parameters on <span class="math inline">\(\lambda\)</span> has the disadvantage that the result depends on the actual magnitude by which the matrix entries are increased (e.g., <span class="math inline">\(0.1\)</span> or <span class="math inline">\(40\%\)</span>).</p>
-<p>An alternative method is <em>sensitivty analysis</em>. In this method, we compute the derivative of the dominant eigenvalue <span class="math inline">\(\lambda\)</span> with respect to the different matrix entries. In other words, we calculate the slope of <span class="math inline">\(\lambda\)</span> as a function of the different matrix entries. This is what we will do in the this exercise.</p>
+<p>An alternative method is <em>sensitivty analysis</em>. In this method, we compute the derivative of the dominant eigenvalue <span class="math inline">\(\lambda\)</span> with respect to the different matrix entries. In other words, we calculate the slope of <span class="math inline">\(\lambda\)</span> as a function of each of the different matrix entries. This is what we will do in the this exercise.</p>
 <div id="sensistivity-analysis" class="section level3">
 <h3>Sensistivity analysis</h3>
-<p>Recall from the lecture that the sensitivity of the dominant eigenvalue with respect to a matrix entry <span class="math inline">\(a_{ij}\)</span> is given by</p>
+<p>Recall from the lecture that the sensitivity of the dominant eigenvalue with respect to an arbitrary matrix entry <span class="math inline">\(a_{ij}\)</span> is given by</p>
 <p><span class="math display">\[
 s_{ij} = \frac{\partial\lambda}{\partial a_{ij}}=\frac{v_j u_i}{&lt;\mathbf v, \mathbf u&gt;},
 \]</span></p>
@@ -355,14 +355,14 @@ left.EV &lt;- time.series.transpose[ , length+1]/time.series.transpose[1, length
 left.EV # print left eigenvector</code></pre>
 <p>We now have all ingredients to compute the sensitivity matrix <span class="math inline">\(\sf S\)</span>.</p>
 <pre class="r"><code>inner.prod &lt;-left.EV %*% right.EV # this corresponds to &lt;v, u&gt;
-inner.prod
+inner.prod # prints the inner product
 outer.prod &lt;- outer(left.EV, right.EV) # this corresponds to v^T*u
-outer.prod
-sensitivities &lt;- outer.prod/inner.prod[1, 1] # note that by writing inner.prod[1,1] we extract the value from a &quot;one-dimensional matrix&quot;
-sensitivities</code></pre>
+outer.prod # prints the outer product
+sensitivities &lt;- outer.prod/inner.prod[1, 1] # note that by writing inner.prod[1, 1] we extract the value from a &quot;one-dimensional matrix&quot;
+sensitivities # prints the sensitivity matrix</code></pre>
 <p>Each entry of this matrix contains the sensitivity of <span class="math inline">\(\lambda\)</span> corresponding to the matrix entry at that particular position.</p>
 <ol style="list-style-type: decimal">
-<li><p>Note that this matrix has only non-zero entries while our population projection matrix <span class="math inline">\(\sf L\)</span> has five entries equal to zero. What is the meaning of the sensitivity of matrix entry that is zero? For example, in <span class="math inline">\(\sf L\)</span> fecundity of one year old individuals equals zero, <span class="math inline">\(f_1=0\)</span>. But the derivative of <span class="math inline">\(\lambda\)</span> with respect to <span class="math inline">\(f_1\)</span> equals <span class="math inline">\(0.9023\)</span>. What does this mean?</p></li>
+<li><p>Note that this matrix has only non-zero entries while our population projection matrix <span class="math inline">\(\sf L\)</span> has five entries that are equal to zero. What is the meaning of the sensitivity of matrix entry that is zero? For example, in <span class="math inline">\(\sf L\)</span> fecundity of one year old individuals equals zero, <span class="math inline">\(f_1=0\)</span>. But the derivative of <span class="math inline">\(\lambda\)</span> with respect to <span class="math inline">\(f_1\)</span> equals <span class="math inline">\(0.9023\)</span>. What does this mean?</p></li>
 <li><p>What conclusion do you draw from the sensitivity matrix <span class="math inline">\(\sf S\)</span> from a conservation perspective?</p></li>
 <li><p>Based on <span class="math inline">\(\sf S\)</span>, estimate by how much <span class="math inline">\(\lambda\)</span> increases if <span class="math inline">\(f_3\)</span> is increased by <span class="math inline">\(0.5\)</span>, <span class="math inline">\(1\)</span> and <span class="math inline">\(2\)</span>. Similarly,estimate by how much <span class="math inline">\(\lambda\)</span> increases if <span class="math inline">\(s_1\)</span> is increased by <span class="math inline">\(0.1\)</span> or <span class="math inline">\(0.2\)</span>.</p></li>
 <li><p>How does your prediction based on the sensitivity matrix <span class="math inline">\(\sf S\)</span> compare to the previous exercise when you increased all matrix entries equally by a value of <span class="math inline">\(0.1\)</span>?</p></li>
