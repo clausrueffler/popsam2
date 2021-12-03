@@ -7,7 +7,7 @@ left:
     menu:
       - text: "1. Structured Populations - Growth"
         href: ./Exercise-AgeStructure_Growth.html
-      - text: "2. Structured Populations - Stage Distribution"
+      - text: "2. Structured Populations - State Distribution"
         href: ./Exercise-AgeStructure_Distribution.html
       - text: "3. Structured Populations - Sensitivity I"
         href: ./Exercise-AgeStructure_Sensitivity-I.html

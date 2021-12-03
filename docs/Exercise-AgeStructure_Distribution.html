@@ -11,7 +11,7 @@
 
 
 
-<title>Exercise: Structure Populations - Stage Distribution</title>
+<title>Exercise: Structure Populations - State Distribution</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -251,7 +251,7 @@ $(document).ready(function () {
       <a href="./Exercise-AgeStructure_Growth.html">1. Structured Populations - Growth</a>
     </li>
     <li>
-      <a href="./Exercise-AgeStructure_Distribution.html">2. Structured Populations - Stage Distribution</a>
+      <a href="./Exercise-AgeStructure_Distribution.html">2. Structured Populations - State Distribution</a>
     </li>
     <li>
       <a href="./Exercise-AgeStructure_Sensitivity-I.html">3. Structured Populations - Sensitivity I</a>
@@ -277,8 +277,8 @@ $(document).ready(function () {
 </div>
 
 
-<div id="structure-populations---stage-distribution" class="section level1 tabset">
-<h1>Structure Populations - Stage Distribution</h1>
+<div id="structure-populations---state-distribution" class="section level1 tabset">
+<h1>Structure Populations - State Distribution</h1>
 <p>In the previous exercise, we found that the dynamics of an age-structured population is governed by a single number <span class="math inline">\(\lambda\)</span> that desribes how fast the population grows from one time step to the next. More specifically, initially the densities in the different age classes can fluctuate but these flutuations disappear after some time (transient dynamics) and from then on the population - as a whole as well as the density in each class - grow by the same factor <span class="math inline">\(\lambda\)</span> from one time step to the next. We also found that the value of <span class="math inline">\(\lambda\)</span> does NOT depend on the intial population vector <span class="math inline">\(\mathbf N(0)\)</span> but only on the population projection matrix <span class="math inline">\(\mathsf L\)</span>. This value of <span class="math inline">\(\lambda\)</span> is known as the <em>dominant eigenvalue</em> of the matrix <span class="math inline">\(\mathsf L\)</span>.</p>
 <p>In this R-exercise you will investigate how the proportions of individuals in the different age classes changes over time. One might for example wonder whether any of the age classes grows or shrinks faster than others and how the proportions of individuals in the different age classes depends on the initial population vector <span class="math inline">\(\mathbf N(0)\)</span>? The propotion (or relative frequency) <span class="math inline">\(p_1(t)\)</span> of indiviudals in age class 1 at time <span class="math inline">\(t\)</span> is defined as</p>
 <p><span class="math display">\[
