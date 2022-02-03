@@ -9,6 +9,10 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+```
+
 # Structure Populations - State Distribution {.tabset}
 
 In the previous exercise, we found that the dynamics of an age-structured population is governed by a single number $\lambda$ that desribes how fast the population grows from one time step to the next. More specifically, initially the densities in the different age classes can fluctuate but these flutuations disappear after some time (transient dynamics) and from then on the population - as a whole as well as the density in each class - grow by the same factor $\lambda$ from one time step to the next. We also found that the value of $\lambda$ does NOT depend on the intial population vector $\mathbf N(0)$ but only on the population projection matrix $\mathsf L$. This value of $\lambda$ is known as the *dominant eigenvalue* of the matrix $\mathsf L$.

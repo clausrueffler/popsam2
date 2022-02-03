@@ -31,6 +31,10 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/clipboard-1.7.1/clipboard.min.js"></script>
+<link href="site_libs/primer-tooltips-1.4.0/build.css" rel="stylesheet" />
+<link href="site_libs/klippy-0.0.0.9500/css/klippy.min.css" rel="stylesheet" />
+<script src="site_libs/klippy-0.0.0.9500/js/klippy.min.js"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -277,6 +281,10 @@ $(document).ready(function () {
 </div>
 
 
+<script>
+  addClassKlippyTo("pre.r, pre.markdown");
+  addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
+</script>
 <div id="structure-populations---sensitivity-analysis-ii" class="section level1 tabset">
 <h1>Structure Populations - Sensitivity Analysis II</h1>
 <p>In the previous exercise, you expolored numerically how population growth and the dominant eigenvalue <span class="math inline">\(\lambda\)</span> of a population projection matrix <span class="math inline">\(\sf L\)</span> changes in response to changes in the different matrix entries, i.e., the different demographic parameters. But this way of anaylyzing the effect of changes in the different demograhic parameters on <span class="math inline">\(\lambda\)</span> has the disadvantage that the result depends on the actual magnitude by which the matrix entries are increased (e.g., <span class="math inline">\(0.1\)</span> or <span class="math inline">\(40\%\)</span>).</p>

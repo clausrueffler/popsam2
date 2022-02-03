@@ -9,6 +9,10 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+```
+
 # Structure Populations - Growth {.tabset}
 
 Let us consider an age-structured population with three age-classes with demographic parameters resulting in the population projection matrix

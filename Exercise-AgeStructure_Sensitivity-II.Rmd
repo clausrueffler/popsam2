@@ -9,6 +9,10 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+```
+
 # Structure Populations - Sensitivity Analysis II {.tabset}
 
 In the previous exercise, you expolored numerically how population growth and the dominant eigenvalue $\lambda$ of a population projection matrix $\sf L$ changes in response to changes in the different matrix entries, i.e., the different demographic parameters. But this way of anaylyzing the effect of changes in the different demograhic parameters on $\lambda$ has the disadvantage that the result depends on the actual magnitude by which the matrix entries are increased (e.g., $0.1$ or $40\%$).
