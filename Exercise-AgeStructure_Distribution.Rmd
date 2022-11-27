@@ -15,9 +15,9 @@ klippy::klippy(position = c('top', 'right'))
 
 # Structure Populations - State Distribution {.tabset}
 
-In the previous exercise, we found that the dynamics of an age-structured population is governed by a single number $\lambda$ that desribes how fast the population grows from one time step to the next. More specifically, initially the densities in the different age classes can fluctuate but these flutuations disappear after some time (transient dynamics) and from then on the population - as a whole as well as the density in each class - grow by the same factor $\lambda$ from one time step to the next. We also found that the value of $\lambda$ does NOT depend on the intial population vector $\mathbf N(0)$ but only on the population projection matrix $\mathsf L$. This value of $\lambda$ is known as the *dominant eigenvalue* of the matrix $\mathsf L$.
+In the previous exercise, we found that the dynamics of an age-structured population is governed by a single number $\lambda$ that desribes how fast the population grows from one time step to the next. More specifically, initially the densities in the different age classes can fluctuate but these fluctuations disappear after some time (transient dynamics) and from then on the population - as a whole as well as the density in each class - grow by the same factor $\lambda$ from one time step to the next. We also found that the value of $\lambda$ does NOT depend on the intial population vector $\mathbf N(0)$ but only on the population projection matrix $\mathsf L$. This value of $\lambda$ is known as the *dominant eigenvalue* of the matrix $\mathsf L$.
 
-In this R-exercise you will investigate how the proportions of individuals in the different age classes changes over time. One might for example wonder whether any of the age classes grows or shrinks faster than others and how the proportions of individuals in the different age classes depends on the initial population vector $\mathbf N(0)$? The propotion (or relative frequency) $p_1(t)$ of indiviudals in age class 1 at time $t$ is defined as
+In this *R*-exercise you will investigate how the proportions of individuals in the different age classes changes over time. One might for example wonder whether any of the age classes grows or shrinks faster than others and how the proportions of individuals in the different age classes depends on the initial population vector $\mathbf N(0)$? The proportion (or relative frequency) $p_1(t)$ of individuals in age class 1 at time $t$ is defined as
 
 $$
 p_1(t)=\frac{N_1(t)}{N_1(t)+N_2(t)+N_3(t)}=\frac{N_1(t)}{N_{\mathrm{tot}}(t)}.
@@ -117,8 +117,8 @@ We can print the values for the proportions at the end of the time series:
 t(matrix(c(prop.age1[, length+1], prop.age2[, length+1], prop.age3[, length+1]), nrow = 10)) # produces a matrix that in each colum contains the final proportion for a different initial population vector N(0).
 ```
 
-i) Make yourself clear what these graphs show. What do you conclude from your results about the dynamics of the relative proportions of the three age-classes and their dependence on the initial population vector $\mathbf N(0)?
+i) Make yourself clear what these graphs show. What do you conclude about the dynamics of the relative proportions of the three age-classes and their dependence on the initial population vector $\mathbf N(0)?
 
-ii) Do the eventual relative proportions depend on the values in the population projection matrix $\mathsf L$? To investigate this question let us modify the above population projection matrix L. More specifically, please change $s_1=0.3$ to $s_1=0.25$ and determine the relative proportions in the different age-classes once the population does not fluctuate anymore.
+ii) Do the final relative proportions depend on the values in the population projection matrix $\mathsf L$? To investigate this question, let us modify the above population projection matrix $\mathsf L$. More specifically, please change $s_1=0.3$ to $s_1=0.25$ and determine the relative proportions in the different age-classes once the population does not fluctuate anymore.
 
-Note that for later exercises you will have to be able to compute the stable age distribution for other matrices.
+Note that for later exercises, you will have to be able to compute the stable age distribution for other matrices.

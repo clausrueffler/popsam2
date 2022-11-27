@@ -13,7 +13,8 @@
 
 <title>Exercise: Structure Populations - State Distribution</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -63,6 +64,7 @@ if (window.hljs) {
 
 
 
+
 <style type = "text/css">
 .main-container {
   max-width: 940px;
@@ -83,6 +85,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -140,11 +145,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -235,7 +244,7 @@ $(document).ready(function () {
 <div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -245,7 +254,7 @@ $(document).ready(function () {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Exercises
      
     <span class="caret"></span>
@@ -286,9 +295,9 @@ $(document).ready(function () {
   addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
 </script>
 <div id="structure-populations---state-distribution" class="section level1 tabset">
-<h1>Structure Populations - State Distribution</h1>
-<p>In the previous exercise, we found that the dynamics of an age-structured population is governed by a single number <span class="math inline">\(\lambda\)</span> that desribes how fast the population grows from one time step to the next. More specifically, initially the densities in the different age classes can fluctuate but these flutuations disappear after some time (transient dynamics) and from then on the population - as a whole as well as the density in each class - grow by the same factor <span class="math inline">\(\lambda\)</span> from one time step to the next. We also found that the value of <span class="math inline">\(\lambda\)</span> does NOT depend on the intial population vector <span class="math inline">\(\mathbf N(0)\)</span> but only on the population projection matrix <span class="math inline">\(\mathsf L\)</span>. This value of <span class="math inline">\(\lambda\)</span> is known as the <em>dominant eigenvalue</em> of the matrix <span class="math inline">\(\mathsf L\)</span>.</p>
-<p>In this R-exercise you will investigate how the proportions of individuals in the different age classes changes over time. One might for example wonder whether any of the age classes grows or shrinks faster than others and how the proportions of individuals in the different age classes depends on the initial population vector <span class="math inline">\(\mathbf N(0)\)</span>? The propotion (or relative frequency) <span class="math inline">\(p_1(t)\)</span> of indiviudals in age class 1 at time <span class="math inline">\(t\)</span> is defined as</p>
+<h1 class="tabset">Structure Populations - State Distribution</h1>
+<p>In the previous exercise, we found that the dynamics of an age-structured population is governed by a single number <span class="math inline">\(\lambda\)</span> that desribes how fast the population grows from one time step to the next. More specifically, initially the densities in the different age classes can fluctuate but these fluctuations disappear after some time (transient dynamics) and from then on the population - as a whole as well as the density in each class - grow by the same factor <span class="math inline">\(\lambda\)</span> from one time step to the next. We also found that the value of <span class="math inline">\(\lambda\)</span> does NOT depend on the intial population vector <span class="math inline">\(\mathbf N(0)\)</span> but only on the population projection matrix <span class="math inline">\(\mathsf L\)</span>. This value of <span class="math inline">\(\lambda\)</span> is known as the <em>dominant eigenvalue</em> of the matrix <span class="math inline">\(\mathsf L\)</span>.</p>
+<p>In this <em>R</em>-exercise you will investigate how the proportions of individuals in the different age classes changes over time. One might for example wonder whether any of the age classes grows or shrinks faster than others and how the proportions of individuals in the different age classes depends on the initial population vector <span class="math inline">\(\mathbf N(0)\)</span>? The proportion (or relative frequency) <span class="math inline">\(p_1(t)\)</span> of individuals in age class 1 at time <span class="math inline">\(t\)</span> is defined as</p>
 <p><span class="math display">\[
 p_1(t)=\frac{N_1(t)}{N_1(t)+N_2(t)+N_3(t)}=\frac{N_1(t)}{N_{\mathrm{tot}}(t)}.
 \]</span> The propotions <span class="math inline">\(p_1(t)\)</span> is the probability that a randomly sampled individual from the population belongs to age class 1. The proportions of individuals belonging to age class 2 and 3 are calculated analogously. Note that by definition at all times <span class="math inline">\(t\)</span> the proportions add upp to 1, i.e.,</p>
@@ -365,10 +374,10 @@ matplot(0:length, t(prop.age3), type=&quot;l&quot;, col = rainbow(10), ylab = &q
 <p>We can print the values for the proportions at the end of the time series:</p>
 <pre class="r"><code>t(matrix(c(prop.age1[, length+1], prop.age2[, length+1], prop.age3[, length+1]), nrow = 10)) # produces a matrix that in each colum contains the final proportion for a different initial population vector N(0).</code></pre>
 <ol style="list-style-type: lower-roman">
-<li><p>Make yourself clear what these graphs show. What do you conclude from your results about the dynamics of the relative proportions of the three age-classes and their dependence on the initial population vector $N(0)?</p></li>
-<li><p>Do the eventual relative proportions depend on the values in the population projection matrix <span class="math inline">\(\mathsf L\)</span>? To investigate this question let us modify the above population projection matrix L. More specifically, please change <span class="math inline">\(s_1=0.3\)</span> to <span class="math inline">\(s_1=0.25\)</span> and determine the relative proportions in the different age-classes once the population does not fluctuate anymore.</p></li>
+<li><p>Make yourself clear what these graphs show. What do you conclude about the dynamics of the relative proportions of the three age-classes and their dependence on the initial population vector $N(0)?</p></li>
+<li><p>Do the final relative proportions depend on the values in the population projection matrix <span class="math inline">\(\mathsf L\)</span>? To investigate this question, let us modify the above population projection matrix <span class="math inline">\(\mathsf L\)</span>. More specifically, please change <span class="math inline">\(s_1=0.3\)</span> to <span class="math inline">\(s_1=0.25\)</span> and determine the relative proportions in the different age-classes once the population does not fluctuate anymore.</p></li>
 </ol>
-<p>Note that for later exercises you will have to be able to compute the stable age distribution for other matrices.</p>
+<p>Note that for later exercises, you will have to be able to compute the stable age distribution for other matrices.</p>
 </div>
 </div>
 

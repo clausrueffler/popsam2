@@ -133,7 +133,7 @@ Each entry of this matrix contains the sensitivity of $\lambda$ corresponding to
 
 ### Elasticity analysis
 
-Sensitivies give the absolute change in $\lambda$ given an absolute change in the demograhic parameters $a_{ij}$. Thus, sensitivies do not take into account that survival probabilities and fecundities can be on very different scales. To correct for this, we can compute the *elasticity matrix* $\sf E$, defined as
+Sensitivities give the absolute change in $\lambda$ given an absolute change in the demographic parameters $a_{ij}$. Thus, sensitivities do not take into account that survival probabilities and fecundities are generally on very different scales. To correct for this, we can compute the *elasticity matrix* $\sf E$, defined as
 
 $$
 \mathsf E=\frac{a_{ij}}{\lambda}\mathsf S=\frac{a_{ij}}{\lambda}\frac{\mathbf v^{\mathrm T} \mathbf u}{<\mathbf v, \mathbf u>}.

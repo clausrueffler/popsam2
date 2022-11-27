@@ -45,7 +45,7 @@ $$
 \mathbf{N}(t)=\mathsf{L}^t*\mathbf{N}(0).
 $$
 
-In this exercise, you use R to explore this dynamics. This exercise also serves to introduce some R-code that you will need later for your independent project work.
+In this exercise, you use *R* to explore this dynamics. This exercise also serves to introduce some *R*-code that you will need later for your independent project work.
 
 ```{r}
 L <- matrix(
@@ -60,7 +60,7 @@ L # print the matrix
 Recall the following basics about matrix manipulation. The entry in the *m*-th row and *n*-th column of the matirx $\mathsf L$ can be extracted with ```L[m ,n]```.
 
 ```{R}
-L[2, 3]  # entry in 2nd row and 3rd column
+L[3, 2]  # entry in 3rd row and 2nd column
 ```
 
 The entries in the *m*-th row of $\mathsf L$ can be extracted with ```L[m, ]``` and, similarly, the entries in the *n*-th column can be extracted with ```L[ ,n]```.
@@ -70,12 +70,13 @@ L[2, ] # the 2nd row
 L[ ,3] # the 3rd column
 ```
 
-The *transpose* of a matrix, $\mathsf L^{\mathsf T}$ is the matrix mirrored over its diagonal. The R-command is ```t(L)```.
+The *transpose* of a matrix, $\mathsf L^{\mathsf T}$ is the matrix mirrored over its diagonal. The *R*-command is ```t(L)```.
 
 ```{r}
 t(L) # transpose of L
 ```
 
+<!--
 We can create a vector of intital population densities $\mathbf{N}(0)$ by writing
 
 ```{r}
@@ -85,6 +86,7 @@ N.0 # print this vector
 #
 t(N.0) # the transpose of N.0, this becomes a column vector
 ```
+-->
 
 Now let's start analyzing the dynamics of the model defined by the above matrix $\mathsf L$.
 We start with the analysis of the model by producing a time series based on $\mathsf L$ and a vector of initial population sizes, e.g., $\mathbf{N}(0)=(2,2,1)$.
@@ -95,17 +97,17 @@ N.1 <- L %*% N.0 # produces the vector N.1 by multiplying L with N.0. Note that 
 N.1 # print N.1
 ```
 
-This projects the population one time step into the future. Of course, we want to iterate this step many times. There are many different ways of programming the same task in R. One way to iterate the above calculation *t*-times goes as follows.
+This projects the population one time step into the future. Of course, we want to iterate this step many times. There are many different ways of programming the same task in *R*. One way to iterate the above calculation *t*-times goes as follows.
 
 ```{r}
 length <- 10 # length of the time series
-time.series <- matrix(N.0, nrow = 3) # creates a matrix with three rows, called times.series, in which we will store the time series
+time.series <- matrix(N.0, nrow = 3) # creates a matrix with three rows, called times.series, with N.0 in the first column. This is used to store the time series.
 
-for (i in 1:length){# iterates the multiplication L.N(t) as often as specified by the parameter "length"
+for (i in 1:length){# iterates the multiplication L.N(t) as often as specified by the parameter length
   time.series <- cbind(time.series, L %*% time.series[ , i]) # executes multiplication of the matrix L with current population vector and stores the result as a new column to the matrix time.series
 }
 
-matplot(0:length, t(time.series), type="l", lty=1:3, col = 1, ylab = "abundance", xlab = "time") # plots the time.series for each age-class, not that we have to transpose the matrix time.series in order to obtain the correct plot
+matplot(0:length, t(time.series), type="l", lty=1:3, col = 1, ylab = "abundance", xlab = "time") # plots the time.series for each age-class, note that we have to transpose the matrix time.series in order to obtain the correct plot
 legend("topleft", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1, bty = "N") # adds a legend
 ```
 
@@ -123,7 +125,7 @@ What do you conclude from this?
 Finally, we can produce a plot of the total density $N_{\mathrm{tot}}(t)=N_1(t)+N_2(t)+N_3(t)$, i.e., where we sum over all three age-classes.
 
 ```{r eval=FALSE}
-N.tot <- colSums(time.series) # produces vector of total densities by summing over the values in each colum of the matrix time.series
+N.tot <- colSums(time.series) # produces vector of total densities by summing over the values in each column of the matrix time.series
 matplot(0:length, N.tot, type="l", ylab = "total population size", xlab = "time")
 matplot(0:length, N.tot, type="l", log="y", ylab = "log total population size", xlab = "time") # log scale
 ```
@@ -157,7 +159,7 @@ $$
 \lambda_{\mathrm{tot}}(t) = \frac{N_{\mathrm{tot}}(t+1)}{N_{\mathrm{tot}}(t)}.
 $$
 
-Let us begin by calculating this quanity for age-class 1 based on a time series of length 40. Please first change the survival of one-year old individuals back to $s_1=0.3$.
+Let us begin by calculating this quantity for age-class 1 based on a time series of length 40. Please first change the survival of one-year old individuals back to $s_1=0.3$.
 
 ```{r echo=FALSE}
 length <- 40
@@ -174,10 +176,10 @@ N.tot <- colSums(time.series) # vector of total densities
 ```{r}
 Lambda.1 <- matrix(1, nrow=1) 
 for (i in 1:length){
-  Lambda.1 <- cbind(Lambda.1, time.series[1,i+1]/time.series[1,i]) # here we divide the population size in class 1 in two consecutive time steps by each other and store the result in Lambda.1
+  Lambda.1 <- cbind(Lambda.1, time.series[1, i + 1]/time.series[1, i]) # we divide the population size of two consecutive time steps for class 1 by each other and store the result in Lambda.1
 }
 
-plot(0:length, Lambda.1, type="l", ylab = expression(lambda[1](t)=='N'[1](t+1)/'N'[1](t)), xlab = "time")
+plot(0:length, Lambda.1, type="l", ylab = expression(lambda[1](t)=='N'[1](t + 1)/'N'[1](t)), xlab = "time")
 ```
 
 What do you observe?
@@ -187,7 +189,7 @@ To produce the same plot for the second and third age class you have to "select"
 ```{r eval=FALSE, echo=FALSE}
 Lambda.2 <- matrix(1, nrow=1)
 for (i in 1:length){
-  Lambda.2 <- cbind(Lambda.2, time.series[2,i+1]/time.series[2,i]) # here we select densities from the second row of the matrix time.series that contains the densities in age class 1
+  Lambda.2 <- cbind(Lambda.2, time.series[2,i+1]/time.series[2,i]) # we select densities from the second row of the matrix time.series that contains the densities in age class 2
 }
 plot(0:length, Lambda.2, type="l", ylab = expression(lambda[2](t)=='N'[2](t+1)/'N'[2](t)), xlab = "time")
 
@@ -198,7 +200,7 @@ for (i in 1:length){
 plot(0:length, Lambda.3, type="l", ylab = expression(lambda[3](t)=='N'[3](t+1)/'N'[3](t)), xlab = "time")
 ```
 
-We can do the same calculation for the total population size $N_{\mathrm{tot}}$. Before you actually do this calculation think for a second. What do you expect is the outcome and why do you think so?
+We can do the same calculation for the total population size $N_{\mathrm{tot}}$. Before you actually do this calculation, think for a second: What do you expect is the outcome?
 
 ```{r eval=FALSE}
 Lambda.tot <- matrix(1, nrow=1)
@@ -223,7 +225,7 @@ What do you observe? What do you conclude from your results about the existence 
 ### 2) To what extend does the population dynamics depend on the initial population vector $\mathbf N(0)$?
 
 How do the dynamics of a time series depend on the population vector $\mathbf N(0)$ specifying the initial population size?
-To investigate this question we can repeat the above computations but for different initial population vectors $\mathbf N(0)$, say, ten different such vectors. The following code facilitates the computation of many such time series.
+To investigate this question, we can repeat the above computations but for different initial population vectors $\mathbf N(0)$, say, ten different such vectors. The following code facilitates the computation of many such time series.
 
 ```{r eval=FALSE}
 length <- 40
@@ -285,4 +287,4 @@ i) What do you observe? What do you conclude from your results about the existen
 
 ii) Can we use this number to predict whether a population growth or shrinks in the long run? To investigate this question let us modify the above population projection matrix $\mathsf L$. More specifically, please change $s_1=0.3$ to $s_1=0.25$. Plot the time series for this new matrix $\mathsf L$ for one initial condition $\mathbf N(0)$ and compute $\lambda$. What do you conclude?
 
-Note that for later exercises you will have to be able to compute the growht factor $\lambda$ for other matrices.
+Note that for later exercises you will have to be able to compute the growth factor $\lambda$ for other matrices.

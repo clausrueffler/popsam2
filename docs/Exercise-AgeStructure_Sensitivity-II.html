@@ -13,7 +13,8 @@
 
 <title>Exercise: Structure Populations - Sensitivity II</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -63,6 +64,7 @@ if (window.hljs) {
 
 
 
+
 <style type = "text/css">
 .main-container {
   max-width: 940px;
@@ -83,6 +85,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -140,11 +145,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -235,7 +244,7 @@ $(document).ready(function () {
 <div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -245,7 +254,7 @@ $(document).ready(function () {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Exercises
      
     <span class="caret"></span>
@@ -286,7 +295,7 @@ $(document).ready(function () {
   addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
 </script>
 <div id="structure-populations---sensitivity-analysis-ii" class="section level1 tabset">
-<h1>Structure Populations - Sensitivity Analysis II</h1>
+<h1 class="tabset">Structure Populations - Sensitivity Analysis II</h1>
 <p>In the previous exercise, you expolored numerically how population growth and the dominant eigenvalue <span class="math inline">\(\lambda\)</span> of a population projection matrix <span class="math inline">\(\sf L\)</span> changes in response to changes in the different matrix entries, i.e., the different demographic parameters. But this way of anaylyzing the effect of changes in the different demograhic parameters on <span class="math inline">\(\lambda\)</span> has the disadvantage that the result depends on the actual magnitude by which the matrix entries are increased (e.g., <span class="math inline">\(0.1\)</span> or <span class="math inline">\(40\%\)</span>).</p>
 <p>An alternative method is <em>sensitivty analysis</em>. In this method, we compute the derivative of the dominant eigenvalue <span class="math inline">\(\lambda\)</span> with respect to the different matrix entries. In other words, we calculate the slope of <span class="math inline">\(\lambda\)</span> as a function of each of the different matrix entries. This is what we will do in the this exercise.</p>
 <div id="sensistivity-analysis" class="section level3">
@@ -378,7 +387,7 @@ sensitivities # prints the sensitivity matrix</code></pre>
 </div>
 <div id="elasticity-analysis" class="section level3">
 <h3>Elasticity analysis</h3>
-<p>Sensitivies give the absolute change in <span class="math inline">\(\lambda\)</span> given an absolute change in the demograhic parameters <span class="math inline">\(a_{ij}\)</span>. Thus, sensitivies do not take into account that survival probabilities and fecundities can be on very different scales. To correct for this, we can compute the <em>elasticity matrix</em> <span class="math inline">\(\sf E\)</span>, defined as</p>
+<p>Sensitivities give the absolute change in <span class="math inline">\(\lambda\)</span> given an absolute change in the demographic parameters <span class="math inline">\(a_{ij}\)</span>. Thus, sensitivities do not take into account that survival probabilities and fecundities are generally on very different scales. To correct for this, we can compute the <em>elasticity matrix</em> <span class="math inline">\(\sf E\)</span>, defined as</p>
 <p><span class="math display">\[
 \mathsf E=\frac{a_{ij}}{\lambda}\mathsf S=\frac{a_{ij}}{\lambda}\frac{\mathbf v^{\mathrm T} \mathbf u}{&lt;\mathbf v, \mathbf u&gt;}.
 \]</span></p>
