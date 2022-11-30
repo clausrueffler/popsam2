@@ -22,7 +22,7 @@ In this *R*-exercise you will investigate how the proportions of individuals in 
 $$
 p_1(t)=\frac{N_1(t)}{N_1(t)+N_2(t)+N_3(t)}=\frac{N_1(t)}{N_{\mathrm{tot}}(t)}.
 $$
-The propotions $p_1(t)$ is the probability that a randomly sampled individual from the population belongs to age class 1. The proportions of individuals belonging to age class 2 and 3 are calculated analogously. Note that by definition at all times $t$ the proportions add upp to 1, i.e.,
+The proportion $p_1(t)$ is the probability that a randomly sampled individual from the population belongs to age class 1. The proportion of individuals belonging to age class 2 and 3 are calculated analogously. Note that by definition at all times $t$ the proportions add up to 1, i.e.,
 
 $$
 p_1(t)+p_2(t)+p_3(t)=1.
