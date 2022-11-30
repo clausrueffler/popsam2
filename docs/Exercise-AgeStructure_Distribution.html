@@ -374,7 +374,7 @@ matplot(0:length, t(prop.age3), type=&quot;l&quot;, col = rainbow(10), ylab = &q
 <p>We can print the values for the proportions at the end of the time series:</p>
 <pre class="r"><code>t(matrix(c(prop.age1[, length+1], prop.age2[, length+1], prop.age3[, length+1]), nrow = 10)) # produces a matrix that in each colum contains the final proportion for a different initial population vector N(0).</code></pre>
 <ol style="list-style-type: lower-roman">
-<li><p>Make yourself clear what these graphs show. What do you conclude about the dynamics of the relative proportions of the three age-classes and their dependence on the initial population vector $N(0)?</p></li>
+<li><p>Make yourself clear what these graphs show. What do you conclude about the dynamics of the relative proportions of the three age-classes and their dependence on the initial population vector <span class="math inline">\(\mathbf N(0)\)</span>?</p></li>
 <li><p>Do the final relative proportions depend on the values in the population projection matrix <span class="math inline">\(\mathsf L\)</span>? To investigate this question, let us modify the above population projection matrix <span class="math inline">\(\mathsf L\)</span>. More specifically, please change <span class="math inline">\(s_1=0.3\)</span> to <span class="math inline">\(s_1=0.25\)</span> and determine the relative proportions in the different age-classes once the population does not fluctuate anymore.</p></li>
 </ol>
 <p>Note that for later exercises, you will have to be able to compute the stable age distribution for other matrices.</p>
