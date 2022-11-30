@@ -76,7 +76,7 @@ You can print the relative proportions in each age class at the end of the time 
 time.series.prop[, length + 1]
 ```
 
-Increase the length of the time series to $length=40$. What do you conclude about how the proportion of individuals in the different age classes changes over time?
+<!--Increase the length of the time series to $length=40$. What do you conclude about how the proportion of individuals in the different age classes changes over time?-->
 
 ### 2) How is your conclusion affected by the initial population vector $\mathbf N(0)$?
 
