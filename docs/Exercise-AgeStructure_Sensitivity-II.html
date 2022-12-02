@@ -356,7 +356,7 @@ N.tot &lt;- sum(time.series[ , length+1]) # sum of the densities contained in th
 
 right.EV &lt;- time.series[ , length+1]/N.tot # right eigenvector standardized such that its entries sum up to one. This vector represents proportions in the stable age distribution.
 right.EV # print stable age distribution</code></pre>
-<p>In order to obtain the left eigenvector, that is, the vector of reproductive values, we follow exacty the same procedure but using the transpose <span class="math inline">\(\sf L^{\mathrm{T}}\)</span> of the population projection matrix.</p>
+<p>In order to obtain the left eigenvector, that is, the vector of reproductive values, we follow exactly the same procedure but use the transpose <span class="math inline">\(\sf L^{\mathrm{T}}\)</span> of the population projection matrix.</p>
 <pre class="r"><code>L.transpose &lt;- t(L) # transpose of the population projection matrix L
 time.series.transpose &lt;- matrix(N.0)
 
@@ -377,7 +377,7 @@ outer.prod &lt;- outer(left.EV, right.EV) # this corresponds to v^T*u
 outer.prod # prints the outer product
 sensitivities &lt;- outer.prod/inner.prod[1, 1] # note that by writing inner.prod[1, 1] we extract the value from a &quot;one-dimensional matrix&quot;
 sensitivities # prints the sensitivity matrix</code></pre>
-<p>Each entry of this matrix contains the sensitivity of <span class="math inline">\(\lambda\)</span> corresponding to the matrix entry at that particular position.</p>
+<p>Each entry of this matrix contains the sensitivity of <span class="math inline">\(\lambda\)</span> with respect to the matrix entry at that corresponding position of the population projection matrix.</p>
 <ol style="list-style-type: decimal">
 <li><p>Note that this matrix has only non-zero entries while our population projection matrix <span class="math inline">\(\sf L\)</span> has five entries that are equal to zero. What is the meaning of the sensitivity of matrix entry that is zero? For example, in <span class="math inline">\(\sf L\)</span> fecundity of one year old individuals equals zero, <span class="math inline">\(f_1=0\)</span>. But the derivative of <span class="math inline">\(\lambda\)</span> with respect to <span class="math inline">\(f_1\)</span> equals <span class="math inline">\(0.9023\)</span>. What does this mean?</p></li>
 <li><p>What conclusion do you draw from the sensitivity matrix <span class="math inline">\(\sf S\)</span> from a conservation perspective?</p></li>
@@ -391,10 +391,10 @@ sensitivities # prints the sensitivity matrix</code></pre>
 <p><span class="math display">\[
 \mathsf E=\frac{a_{ij}}{\lambda}\mathsf S=\frac{a_{ij}}{\lambda}\frac{\mathbf v^{\mathrm T} \mathbf u}{&lt;\mathbf v, \mathbf u&gt;}.
 \]</span></p>
-<p>This gives the <em>proportional change</em> in <span class="math inline">\(\lambda\)</span> given a proportional change in the demographic parameter <span class="math inline">\(a_{ij}\)</span>. In other words, it gives by how many percentages <span class="math inline">\(\lambda\)</span> changes given a change in percentage of the matrix entry <span class="math inline">\(a_{ij}\)</span>. We can compute the elasity matrix as follows:</p>
+<p>This gives the <em>proportional change</em> in <span class="math inline">\(\lambda\)</span> given a proportional change in the demographic parameter <span class="math inline">\(a_{ij}\)</span>. In other words, it gives by how many percentages <span class="math inline">\(\lambda\)</span> changes given a change in percentage of the matrix entry <span class="math inline">\(a_{ij}\)</span>. We can compute the elasticity matrix as follows:</p>
 <pre class="r"><code>elasticities &lt;- (1/lambda)*L*sensitivities # matrix of elasticities. Here, L*sensitivities is the &quot;element-wise product matrix&quot;
 elasticities # print elasticities</code></pre>
-<p>Two observations are noteworthy about the elasiticity matrix <span class="math inline">\(\sf E\)</span>. First, for matrix entries <span class="math inline">\(a_{ij}=0\)</span> the corresponding elastity value <span class="math inline">\(e_{ij}\)</span> equals zero as well. This is because we multiply each sensitivity value with the correspoding value <span class="math inline">\(a_{ij}\)</span> when computing the elasticities. Second, the entries of the elasticity matrix <span class="math inline">\(\sf E\)</span> sum up to one. This indicates that its entries indeed give the proportional effect of each matrix entry <span class="math inline">\(a_{ij}\)</span> on <span class="math inline">\(\lambda\)</span>.</p>
+<p>Two observations are noteworthy about the elasticity matrix <span class="math inline">\(\sf E\)</span>. First, for matrix entries <span class="math inline">\(a_{ij}=0\)</span> the corresponding elasticity value <span class="math inline">\(e_{ij}\)</span> equals zero as well. This is because we multiply each sensitivity value with the corresponding value <span class="math inline">\(a_{ij}\)</span> when computing the elasticities. Second, the entries of the elasticity matrix <span class="math inline">\(\sf E\)</span> sum up to one. This indicates that its entries indeed give the proportional effect of each matrix entry <span class="math inline">\(a_{ij}\)</span> on <span class="math inline">\(\lambda\)</span>.</p>
 <ol style="list-style-type: decimal">
 <li>How does your prediction based on the elasticity matrix <span class="math inline">\(\sf E\)</span> compare to the previous exercise when you increased all matrix entries equally by <span class="math inline">\(40 \%\)</span>?</li>
 </ol>

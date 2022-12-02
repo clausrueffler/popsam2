@@ -114,7 +114,7 @@ matplot(0:length, t(prop.age3), type="l", col = rainbow(10), ylab = "relative pr
 We can print the values for the proportions at the end of the time series:
 
 ```{r eval=FALSE}
-t(matrix(c(prop.age1[, length+1], prop.age2[, length+1], prop.age3[, length+1]), nrow = 10)) # produces a matrix that in each colum contains the final proportion for a different initial population vector N(0).
+t(matrix(c(prop.age1[, length+1], prop.age2[, length+1], prop.age3[, length+1]), nrow = 10)) # produces a matrix that in each column contains the final proportion for a different initial population vector N(0).
 ```
 
 i) Make yourself clear what these graphs show. What do you conclude about the dynamics of the relative proportions of the three age-classes and their dependence on the initial population vector $\mathbf N(0)$?

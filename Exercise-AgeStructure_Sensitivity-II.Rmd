@@ -92,7 +92,7 @@ right.EV <- time.series[ , length+1]/N.tot # right eigenvector standardized such
 right.EV # print stable age distribution
 ```
 
-In order to obtain the left eigenvector, that is, the vector of reproductive values, we follow exacty the same procedure but using the transpose $\sf L^{\mathrm{T}}$ of the population projection matrix.
+In order to obtain the left eigenvector, that is, the vector of reproductive values, we follow exactly the same procedure but use the transpose $\sf L^{\mathrm{T}}$ of the population projection matrix.
 
 ```{r eval=FALSE}
 L.transpose <- t(L) # transpose of the population projection matrix L
@@ -121,7 +121,7 @@ sensitivities <- outer.prod/inner.prod[1, 1] # note that by writing inner.prod[1
 sensitivities # prints the sensitivity matrix
 ```
 
-Each entry of this matrix contains the sensitivity of $\lambda$ corresponding to the matrix entry at that particular position.
+Each entry of this matrix contains the sensitivity of $\lambda$ with respect to the matrix entry at that corresponding position of the population projection matrix.
 
   1) Note that this matrix has only non-zero entries while our population projection matrix $\sf L$ has five entries that are equal to zero. What is the meaning of the sensitivity of matrix entry that is zero? For example, in $\sf L$ fecundity of one year old individuals equals zero, $f_1=0$. But the derivative of $\lambda$ with respect to $f_1$ equals $0.9023$. What does this mean?
   
@@ -139,13 +139,13 @@ $$
 \mathsf E=\frac{a_{ij}}{\lambda}\mathsf S=\frac{a_{ij}}{\lambda}\frac{\mathbf v^{\mathrm T} \mathbf u}{<\mathbf v, \mathbf u>}.
 $$
 
-This gives the *proportional change* in $\lambda$ given a proportional change in the demographic parameter $a_{ij}$. In other words, it gives by how many percentages $\lambda$ changes given a change in percentage of the matrix entry $a_{ij}$. We can compute the elasity matrix as follows:
+This gives the *proportional change* in $\lambda$ given a proportional change in the demographic parameter $a_{ij}$. In other words, it gives by how many percentages $\lambda$ changes given a change in percentage of the matrix entry $a_{ij}$. We can compute the elasticity matrix as follows:
 
 ```{r eval=FALSE}
 elasticities <- (1/lambda)*L*sensitivities # matrix of elasticities. Here, L*sensitivities is the "element-wise product matrix"
 elasticities # print elasticities
 ```
 
-Two observations are noteworthy about the elasiticity matrix $\sf E$. First, for matrix entries $a_{ij}=0$ the corresponding elastity value $e_{ij}$ equals zero as well. This is because we multiply each sensitivity value with the correspoding value $a_{ij}$ when computing the elasticities. Second, the entries of the elasticity matrix $\sf E$ sum up to one. This indicates that its entries indeed give the proportional effect of each matrix entry $a_{ij}$ on $\lambda$.
+Two observations are noteworthy about the elasticity matrix $\sf E$. First, for matrix entries $a_{ij}=0$ the corresponding elasticity value $e_{ij}$ equals zero as well. This is because we multiply each sensitivity value with the corresponding value $a_{ij}$ when computing the elasticities. Second, the entries of the elasticity matrix $\sf E$ sum up to one. This indicates that its entries indeed give the proportional effect of each matrix entry $a_{ij}$ on $\lambda$.
 
   1) How does your prediction based on the elasticity matrix $\sf E$ compare to the previous exercise when you increased all matrix entries equally by $40 \%$?
