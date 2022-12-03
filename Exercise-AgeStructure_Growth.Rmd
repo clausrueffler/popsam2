@@ -147,7 +147,7 @@ N(t+1)=\lambda N(t) \Longleftrightarrow  \lambda=\frac{N(t+1)}{N(t)}.
 $$
 
 Can we calculate something that is analogous to $\lambda$ but for structured populations? More specifically, can we find a single quantity that informs us whether a structured population is growing or shrinking in the long run?
-Let us look at the ratio of densites at time step *t* and *(t+1)* for age class *j*. We denote this quantity by $\lambda_j(t)$, i.e.,
+Let us look at the ratio of densities at time step *t* and *(t+1)* for age class *j*. We denote this quantity by $\lambda_j(t)$, i.e.,
 
 $$
 \lambda_j(t) = \frac{N_j(t+1)}{N_j(t)}\,\,\,{\mathrm{for}}\,\,\, j\in\{1,2,3\}.
@@ -186,7 +186,7 @@ What do you observe?
 
 To produce the same plot for the second and third age class you have to "select" the entries from the second and third row, respectively, from the matrix ```time.series``` that contains the densities for these age classes.
 
-```{r eval=FALSE, echo=FALSE}
+```{r eval=TRUE, echo=FALSE, fig.show='hide'}
 Lambda.2 <- matrix(1, nrow=1)
 for (i in 1:length){
   Lambda.2 <- cbind(Lambda.2, time.series[2,i+1]/time.series[2,i]) # we select densities from the second row of the matrix time.series that contains the densities in age class 2
@@ -202,7 +202,7 @@ plot(0:length, Lambda.3, type="l", ylab = expression(lambda[3](t)=='N'[3](t+1)/'
 
 We can do the same calculation for the total population size $N_{\mathrm{tot}}$. Before you actually do this calculation, think for a second: What do you expect is the outcome?
 
-```{r eval=FALSE}
+```{r eval=TRUE, echo=TRUE, fig.show='hide'}
 Lambda.tot <- matrix(1, nrow=1)
 for (i in 1:length){
   Lambda.tot <- cbind(Lambda.tot, N.tot[i+1]/N.tot[i])
@@ -221,6 +221,32 @@ Lambda.tot[length] # growth factor for the total population size
 ```
 
 What do you observe? What do you conclude from your results about the existence of a single quantity that allows to predict whether a population grows or shrinks?
+
+```{r echo=FALSE, eval=FALSE}
+# Data frame showing the lambda-values for the three different age-classes and
+# and the total population size depending on how long we simulate the time series.
+# For t=100, all lambda-values are equal up to six digits after the comma.
+lambda.t10 <- c(Lambda.1[11], Lambda.2[11],Lambda.3[11],Lambda.tot[11])
+lambda.t20 <- c(Lambda.1[21], Lambda.2[21],Lambda.3[21],Lambda.tot[21])
+lambda.t30 <- c(Lambda.1[31], Lambda.2[31],Lambda.3[31],Lambda.tot[31])
+lambda.t40 <- c(Lambda.1[41], Lambda.2[41],Lambda.3[41],Lambda.tot[41])
+lambda.t50 <- c(Lambda.1[51], Lambda.2[51],Lambda.3[51],Lambda.tot[51])
+lambda.t60 <- c(Lambda.1[61], Lambda.2[61],Lambda.3[61],Lambda.tot[61])
+lambda.t80 <- c(Lambda.1[81], Lambda.2[81],Lambda.3[81],Lambda.tot[81])
+lambda.t100 <- c(Lambda.1[101], Lambda.2[101],Lambda.3[101],Lambda.tot[101])
+lambda.time <- data.frame(lambda.t10, lambda.t20, lambda.t40, lambda.t60, lambda.t80, lambda.t100)
+colnames(lambda.time) <- c("t=10", "t=20", "t=40", "t=60", "t=80", "t=100")
+rownames(lambda.time) <- c("lambda.1", "lambda.2", "lambda.3", "lambda.tot")
+lambda.time
+```
+<!--
+```{r, eval=FALSE}
+knitr::kable(
+  lambda.time, format = "html", table.attr = "style='width:30%;'", caption = 'Table caption'
+)
+```
+-->
+
 
 ### 2) To what extend does the population dynamics depend on the initial population vector $\mathbf N(0)$?
 

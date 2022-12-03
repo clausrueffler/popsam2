@@ -411,7 +411,7 @@ matplot(0:length, N.tot, type=&quot;l&quot;, log=&quot;y&quot;, ylab = &quot;log
 <p><span class="math display">\[
 N(t+1)=\lambda N(t) \Longleftrightarrow  \lambda=\frac{N(t+1)}{N(t)}.
 \]</span></p>
-<p>Can we calculate something that is analogous to <span class="math inline">\(\lambda\)</span> but for structured populations? More specifically, can we find a single quantity that informs us whether a structured population is growing or shrinking in the long run? Let us look at the ratio of densites at time step <em>t</em> and <em>(t+1)</em> for age class <em>j</em>. We denote this quantity by <span class="math inline">\(\lambda_j(t)\)</span>, i.e.,</p>
+<p>Can we calculate something that is analogous to <span class="math inline">\(\lambda\)</span> but for structured populations? More specifically, can we find a single quantity that informs us whether a structured population is growing or shrinking in the long run? Let us look at the ratio of densities at time step <em>t</em> and <em>(t+1)</em> for age class <em>j</em>. We denote this quantity by <span class="math inline">\(\lambda_j(t)\)</span>, i.e.,</p>
 <p><span class="math display">\[
 \lambda_j(t) = \frac{N_j(t+1)}{N_j(t)}\,\,\,{\mathrm{for}}\,\,\, j\in\{1,2,3\}.
 \]</span></p>
@@ -442,6 +442,14 @@ Lambda.2[length] # growth factor for age-class 2 at the end of the time series (
 Lambda.3[length] # growth factor for age-class 3 at the end of the time series (only works if you did the calculations for this age-class)
 Lambda.tot[length] # growth factor for the total population size</code></pre>
 <p>What do you observe? What do you conclude from your results about the existence of a single quantity that allows to predict whether a population grows or shrinks?</p>
+<!--
+
+```r
+knitr::kable(
+  lambda.time, format = "html", table.attr = "style='width:30%;'", caption = 'Table caption'
+)
+```
+-->
 </div>
 <div id="to-what-extend-does-the-population-dynamics-depend-on-the-initial-population-vector-mathbf-n0" class="section level3">
 <h3>2) To what extend does the population dynamics depend on the initial population vector <span class="math inline">\(\mathbf N(0)\)</span>?</h3>
