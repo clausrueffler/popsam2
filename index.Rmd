@@ -6,7 +6,11 @@ output:
 ---
 *Claus' Exercises*
 
-This website contains the exercises for the part "Structured populations". Click the exercise button and select the different exercises in the drop-down menu. Please do the exercises by copying the *R*-code and pasting it in the script window of your *R*-Studio application.
+This website contains the exercises for the part "Structured populations". Click the exercise button and select the different exercises in the drop-down menu.
+
+Please do these exercises by copying the *R*-code and pasting it in the script window of your *R*-Studio application. You do not have to submit your answers for these exercises. However, it is important that you understand what the code does, because you will have to use this code (or similar code) in later exercises.
+
+Thus, please collect this code in your own script or Rmarkdown document, to which you add your own comments for clarification.
 
 **Enjoy!**
 
