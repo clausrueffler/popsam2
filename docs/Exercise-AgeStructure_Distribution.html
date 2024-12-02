@@ -13,7 +13,7 @@
 
 <title>Exercise: Structure Populations - State Distribution</title>
 
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
@@ -182,8 +182,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -191,16 +191,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -294,19 +287,53 @@ $(document).ready(function () {
   addClassKlippyTo("pre.r, pre.markdown");
   addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
 </script>
-<div id="structure-populations---state-distribution" class="section level1 tabset">
+<div id="structure-populations---state-distribution"
+class="section level1 tabset">
 <h1 class="tabset">Structure Populations - State Distribution</h1>
-<p>In the previous exercise, we found that the dynamics of an age-structured population is governed by a single number <span class="math inline">\(\lambda\)</span> that desribes how fast the population grows from one time step to the next. More specifically, initially the densities in the different age classes can fluctuate but these fluctuations disappear after some time (transient dynamics) and from then on the population - as a whole as well as the density in each class - grow by the same factor <span class="math inline">\(\lambda\)</span> from one time step to the next. We also found that the value of <span class="math inline">\(\lambda\)</span> does NOT depend on the intial population vector <span class="math inline">\(\mathbf N(0)\)</span> but only on the population projection matrix <span class="math inline">\(\mathsf L\)</span>. This value of <span class="math inline">\(\lambda\)</span> is known as the <em>dominant eigenvalue</em> of the matrix <span class="math inline">\(\mathsf L\)</span>.</p>
-<p>In this <em>R</em>-exercise you will investigate how the proportions of individuals in the different age classes changes over time. One might for example wonder whether any of the age classes grows or shrinks faster than others and how the proportions of individuals in the different age classes depends on the initial population vector <span class="math inline">\(\mathbf N(0)\)</span>? The proportion (or relative frequency) <span class="math inline">\(p_1(t)\)</span> of individuals in age class 1 at time <span class="math inline">\(t\)</span> is defined as</p>
+<p>In the previous exercise, we found that the dynamics of an
+age-structured population is governed by a single number <span
+class="math inline">\(\lambda\)</span> that desribes how fast the
+population grows from one time step to the next. More specifically,
+initially the densities in the different age classes can fluctuate but
+these fluctuations disappear after some time (transient dynamics) and
+from then on the population - as a whole as well as the density in each
+class - grow by the same factor <span
+class="math inline">\(\lambda\)</span> from one time step to the next.
+We also found that the value of <span
+class="math inline">\(\lambda\)</span> does NOT depend on the intial
+population vector <span class="math inline">\(\mathbf N(0)\)</span> but
+only on the population projection matrix <span
+class="math inline">\(\mathsf L\)</span>. This value of <span
+class="math inline">\(\lambda\)</span> is known as the <em>dominant
+eigenvalue</em> of the matrix <span class="math inline">\(\mathsf
+L\)</span>.</p>
+<p>In this <em>R</em>-exercise you will investigate how the proportions
+of individuals in the different age classes changes over time. One might
+for example wonder whether any of the age classes grows or shrinks
+faster than others and how the proportions of individuals in the
+different age classes depends on the initial population vector <span
+class="math inline">\(\mathbf N(0)\)</span>? The proportion (or relative
+frequency) <span class="math inline">\(p_1(t)\)</span> of individuals in
+age class 1 at time <span class="math inline">\(t\)</span> is defined
+as</p>
 <p><span class="math display">\[
 p_1(t)=\frac{N_1(t)}{N_1(t)+N_2(t)+N_3(t)}=\frac{N_1(t)}{N_{\mathrm{tot}}(t)}.
-\]</span> The proportion <span class="math inline">\(p_1(t)\)</span> is the probability that a randomly sampled individual from the population belongs to age class 1. The proportion of individuals belonging to age class 2 and 3 are calculated analogously. Note that by definition at all times <span class="math inline">\(t\)</span> the proportions add up to 1, i.e.,</p>
+\]</span> The proportion <span class="math inline">\(p_1(t)\)</span> is
+the probability that a randomly sampled individual from the population
+belongs to age class 1. The proportion of individuals belonging to age
+class 2 and 3 are calculated analogously. Note that by definition at all
+times <span class="math inline">\(t\)</span> the proportions add up to
+1, i.e.,</p>
 <p><span class="math display">\[
 p_1(t)+p_2(t)+p_3(t)=1.
 \]</span></p>
-<div id="how-does-the-proportion-of-individuals-in-the-different-age-classes-change-over-time" class="section level3">
-<h3>1) How does the proportion of individuals in the different age-classes change over time?</h3>
-<p>To look into this question, let us use the same population projection matrix as in the previous exercise.</p>
+<div
+id="how-does-the-proportion-of-individuals-in-the-different-age-classes-change-over-time"
+class="section level3">
+<h3>1) How does the proportion of individuals in the different
+age-classes change over time?</h3>
+<p>To look into this question, let us use the same population projection
+matrix as in the previous exercise.</p>
 <pre class="r"><code>L &lt;- matrix(
   c(0, 1 , 5, 0.3, 0, 0, 0, 0.5, 0),     # we construct a matrix by giving all its entries in a single vector, which we then split into...
   nrow = 3, # ...this many rows and...
@@ -318,7 +345,8 @@ L # print the matrix</code></pre>
 ## [1,]  0.0  1.0    5
 ## [2,]  0.3  0.0    0
 ## [3,]  0.0  0.5    0</code></pre>
-<p>The following code produces a plot of the time series and is taken from the previous exercise.</p>
+<p>The following code produces a plot of the time series and is taken
+from the previous exercise.</p>
 <pre class="r"><code>length &lt;- 40 # length of the time series
 N.0 &lt;- c(2, 2, 1)
 time.series &lt;- matrix(N.0, nrow = 3) # creates a matrix with three rows, called times.series, in which we will store the time series
@@ -328,7 +356,12 @@ for (i in 1:length){# iterates the multiplication L.N(t) as often as specified b
 
 matplot(0:length, t(time.series), type=&quot;l&quot;, lty=1:3, col = 1:3, ylab = &quot;abundance&quot;, xlab = &quot;time&quot;) # plots the time.series for each age-class
 legend(&quot;topleft&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1:3, bty = &quot;N&quot;, horiz = TRUE) # adds a legend</code></pre>
-<p>The next step is to compute at each time <span class="math inline">\(t\)</span> the proportions of the three age-classes based on the population vector (or <span class="math inline">\(p\)</span>-state) <span class="math inline">\(\mathbf{N}(t)\)</span>. This can be done with the following code.</p>
+<p>The next step is to compute at each time <span
+class="math inline">\(t\)</span> the proportions of the three
+age-classes based on the population vector (or <span
+class="math inline">\(p\)</span>-state) <span
+class="math inline">\(\mathbf{N}(t)\)</span>. This can be done with the
+following code.</p>
 <pre class="r"><code>time.series.sum &lt;- colSums(time.series) # vector of length t+1 with the summed abundances at each time step
 time.series.prop1 &lt;- time.series[1, ]/time.series.sum # divides for each t the density of individuals at age 1 by total density at that time
 time.series.prop2 &lt;- time.series[2, ]/time.series.sum # divides for each t the density of individuals at age 2 by total density at that time
@@ -338,13 +371,20 @@ time.series.prop &lt;- matrix(c(time.series.prop1, time.series.prop2, time.serie
 
 matplot(0:length, t(time.series.prop), type=&quot;l&quot;, lty=1:3, ylim = c(0, 1), ylab = &quot;proportions&quot;, xlab = &quot;time&quot;) # plots proportions of individuals for the three age classes; note that we have to take the transpose of the matrix time.series.prop in order for matplot show the time series
 legend(&quot;topright&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1:3, bty = &quot;N&quot;, horiz = TRUE)</code></pre>
-<p>You can print the relative proportions in each age class at the end of the time series by writing:</p>
+<p>You can print the relative proportions in each age class at the end
+of the time series by writing:</p>
 <pre class="r"><code>time.series.prop[, length + 1]</code></pre>
 <!--Increase the length of the time series to $length=40$. What do you conclude about how the proportion of individuals in the different age classes changes over time?-->
 </div>
-<div id="how-is-your-conclusion-affected-by-the-initial-population-vector-mathbf-n0" class="section level3">
-<h3>2) How is your conclusion affected by the initial population vector <span class="math inline">\(\mathbf N(0)\)</span>?</h3>
-<p>To answer this question, let us look at the time development of the proportions for ten different initial population vectors. Do this for times series of length <span class="math inline">\(length=50\)</span>.</p>
+<div
+id="how-is-your-conclusion-affected-by-the-initial-population-vector-mathbf-n0"
+class="section level3">
+<h3>2) How is your conclusion affected by the initial population vector
+<span class="math inline">\(\mathbf N(0)\)</span>?</h3>
+<p>To answer this question, let us look at the time development of the
+proportions for ten different initial population vectors. Do this for
+times series of length <span
+class="math inline">\(length=50\)</span>.</p>
 <pre class="r"><code>length &lt;- 50
 N.0 &lt;- c(c(1,0,0), c(0,1,0), c(0,0,1), c(2,0,0), c(1,1,0), c(1,0,1), c(0,1,1), c(2,1,0), c(2,0,1), c(0,2,1)) # vector containing ten different initial population vectors N(0)
 
@@ -371,13 +411,26 @@ par(mfrow = c(1, 3)) # arranges the next three plots in a single figure
 matplot(0:length, t(prop.age1), type=&quot;l&quot;, col = rainbow(10), ylab = &quot;relative proportion in age class 1&quot;, xlab = &quot;time&quot;) # plot of the relative proportions
 matplot(0:length, t(prop.age2), type=&quot;l&quot;, col = rainbow(10), ylab = &quot;relative proportion in age class 2&quot;, xlab = &quot;time&quot;)
 matplot(0:length, t(prop.age3), type=&quot;l&quot;, col = rainbow(10), ylab = &quot;relative proportion in age class 3&quot;, xlab = &quot;time&quot;)</code></pre>
-<p>We can print the values for the proportions at the end of the time series:</p>
+<p>We can print the values for the proportions at the end of the time
+series:</p>
 <pre class="r"><code>t(matrix(c(prop.age1[, length+1], prop.age2[, length+1], prop.age3[, length+1]), nrow = 10)) # produces a matrix that in each column contains the final proportion for a different initial population vector N(0).</code></pre>
 <ol style="list-style-type: lower-roman">
-<li><p>Make yourself clear what these graphs show. What do you conclude about the dynamics of the relative proportions of the three age-classes and their dependence on the initial population vector <span class="math inline">\(\mathbf N(0)\)</span>?</p></li>
-<li><p>Do the final relative proportions depend on the values in the population projection matrix <span class="math inline">\(\mathsf L\)</span>? To investigate this question, let us modify the above population projection matrix <span class="math inline">\(\mathsf L\)</span>. More specifically, please change <span class="math inline">\(s_1=0.3\)</span> to <span class="math inline">\(s_1=0.25\)</span> and determine the relative proportions in the different age-classes once the population does not fluctuate anymore.</p></li>
+<li><p>Make yourself clear what these graphs show. What do you conclude
+about the dynamics of the relative proportions of the three age-classes
+and their dependence on the initial population vector <span
+class="math inline">\(\mathbf N(0)\)</span>?</p></li>
+<li><p>Do the final relative proportions depend on the values in the
+population projection matrix <span class="math inline">\(\mathsf
+L\)</span>? To investigate this question, let us modify the above
+population projection matrix <span class="math inline">\(\mathsf
+L\)</span>. More specifically, please change <span
+class="math inline">\(s_1=0.3\)</span> to <span
+class="math inline">\(s_1=0.25\)</span> and determine the relative
+proportions in the different age-classes once the population does not
+fluctuate anymore.</p></li>
 </ol>
-<p>Note that for later exercises, you will have to be able to compute the stable age distribution for other matrices.</p>
+<p>Note that for later exercises, you will have to be able to compute
+the stable age distribution for other matrices.</p>
 </div>
 </div>
 

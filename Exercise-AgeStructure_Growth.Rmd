@@ -15,7 +15,7 @@ klippy::klippy(position = c('top', 'right'))
 
 # Structure Populations - Growth {.tabset}
 
-Let us consider an age-structured population with three age-classes with demographic parameters resulting in the population projection matrix
+Let us consider an age-structured population with three age-classes with vital rates resulting in the population projection matrix
 
 $$
 \mathsf{L} = 
@@ -88,7 +88,7 @@ t(N.0) # the transpose of N.0, this becomes a column vector
 ```
 -->
 
-Now let's start analyzing the dynamics of the model defined by the above matrix $\mathsf L$.
+Now let us start analyzing the dynamics of the model defined by the above matrix $\mathsf L$.
 We start with the analysis of the model by producing a time series based on $\mathsf L$ and a vector of initial population sizes, e.g., $\mathbf{N}(0)=(2,2,1)$.
 
 ```{r}
