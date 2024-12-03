@@ -15,9 +15,9 @@ klippy::klippy(position = c('top', 'right'))
 
 # Structure Populations - Sensitivity Analysis II {.tabset}
 
-In the previous exercise, you expolored numerically how population growth and the dominant eigenvalue $\lambda$ of a population projection matrix $\sf L$ changes in response to changes in the different matrix entries, i.e., the different demographic parameters. But this way of anaylyzing the effect of changes in the different demograhic parameters on $\lambda$ has the disadvantage that the result depends on the actual magnitude by which the matrix entries are increased (e.g., $0.1$ or $40\%$).
+In the previous exercise, you explored numerically how population growth and the dominant eigenvalue $\lambda$ of a population projection matrix $\sf L$ changes in response to changes in the different matrix entries, i.e., the different demographic parameters. But this way of analyzing the effect of changes in the different vital rates on $\lambda$ has the disadvantage that the result depends on the actual magnitude by which the matrix entries are increased (e.g., $0.1$ or $40\%$).
 
-An alternative method is *sensitivty analysis*. In this method, we compute the derivative of the dominant eigenvalue $\lambda$ with respect to the different matrix entries. In other words, we calculate the slope of $\lambda$ as a function of each of the different matrix entries. This is what we will do in the this exercise.
+An alternative method is *sensitivity analysis*. In this method, we compute the derivative of the dominant eigenvalue $\lambda$ with respect to the different matrix entries. In other words, we calculate the slope of $\lambda$ as a function of each of the different matrix entries. This is what we will do in the this exercise.
 
 ### Sensistivity analysis
 
@@ -78,7 +78,7 @@ for (i in 1:length){# executes the multiplication of L.N(t) as often as specifie
   time.series <- cbind(time.series, L %*% time.series[ ,i])
 }
 
-matplot(0:length, t(time.series), type="l", lty=1:3, col = 1:3, ylab = "abundance", xlab = "time", main="original matrix") # plots result
+matplot(0:length, t(time.series), type="l", lty=1:3, col = 1:3, ylab = "density", xlab = "time", main="original matrix") # plots result
 legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1:3, bty = "n") # defines legend
 
 lambda <- time.series[1, length+1]/time.series[1, length] # ratio of population size at the end of the time series for age-class 1 gives lambda

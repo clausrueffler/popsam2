@@ -402,13 +402,13 @@ course, we want to iterate this step many times. There are many
 different ways of programming the same task in <em>R</em>. One way to
 iterate the above calculation <em>t</em>-times goes as follows.</p>
 <pre class="r"><code>length &lt;- 10 # length of the time series
-time.series &lt;- matrix(N.0, nrow = 3) # creates a matrix with three rows, called times.series, with N.0 in the first column. This is used to store the time series.
+time.series &lt;- matrix(N.0, nrow = 3) # creates a matrix with three rows, called time.series, with N.0 in the first column. This is used to store the time series.
 
 for (i in 1:length){# iterates the multiplication L.N(t) as often as specified by the parameter length
   time.series &lt;- cbind(time.series, L %*% time.series[ , i]) # executes multiplication of the matrix L with current population vector and stores the result as a new column to the matrix time.series
 }
 
-matplot(0:length, t(time.series), type=&quot;l&quot;, lty=1:3, col = 1, ylab = &quot;abundance&quot;, xlab = &quot;time&quot;) # plots the time.series for each age-class, note that we have to transpose the matrix time.series in order to obtain the correct plot
+matplot(0:length, t(time.series), type=&quot;l&quot;, lty=1:3, col = 1, ylab = &quot;density&quot;, xlab = &quot;time&quot;) # plots the time.series for each age-class, note that we have to transpose the matrix time.series in order to obtain the correct plot
 legend(&quot;topleft&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1, bty = &quot;N&quot;) # adds a legend</code></pre>
 <p><img src="Exercise-AgeStructure_Growth_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <p>What do you observe? Increase the length of the time series to
@@ -416,7 +416,7 @@ legend(&quot;topleft&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &qu
 <p>It is instructive to produce the same plot but with population
 densities on a log-scale. This can be done by adding the option
 <code>log="y"</code> to the plot command.</p>
-<pre class="r"><code>matplot(0:length, t(time.series), type=&quot;l&quot;, log=&quot;y&quot;, lty=1:3, col = 1, ylab = &quot;log abundance&quot;, xlab = &quot;time&quot;) # adding the option log=&quot;y&quot; shows the y-axis on a logarithmic scale
+<pre class="r"><code>matplot(0:length, t(time.series), type=&quot;l&quot;, log=&quot;y&quot;, lty=1:3, col = 1, ylab = &quot;log density&quot;, xlab = &quot;time&quot;) # adding the option log=&quot;y&quot; shows the y-axis on a logarithmic scale
 legend(&quot;topleft&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1, bty = &quot;N&quot;)</code></pre>
 <p>What do you conclude from this? Finally, we can produce a plot of the
 total density <span
@@ -538,9 +538,9 @@ series.</p>
 ten.age2 &lt;- ten.time.series[c(2, 5, 8, 11, 14, 17, 20, 23, 26, 29), ] # 10 time series for age class 2
 ten.age3 &lt;- ten.time.series[c(3, 6, 9, 12, 15, 18, 21, 24, 27, 30), ] # 10 time series for age class 3
 par(mfrow = c(1, 3)) # arranges the next three plots in a single figure
-matplot(0:length, t(ten.age1), type=&quot;l&quot;, col = rainbow(10), ylab = &quot;abundance age-class 1&quot;, xlab = &quot;time&quot;)
-matplot(0:length, t(ten.age2), type=&quot;l&quot;, col = rainbow(10), ylab = &quot;abundance age-class 2&quot;, xlab = &quot;time&quot;)
-matplot(0:length, t(ten.age3), type=&quot;l&quot;, col = rainbow(10), ylab = &quot;abundance age-class 3&quot;, xlab = &quot;time&quot;)</code></pre>
+matplot(0:length, t(ten.age1), type=&quot;l&quot;, col = rainbow(10), ylab = &quot;density age-class 1&quot;, xlab = &quot;time&quot;)
+matplot(0:length, t(ten.age2), type=&quot;l&quot;, col = rainbow(10), ylab = &quot;density age-class 2&quot;, xlab = &quot;time&quot;)
+matplot(0:length, t(ten.age3), type=&quot;l&quot;, col = rainbow(10), ylab = &quot;density age-class 3&quot;, xlab = &quot;time&quot;)</code></pre>
 <p>By adding the plot option <code>log="y"</code>, you can plot the
 y-axis on a log scale. What do you observe?</p>
 <p>Next, let us investigate how the growth factor <span

@@ -292,23 +292,23 @@ class="section level1 tabset">
 <h1 class="tabset">Structure Populations - Sensitivity Analysis I</h1>
 <p>Matrix models are an important tool in two branches of <em>applied
 ecology</em>, conservation and pest control. In the first case, one is
-interested in strategies that would increase the abundance of a rare,
+interested in strategies that would increase the density of a rare,
 endangered species. In the second case, one is interested in strategies
-that reduce the abundance of an undesired but rapidly increasing
-species. What do we mean with a strategy here? Conservation strategies
-concerned with rare species will try to increase survival or fecundity
-of the target species while pest control strategies have the opposite
-aim. In the presence of limited financial resources, which life stage
-should a conservation or control strategy target in order maximize the
-result? We can formalize this question by asking: If we can change
-different demographic parameters <span
-class="math inline">\(a_{ij}\)</span> of a population projection matrix
-<span class="math inline">\(\mathsf A\)</span> by a certain amount <span
-class="math inline">\(\Delta a_{ij}\)</span>, which change will increase
-(in the case of conservation) or decrease (in the case of pest control)
-the dominant eigenvalue <span class="math inline">\(\lambda\)</span> by
-the largest amount? In other words, where should we put our money for
-maximal effect?</p>
+that reduce the density of an undesired but rapidly increasing species.
+What do we mean with a strategy here? Conservation strategies concerned
+with rare species will try to increase survival or fecundity of the
+target species while pest control strategies have the opposite aim. In
+the presence of limited financial resources, which life stage should a
+conservation or control strategy target in order maximize the result? We
+can formalize this question by asking: If we can change different
+demographic parameters <span class="math inline">\(a_{ij}\)</span> of a
+population projection matrix <span class="math inline">\(\mathsf
+A\)</span> by a certain amount <span class="math inline">\(\Delta
+a_{ij}\)</span>, which change will increase (in the case of
+conservation) or decrease (in the case of pest control) the dominant
+eigenvalue <span class="math inline">\(\lambda\)</span> by the largest
+amount? In other words, where should we put our money for maximal
+effect?</p>
 <p>A simple way to answer this question is to change the entries <span
 class="math inline">\(a_{ij}\)</span> by a value that is considered
 realistic and then compute the resulting change in <span
@@ -386,7 +386,7 @@ for (i in 1:length){# executes the multiplication of L.N(t) as often as specifie
   time.series &lt;- cbind(time.series, L %*% time.series[ ,i])
 }
 
-matplot(0:length, t(time.series), type=&quot;l&quot;, lty=1:3, col = 1:3, ylab = &quot;abundance&quot;, xlab = &quot;time&quot;, main=&quot;original matrix&quot;) # plots result
+matplot(0:length, t(time.series), type=&quot;l&quot;, lty=1:3, col = 1:3, ylab = &quot;density&quot;, xlab = &quot;time&quot;, main=&quot;original matrix&quot;) # plots result
 legend(&quot;topright&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1:3, bty = &quot;n&quot;) # defines legend
 
 ### same procedure as above but now for the population projection matrix L.f2
@@ -396,7 +396,7 @@ for (i in 1:length){
   time.series.f2 &lt;- cbind(time.series.f2, L.f2 %*% time.series.f2[ ,i])
 }
 
-matplot(0:length, t(time.series.f2), type=&quot;l&quot;, lty=1:3, col = 1:3, ylab = &quot;abundance&quot;, xlab = &quot;time&quot;, main=&quot;f2 increased&quot;)
+matplot(0:length, t(time.series.f2), type=&quot;l&quot;, lty=1:3, col = 1:3, ylab = &quot;density&quot;, xlab = &quot;time&quot;, main=&quot;f2 increased&quot;)
 legend(&quot;topright&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1:3, bty = &quot;n&quot;)
 
 ### same procedure as above but now for the population projection matrix L.f3
@@ -406,7 +406,7 @@ for (i in 1:length){
   time.series.f3 &lt;- cbind(time.series.f3, L.f3 %*% time.series.f3[ ,i])
 }
 
-matplot(0:length, t(time.series.f3), type=&quot;l&quot;, lty=1:3, col = 1:3, ylab = &quot;abundance&quot;, xlab = &quot;time&quot;, main=&quot;f3 increased&quot;)
+matplot(0:length, t(time.series.f3), type=&quot;l&quot;, lty=1:3, col = 1:3, ylab = &quot;density&quot;, xlab = &quot;time&quot;, main=&quot;f3 increased&quot;)
 legend(&quot;topright&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1:3, bty = &quot;n&quot;)
 
 ### same procedure as above but now for the population projection matrix L.s1
@@ -416,7 +416,7 @@ for (i in 1:length){
   time.series.s1 &lt;- cbind(time.series.s1, L.s1 %*% time.series.s1[ ,i])
 }
 
-matplot(0:length, t(time.series.s1), type=&quot;l&quot;, lty=1:3, col = 1:3, ylab = &quot;abundance&quot;, xlab = &quot;time&quot;, main=&quot;s1 increased&quot;)
+matplot(0:length, t(time.series.s1), type=&quot;l&quot;, lty=1:3, col = 1:3, ylab = &quot;density&quot;, xlab = &quot;time&quot;, main=&quot;s1 increased&quot;)
 legend(&quot;topleft&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1:3, bty = &quot;n&quot;)
 
 ### same procedure as above but now for the population projection matrix L.s2
@@ -426,7 +426,7 @@ for (i in 1:length){
   time.series.s2 &lt;- cbind(time.series.s2, L.s2 %*% time.series.s2[ ,i])
 }
 
-matplot(0:length, t(time.series.s2), type=&quot;l&quot;, lty=1:3, col = 1:3, ylab = &quot;abundance&quot;, xlab = &quot;time&quot;, main=&quot;s2 increased&quot;)
+matplot(0:length, t(time.series.s2), type=&quot;l&quot;, lty=1:3, col = 1:3, ylab = &quot;density&quot;, xlab = &quot;time&quot;, main=&quot;s2 increased&quot;)
 legend(&quot;center&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1:3, bty = &quot;n&quot;)</code></pre>
 <p>To compute the dominant eigenvalue for each matrix, we divide the
 population density at the last time step by the population density at

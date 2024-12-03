@@ -15,7 +15,7 @@ klippy::klippy(position = c('top', 'right'))
 
 # Structure Populations - Sensitivity Analysis I {.tabset}
 
-Matrix models are an important tool in two branches of *applied ecology*, conservation and pest control. In the first case, one is interested in strategies that would increase the abundance of a rare, endangered species. In the second case, one is interested in strategies that reduce the abundance of an undesired but rapidly increasing species. What do we mean with a strategy here? Conservation strategies concerned with rare species will try to increase survival or fecundity of the target species while pest control strategies have the opposite aim. In the presence of limited financial resources, which life stage should a conservation or control strategy target in order maximize the result? We can formalize this question by asking: If we can change different demographic parameters $a_{ij}$ of a population projection matrix $\mathsf A$ by a certain amount $\Delta a_{ij}$, which change will increase (in the case of conservation) or decrease (in the case of pest control) the dominant eigenvalue $\lambda$ by the largest amount? In other words, where should we put our money for maximal effect?
+Matrix models are an important tool in two branches of *applied ecology*, conservation and pest control. In the first case, one is interested in strategies that would increase the density of a rare, endangered species. In the second case, one is interested in strategies that reduce the density of an undesired but rapidly increasing species. What do we mean with a strategy here? Conservation strategies concerned with rare species will try to increase survival or fecundity of the target species while pest control strategies have the opposite aim. In the presence of limited financial resources, which life stage should a conservation or control strategy target in order maximize the result? We can formalize this question by asking: If we can change different demographic parameters $a_{ij}$ of a population projection matrix $\mathsf A$ by a certain amount $\Delta a_{ij}$, which change will increase (in the case of conservation) or decrease (in the case of pest control) the dominant eigenvalue $\lambda$ by the largest amount? In other words, where should we put our money for maximal effect?
 
 A simple way to answer this question is to change the entries $a_{ij}$ by a value that is considered realistic and then compute the resulting change in $\lambda$. Let us consider the same population projection matrix $\sf L$ as in the previous exercises, assuming that it describes the life cycle of a hypothetical endangered species:
 
@@ -79,7 +79,7 @@ for (i in 1:length){# executes the multiplication of L.N(t) as often as specifie
   time.series <- cbind(time.series, L %*% time.series[ ,i])
 }
 
-matplot(0:length, t(time.series), type="l", lty=1:3, col = 1:3, ylab = "abundance", xlab = "time", main="original matrix") # plots result
+matplot(0:length, t(time.series), type="l", lty=1:3, col = 1:3, ylab = "density", xlab = "time", main="original matrix") # plots result
 legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1:3, bty = "n") # defines legend
 
 ### same procedure as above but now for the population projection matrix L.f2
@@ -89,7 +89,7 @@ for (i in 1:length){
   time.series.f2 <- cbind(time.series.f2, L.f2 %*% time.series.f2[ ,i])
 }
 
-matplot(0:length, t(time.series.f2), type="l", lty=1:3, col = 1:3, ylab = "abundance", xlab = "time", main="f2 increased")
+matplot(0:length, t(time.series.f2), type="l", lty=1:3, col = 1:3, ylab = "density", xlab = "time", main="f2 increased")
 legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1:3, bty = "n")
 
 ### same procedure as above but now for the population projection matrix L.f3
@@ -99,7 +99,7 @@ for (i in 1:length){
   time.series.f3 <- cbind(time.series.f3, L.f3 %*% time.series.f3[ ,i])
 }
 
-matplot(0:length, t(time.series.f3), type="l", lty=1:3, col = 1:3, ylab = "abundance", xlab = "time", main="f3 increased")
+matplot(0:length, t(time.series.f3), type="l", lty=1:3, col = 1:3, ylab = "density", xlab = "time", main="f3 increased")
 legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1:3, bty = "n")
 
 ### same procedure as above but now for the population projection matrix L.s1
@@ -109,7 +109,7 @@ for (i in 1:length){
   time.series.s1 <- cbind(time.series.s1, L.s1 %*% time.series.s1[ ,i])
 }
 
-matplot(0:length, t(time.series.s1), type="l", lty=1:3, col = 1:3, ylab = "abundance", xlab = "time", main="s1 increased")
+matplot(0:length, t(time.series.s1), type="l", lty=1:3, col = 1:3, ylab = "density", xlab = "time", main="s1 increased")
 legend("topleft", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1:3, bty = "n")
 
 ### same procedure as above but now for the population projection matrix L.s2
@@ -119,7 +119,7 @@ for (i in 1:length){
   time.series.s2 <- cbind(time.series.s2, L.s2 %*% time.series.s2[ ,i])
 }
 
-matplot(0:length, t(time.series.s2), type="l", lty=1:3, col = 1:3, ylab = "abundance", xlab = "time", main="s2 increased")
+matplot(0:length, t(time.series.s2), type="l", lty=1:3, col = 1:3, ylab = "density", xlab = "time", main="s2 increased")
 legend("center", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1:3, bty = "n")
 ```
 
@@ -188,7 +188,7 @@ for (i in 1:length){# executes the multiplication of L.N(t) as often as specifie
   time.series <- cbind(time.series, L %*% time.series[ ,i])
 }
 
-matplot(0:length, t(time.series), type="l", lty=1:3, col = 1:3, ylab = "abundance", xlab = "time", main="original matrix") # plots result
+matplot(0:length, t(time.series), type="l", lty=1:3, col = 1:3, ylab = "density", xlab = "time", main="original matrix") # plots result
 legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1:3, bty = "n") # defines legend
 
 ### same procedure as above but now for the population projection matrix L.f2
@@ -198,7 +198,7 @@ for (i in 1:length){
   time.series.f2.prop <- cbind(time.series.f2.prop, L.f2.prop %*% time.series.f2.prop[ ,i])
 }
 
-matplot(0:length, t(time.series.f2.prop), type="l", lty=1:3, col = 1:3, ylab = "abundance", xlab = "time", main="f2 increased")
+matplot(0:length, t(time.series.f2.prop), type="l", lty=1:3, col = 1:3, ylab = "density", xlab = "time", main="f2 increased")
 legend("topright", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1:3, bty = "n")
 
 ### same procedure as above but now for the population projection matrix L.f3
@@ -208,7 +208,7 @@ for (i in 1:length){
   time.series.f3.prop <- cbind(time.series.f3.prop, L.f3.prop %*% time.series.f3.prop[ ,i])
 }
 
-matplot(0:length, t(time.series.f3.prop), type="l", lty=1:3, col = 1:3, ylab = "abundance", xlab = "time", main="f3 increased")
+matplot(0:length, t(time.series.f3.prop), type="l", lty=1:3, col = 1:3, ylab = "density", xlab = "time", main="f3 increased")
 legend("topleft", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1:3, bty = "n")
 
 ### same procedure as above but now for the population projection matrix L.s1
@@ -218,7 +218,7 @@ for (i in 1:length){
   time.series.s1.prop <- cbind(time.series.s1.prop, L.s1.prop %*% time.series.s1.prop[ ,i])
 }
 
-matplot(0:length, t(time.series.s1.prop), type="l", lty=1:3, col = 1:3, ylab = "abundance", xlab = "time", main="s1 increased")
+matplot(0:length, t(time.series.s1.prop), type="l", lty=1:3, col = 1:3, ylab = "density", xlab = "time", main="s1 increased")
 legend("topleft", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1:3, bty = "n")
 
 ### same procedure as above but now for the population projection matrix L.s2
@@ -228,7 +228,7 @@ for (i in 1:length){
   time.series.s2.prop <- cbind(time.series.s2.prop, L.s2.prop %*% time.series.s2.prop[ ,i])
 }
 
-matplot(0:length, t(time.series.s2.prop), type="l", lty=1:3, col = 1:3, ylab = "abundance", xlab = "time", main="s2 increased")
+matplot(0:length, t(time.series.s2.prop), type="l", lty=1:3, col = 1:3, ylab = "density", xlab = "time", main="s2 increased")
 legend("topleft", legend = c("age 1", "age 2", "age 3"), lty = 1:3, col = 1:3, bty = "n")
 ```
 
