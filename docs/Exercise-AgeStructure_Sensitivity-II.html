@@ -392,8 +392,8 @@ sensitivities # prints the sensitivity matrix</code></pre>
 e_{ij}=\frac{a_{ij}}{\lambda}s_{ij}.
 \]</span> To compute the whole elasticity matrix in one step, we can use the formula</p>
 <p><span class="math display">\[
-\mathsf E=\frac{1}{\lambda}\mathsf L*\mathsf S=\frac{a_{ij}}{\lambda}\frac{\mathbf v^{\mathrm T} \mathbf u}{&lt;\mathbf v, \mathbf u&gt;}.
-\]</span></p>
+\mathsf E=\frac{1}{\lambda}\mathsf L*\mathsf S.
+\]</span> In this last equation, the <span class="math inline">\(*\)</span> between the matrix <span class="math inline">\(\mathsf L\)</span> and <span class="math inline">\(\mathsf S\)</span> does not denote <em>normal matrix multiplication</em> but <em>element-wise multiplication</em>, that is, multiplication of <span class="math inline">\(l_{ij}\)</span> with <span class="math inline">\(s_{ij}\)</span> in all positions of the matrices.</p>
 <p>Elasticities give the <em>proportional change</em> in <span class="math inline">\(\lambda\)</span> given a proportional change in the demographic parameter <span class="math inline">\(a_{ij}\)</span>. In other words, it gives by how many percentages <span class="math inline">\(\lambda\)</span> changes given a change in percentage of the matrix entry <span class="math inline">\(a_{ij}\)</span>. We can compute the elasticity matrix as follows:</p>
 <pre class="r"><code>elasticities &lt;- (1/lambda)*L*sensitivities # matrix of elasticities. Here, L*sensitivities is the &quot;element-wise product matrix&quot;
 elasticities # print elasticities</code></pre>

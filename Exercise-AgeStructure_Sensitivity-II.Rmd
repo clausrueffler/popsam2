@@ -141,8 +141,9 @@ $$
 To compute the whole elasticity matrix in one step, we can use the formula
 
 $$
-\mathsf E=\frac{1}{\lambda}\mathsf L*\mathsf S=\frac{a_{ij}}{\lambda}\frac{\mathbf v^{\mathrm T} \mathbf u}{<\mathbf v, \mathbf u>}.
+\mathsf E=\frac{1}{\lambda}\mathsf L*\mathsf S.
 $$
+In this last equation, the $*$ between the matrix $\mathsf L$ and $\mathsf S$ does not denote *normal matrix multiplication* but *element-wise multiplication*, that is, multiplication of $l_{ij}$ with $s_{ij}$ in all positions of the matrices.
 
 Elasticities give the *proportional change* in $\lambda$ given a proportional change in the demographic parameter $a_{ij}$. In other words, it gives by how many percentages $\lambda$ changes given a change in percentage of the matrix entry $a_{ij}$. We can compute the elasticity matrix as follows:
 
