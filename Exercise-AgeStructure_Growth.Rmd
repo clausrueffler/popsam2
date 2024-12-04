@@ -1,5 +1,5 @@
 ---
-pagetitle: 'Exercise: Structure Populations - Growth'
+pagetitle: 'Exercise: Structured Populations - Growth'
 output: 
   html_document:
     toc: FALSE

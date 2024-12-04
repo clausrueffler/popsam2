@@ -1,5 +1,5 @@
 ---
-pagetitle: 'Exercise: Structure Populations - Sensitivity I'
+pagetitle: 'Exercise: Structured Populations - Sensitivity I'
 output: 
   html_document:
     toc: FALSE
