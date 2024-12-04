@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 klippy::klippy(position = c('top', 'right'))
 ```
 
-# Structure Populations - Sensitivity Analysis I {.tabset}
+# Structured Populations - Sensitivity Analysis I {.tabset}
 
 Matrix models are an important tool in two branches of *applied ecology*, conservation and pest control. In the first case, one is interested in strategies that would increase the density of a rare, endangered species. In the second case, one is interested in strategies that reduce the density of an undesired but rapidly increasing species. What do we mean with a strategy here? Conservation strategies concerned with rare species will try to increase survival or fecundity of the target species while pest control strategies have the opposite aim. In the presence of limited financial resources, which life stage should a conservation or control strategy target in order maximize the result? We can formalize this question by asking: If we can change different demographic parameters $a_{ij}$ of a population projection matrix $\mathsf A$ by a certain amount $\Delta a_{ij}$, which change will increase (in the case of conservation) or decrease (in the case of pest control) the dominant eigenvalue $\lambda$ by the largest amount? In other words, where should we put our money for maximal effect?
 

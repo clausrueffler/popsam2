@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 klippy::klippy(position = c('top', 'right'))
 ```
 
-# Structure Populations - Growth {.tabset}
+# Structured Populations - Growth {.tabset}
 
 Let us consider an age-structured population with three age-classes with vital rates resulting in the population projection matrix
 
