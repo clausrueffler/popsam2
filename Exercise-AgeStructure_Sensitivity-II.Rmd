@@ -133,13 +133,18 @@ Each entry of this matrix contains the sensitivity of $\lambda$ with respect to 
 
 ### Elasticity analysis
 
-Sensitivities give the absolute change in $\lambda$ given an absolute change in the demographic parameters $a_{ij}$. Thus, sensitivities do not take into account that survival probabilities and fecundities are generally on very different scales. To correct for this, we can compute the *elasticity matrix* $\sf E$, defined as
+Sensitivities give the absolute change in $\lambda$ given an absolute change in the demographic parameters $a_{ij}$. Thus, sensitivities do not take into account that survival probabilities and fecundities are generally on very different scales. To correct for this, we can compute the *elasticity matrix* $\sf E$, with entries $e_{ij}$ defined as
 
 $$
-\mathsf E=\frac{a_{ij}}{\lambda}\mathsf S=\frac{a_{ij}}{\lambda}\frac{\mathbf v^{\mathrm T} \mathbf u}{<\mathbf v, \mathbf u>}.
+e_{ij}=\frac{a_{ij}}{\lambda}s_{ij}.
+$$
+To compute the whole elasticity matrix in one step, we can use the formula
+
+$$
+\mathsf E=\frac{1}{\lambda}\mathsf L*\mathsf S=\frac{a_{ij}}{\lambda}\frac{\mathbf v^{\mathrm T} \mathbf u}{<\mathbf v, \mathbf u>}.
 $$
 
-This gives the *proportional change* in $\lambda$ given a proportional change in the demographic parameter $a_{ij}$. In other words, it gives by how many percentages $\lambda$ changes given a change in percentage of the matrix entry $a_{ij}$. We can compute the elasticity matrix as follows:
+Elasticities give the *proportional change* in $\lambda$ given a proportional change in the demographic parameter $a_{ij}$. In other words, it gives by how many percentages $\lambda$ changes given a change in percentage of the matrix entry $a_{ij}$. We can compute the elasticity matrix as follows:
 
 ```{r eval=FALSE}
 elasticities <- (1/lambda)*L*sensitivities # matrix of elasticities. Here, L*sensitivities is the "element-wise product matrix"
