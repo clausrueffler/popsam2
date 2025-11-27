@@ -57,27 +57,22 @@ L <- matrix(
 L # print the matrix
 ```
 
-Recall the following basics about matrix manipulation. The entry in the *m*-th row and *n*-th column of the matirx $\mathsf L$ can be extracted with ```L[m ,n]```.
+In the following, we revisit some code related to matrix manipulation.
 
-```{R}
+```{R eval = FALSE}
+# The entry in the m-th row and n-th column of the matrix L can be extracted with L[m ,n].
 L[3, 2]  # entry in 3rd row and 2nd column
-```
 
-The entries in the *m*-th row of $\mathsf L$ can be extracted with ```L[m, ]``` and, similarly, the entries in the *n*-th column can be extracted with ```L[ ,n]```.
-
-```{r}
+# The entries in the m-th row of L can be extracted with L[m, ] and, similarly, the entries in the n-th column can be extracted with L[ ,n].
 L[2, ] # the 2nd row
 L[ ,3] # the 3rd column
-```
 
-The *transpose* of a matrix, $\mathsf L^{\mathsf T}$ is the matrix mirrored over its diagonal. The *R*-command is ```t(L)```.
-
-```{r}
+#The transpose of a matrix, L^T is the matrix mirrored over its diagonal. The R-command is t(L).
 t(L) # transpose of L
 ```
 
 <!--
-We can create a vector of intital population densities $\mathbf{N}(0)$ by writing
+We can create a vector of initital population densities $\mathbf{N}(0)$ by writing
 
 ```{r}
 N.0 <- matrix(c(1, 1, 1), nrow = 1, ncol = 3, byrow = T) # a 1 by 3 matrix, i.e., a row vector
@@ -94,7 +89,7 @@ We start with the analysis of the model by producing a time series based on $\ma
 ```{r}
 N.0 <- c(2,2,1) # creates vector N.0 of initial densities
 N.1 <- L %*% N.0 # produces the vector N.1 by multiplying L with N.0. Note that %*% indicates matrix multiplication in R
-N.1 # print N.1
+N.1 # show N.1
 ```
 
 This projects the population one time step into the future. Of course, we want to iterate this step many times. There are many different ways of programming the same task in *R*. One way to iterate the above calculation *t*-times goes as follows.
@@ -135,12 +130,9 @@ In the population projection matrix, change $s_1=0.3$ to $s_1=0.25$. Then repeat
 Now we know how to simulate the dynamics of a structured population.
 Next, let us investigate the dynamics in a bit more detail.
 
-1) By what factor does each age class, as well as the population as a whole, grow from one time step to the next?
-2) To what extend does the population dynamics depend on the initial population vector $\mathbf N(0)$?
-
 ### 1) By what factor does each age class, as well as the population as a whole grow from one time step to the next?
 
-In unstructured populations we have
+In unstructured populations, we have
 
 $$
 N(t+1)=\lambda N(t) \Longleftrightarrow  \lambda=\frac{N(t+1)}{N(t)}.

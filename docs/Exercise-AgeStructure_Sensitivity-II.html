@@ -290,8 +290,8 @@ $(document).ready(function () {
 <div id="structured-populations---sensitivity-analysis-ii"
 class="section level1 tabset">
 <h1 class="tabset">Structured Populations - Sensitivity Analysis II</h1>
-<p>In the previous exercise, you explored numerically how population
-growth and the dominant eigenvalue <span
+<p>In the exercise on the previous tab, you explored numerically how
+population growth and the dominant eigenvalue <span
 class="math inline">\(\lambda\)</span> of a population projection matrix
 <span class="math inline">\(\sf L\)</span> changes in response to
 changes in the different matrix entries, i.e., the different demographic
@@ -369,8 +369,9 @@ repeats this calculation.</p>
   byrow = T) # fill matrix by rows
 
 N.0 &lt;- c(2,2,1) # vector of initial densities
-length &lt;- 40 # lenght of the time series</code></pre>
-<pre class="r"><code>time.series &lt;- matrix(N.0) # stores the initial population vector N.0 in the matrix &quot;time.series&quot;
+length &lt;- 40 # lenght of the time series
+
+time.series &lt;- matrix(N.0) # stores the initial population vector N.0 in the matrix &quot;time.series&quot;
 for (i in 1:length){# executes the multiplication of L.N(t) as often as specified by the parameter &quot;length&quot;
   time.series &lt;- cbind(time.series, L %*% time.series[ ,i])
 }

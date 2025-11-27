@@ -15,7 +15,7 @@ klippy::klippy(position = c('top', 'right'))
 
 # Structured Populations - Sensitivity Analysis II {.tabset}
 
-In the previous exercise, you explored numerically how population growth and the dominant eigenvalue $\lambda$ of a population projection matrix $\sf L$ changes in response to changes in the different matrix entries, i.e., the different demographic parameters. But this way of analyzing the effect of changes in the different vital rates on $\lambda$ has the disadvantage that the result depends on the actual magnitude by which the matrix entries are increased (e.g., $0.1$ or $40\%$).
+In the exercise on the previous tab, you explored numerically how population growth and the dominant eigenvalue $\lambda$ of a population projection matrix $\sf L$ changes in response to changes in the different matrix entries, i.e., the different demographic parameters. But this way of analyzing the effect of changes in the different vital rates on $\lambda$ has the disadvantage that the result depends on the actual magnitude by which the matrix entries are increased (e.g., $0.1$ or $40\%$).
 
 An alternative method is *sensitivity analysis*. In this method, we compute the derivative of the dominant eigenvalue $\lambda$ with respect to the different matrix entries. In other words, we calculate the slope of $\lambda$ as a function of each of the different matrix entries. This is what we will do in the this exercise.
 
@@ -61,7 +61,7 @@ $$
 
 Thus, in order to calculate the sensitivity matrix $\sf S$, we first have to calculate the right and left eigenvector of the population projection matrix $\sf L$ corresponding to the dominant eigenvalue $\lambda$. The right eigenvector gives the *stable age-distribution*, which we have calculated already in the first exercise. The following code simply repeats this calculation.
 
-```{r}
+```{r eval=FALSE}
 L <- matrix(
   c(0,1 ,5, 0.25, 0, 0, 0, 0.5, 0),	 # the matrix entries
   nrow = 3, # number of rows
@@ -70,9 +70,7 @@ L <- matrix(
 
 N.0 <- c(2,2,1) # vector of initial densities
 length <- 40 # lenght of the time series
-```
 
-```{r eval=FALSE}
 time.series <- matrix(N.0) # stores the initial population vector N.0 in the matrix "time.series"
 for (i in 1:length){# executes the multiplication of L.N(t) as often as specified by the parameter "length"
   time.series <- cbind(time.series, L %*% time.series[ ,i])

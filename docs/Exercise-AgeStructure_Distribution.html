@@ -312,10 +312,10 @@ of individuals in the different age classes changes over time. One might
 for example wonder whether any of the age classes grows or shrinks
 faster than others and how the proportions of individuals in the
 different age classes depends on the initial population vector <span
-class="math inline">\(\mathbf N(0)\)</span>? The proportion (or relative
-frequency) <span class="math inline">\(p_1(t)\)</span> of individuals in
-age class 1 at time <span class="math inline">\(t\)</span> is defined
-as</p>
+class="math inline">\(\mathbf N(0)\)</span>?</p>
+<p>The proportion (or relative frequency) <span
+class="math inline">\(p_1(t)\)</span> of individuals in age class 1 at
+time <span class="math inline">\(t\)</span> is defined as</p>
 <p><span class="math display">\[
 p_1(t)=\frac{N_1(t)}{N_1(t)+N_2(t)+N_3(t)}=\frac{N_1(t)}{N_{\mathrm{tot}}(t)}.
 \]</span> The proportion <span class="math inline">\(p_1(t)\)</span> is
@@ -338,15 +338,9 @@ matrix as in the previous exercise.</p>
   c(0, 1 , 5, 0.3, 0, 0, 0, 0.5, 0),     # we construct a matrix by giving all its entries in a single vector, which we then split into...
   nrow = 3, # ...this many rows and...
   ncol = 3, # ...and this many columns
-  byrow = T) # fill matrix by rows
-
-L # print the matrix</code></pre>
-<pre><code>##      [,1] [,2] [,3]
-## [1,]  0.0  1.0    5
-## [2,]  0.3  0.0    0
-## [3,]  0.0  0.5    0</code></pre>
+  byrow = T) # fill matrix by rows</code></pre>
 <p>The following code produces a plot of the time series and is taken
-from the previous exercise.</p>
+from the previous tab.</p>
 <pre class="r"><code>length &lt;- 40 # length of the time series
 N.0 &lt;- c(2, 2, 1)
 time.series &lt;- matrix(N.0, nrow = 3) # creates a matrix with three rows, called times.series, in which we will store the time series

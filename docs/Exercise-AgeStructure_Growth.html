@@ -334,31 +334,19 @@ L # print the matrix</code></pre>
 ## [1,]  0.0  1.0    5
 ## [2,]  0.3  0.0    0
 ## [3,]  0.0  0.5    0</code></pre>
-<p>Recall the following basics about matrix manipulation. The entry in
-the <em>m</em>-th row and <em>n</em>-th column of the matirx <span
-class="math inline">\(\mathsf L\)</span> can be extracted with
-<code>L[m ,n]</code>.</p>
-<pre class="r"><code>L[3, 2]  # entry in 3rd row and 2nd column</code></pre>
-<pre><code>## [1] 0.5</code></pre>
-<p>The entries in the <em>m</em>-th row of <span
-class="math inline">\(\mathsf L\)</span> can be extracted with
-<code>L[m, ]</code> and, similarly, the entries in the <em>n</em>-th
-column can be extracted with <code>L[ ,n]</code>.</p>
-<pre class="r"><code>L[2, ] # the 2nd row</code></pre>
-<pre><code>## [1] 0.3 0.0 0.0</code></pre>
-<pre class="r"><code>L[ ,3] # the 3rd column</code></pre>
-<pre><code>## [1] 5 0 0</code></pre>
-<p>The <em>transpose</em> of a matrix, <span
-class="math inline">\(\mathsf L^{\mathsf T}\)</span> is the matrix
-mirrored over its diagonal. The <em>R</em>-command is
-<code>t(L)</code>.</p>
-<pre class="r"><code>t(L) # transpose of L</code></pre>
-<pre><code>##      [,1] [,2] [,3]
-## [1,]    0  0.3  0.0
-## [2,]    1  0.0  0.5
-## [3,]    5  0.0  0.0</code></pre>
+<p>In the following, we revisit some code related to matrix
+manipulation.</p>
+<pre class="r"><code># The entry in the m-th row and n-th column of the matrix L can be extracted with L[m ,n].
+L[3, 2]  # entry in 3rd row and 2nd column
+
+# The entries in the m-th row of L can be extracted with L[m, ] and, similarly, the entries in the n-th column can be extracted with L[ ,n].
+L[2, ] # the 2nd row
+L[ ,3] # the 3rd column
+
+#The transpose of a matrix, L^T is the matrix mirrored over its diagonal. The R-command is t(L).
+t(L) # transpose of L</code></pre>
 <!--
-We can create a vector of intital population densities $\mathbf{N}(0)$ by writing
+We can create a vector of initital population densities $\mathbf{N}(0)$ by writing
 
 
 ```r
@@ -392,7 +380,7 @@ population sizes, e.g., <span
 class="math inline">\(\mathbf{N}(0)=(2,2,1)\)</span>.</p>
 <pre class="r"><code>N.0 &lt;- c(2,2,1) # creates vector N.0 of initial densities
 N.1 &lt;- L %*% N.0 # produces the vector N.1 by multiplying L with N.0. Note that %*% indicates matrix multiplication in R
-N.1 # print N.1</code></pre>
+N.1 # show N.1</code></pre>
 <pre><code>##      [,1]
 ## [1,]  7.0
 ## [2,]  0.6
@@ -410,7 +398,7 @@ for (i in 1:length){# iterates the multiplication L.N(t) as often as specified b
 
 matplot(0:length, t(time.series), type=&quot;l&quot;, lty=1:3, col = 1, ylab = &quot;density&quot;, xlab = &quot;time&quot;) # plots the time.series for each age-class, note that we have to transpose the matrix time.series in order to obtain the correct plot
 legend(&quot;topleft&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1, bty = &quot;N&quot;) # adds a legend</code></pre>
-<p><img src="Exercise-AgeStructure_Growth_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="Exercise-AgeStructure_Growth_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>What do you observe? Increase the length of the time series to
 <code>length=40</code>. What do you observe?</p>
 <p>It is instructive to produce the same plot but with population
@@ -432,19 +420,12 @@ class="math inline">\(s_1=0.25\)</span>. Then repeat the above steps for
 dynamics?</p>
 <p>Now we know how to simulate the dynamics of a structured population.
 Next, let us investigate the dynamics in a bit more detail.</p>
-<ol style="list-style-type: decimal">
-<li>By what factor does each age class, as well as the population as a
-whole, grow from one time step to the next?</li>
-<li>To what extend does the population dynamics depend on the initial
-population vector <span class="math inline">\(\mathbf
-N(0)\)</span>?</li>
-</ol>
 <div
 id="by-what-factor-does-each-age-class-as-well-as-the-population-as-a-whole-grow-from-one-time-step-to-the-next"
 class="section level3">
 <h3>1) By what factor does each age class, as well as the population as
 a whole grow from one time step to the next?</h3>
-<p>In unstructured populations we have</p>
+<p>In unstructured populations, we have</p>
 <p><span class="math display">\[
 N(t+1)=\lambda N(t) \Longleftrightarrow  \lambda=\frac{N(t+1)}{N(t)}.
 \]</span></p>
@@ -474,7 +455,7 @@ for (i in 1:length){
 }
 
 plot(0:length, Lambda.1, type=&quot;l&quot;, ylab = expression(lambda[1](t)==&#39;N&#39;[1](t + 1)/&#39;N&#39;[1](t)), xlab = &quot;time&quot;)</code></pre>
-<p><img src="Exercise-AgeStructure_Growth_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="Exercise-AgeStructure_Growth_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <p>What do you observe?</p>
 <p>To produce the same plot for the second and third age class you have
 to “select” the entries from the second and third row, respectively,

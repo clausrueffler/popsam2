@@ -314,8 +314,8 @@ class="math inline">\(a_{ij}\)</span> by a value that is considered
 realistic and then compute the resulting change in <span
 class="math inline">\(\lambda\)</span>. Let us consider the same
 population projection matrix <span class="math inline">\(\sf L\)</span>
-as in the previous exercises, assuming that it describes the life cycle
-of a hypothetical endangered species:</p>
+as in the exercise on the previous tab, assuming that it describes the
+life cycle of a hypothetical endangered species:</p>
 <p><span class="math display">\[
 \mathsf{L} =
 \begin{pmatrix}
@@ -330,10 +330,10 @@ s_1 &amp; 0 &amp; 0\\
 0 &amp; 0.5 &amp; 0
 \end{pmatrix}.
 \]</span></p>
-<p>In the first exercise, we found that the dominant eigenvalue of this
-matrix <span class="math inline">\(\mathsf L\)</span> equals <span
-class="math inline">\(\lambda=0.952\)</span>. Thus, this population is
-in steep decline.</p>
+<p>In the exercise on the first tab, we found that the dominant
+eigenvalue of this matrix <span class="math inline">\(\mathsf L\)</span>
+equals <span class="math inline">\(\lambda=0.952\)</span>. Thus, this
+population is in steep decline.</p>
 <div id="an-equal-change-change-of-demograhic-parameters"
 class="section level3">
 <h3>An equal change change of demograhic parameters</h3>
@@ -432,8 +432,8 @@ legend(&quot;center&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quo
 population density at the last time step by the population density at
 the previous time step. The code below applies this for the population
 density of individuals in age class 1, but, as we have seen in the first
-exercise, using the densities of age class 2 or 3 or the total density
-would give the same result.</p>
+tab, using the densities of age class 2 or 3 or the total density would
+give the same result.</p>
 <pre class="r"><code>lambda &lt;- time.series[1, length+1]/time.series[1, length] # ratio of population densities at the end of the time series for age-class 1. This gives lambda.
 
 lambda.f2 &lt;- time.series.f2[1, length+1]/time.series.f2[1, length]
