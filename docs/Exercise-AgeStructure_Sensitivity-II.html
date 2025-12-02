@@ -13,7 +13,7 @@
 
 <title>Exercise: Structured Populations - Sensitivity II</title>
 
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
@@ -182,8 +182,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -191,16 +191,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -294,22 +287,51 @@ $(document).ready(function () {
   addClassKlippyTo("pre.r, pre.markdown");
   addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
 </script>
-<div id="structured-populations---sensitivity-analysis-ii" class="section level1 tabset">
+<div id="structured-populations---sensitivity-analysis-ii"
+class="section level1 tabset">
 <h1 class="tabset">Structured Populations - Sensitivity Analysis II</h1>
-<p>In the exercise on the previous tab, you explored numerically how population growth and the dominant eigenvalue <span class="math inline">\(\lambda\)</span> of a population projection matrix <span class="math inline">\(\sf L\)</span> changes in response to changes in the different matrix entries, i.e., the different demographic parameters. But this way of analyzing the effect of changes in the different vital rates on <span class="math inline">\(\lambda\)</span> has the disadvantage that the result depends on the actual magnitude by which the matrix entries are increased (e.g., <span class="math inline">\(0.1\)</span> or <span class="math inline">\(40\%\)</span>).</p>
-<p>An alternative method is <em>sensitivity analysis</em>. In this method, we compute the derivative of the dominant eigenvalue <span class="math inline">\(\lambda\)</span> with respect to the different matrix entries. In other words, we calculate the slope of <span class="math inline">\(\lambda\)</span> as a function of each of the different matrix entries. This is what we will do in the this exercise.</p>
+<p>In the exercise on the previous tab, you explored numerically how
+population growth and the dominant eigenvalue <span
+class="math inline">\(\lambda\)</span> of a population projection matrix
+<span class="math inline">\(\sf L\)</span> changes in response to
+changes in the different matrix entries, i.e., the different demographic
+parameters. But this way of analyzing the effect of changes in the
+different vital rates on <span class="math inline">\(\lambda\)</span>
+has the disadvantage that the result depends on the actual magnitude by
+which the matrix entries are increased (e.g., <span
+class="math inline">\(0.1\)</span> or <span
+class="math inline">\(40\%\)</span>).</p>
+<p>An alternative method is <em>sensitivity analysis</em>. In this
+method, we compute the derivative of the dominant eigenvalue <span
+class="math inline">\(\lambda\)</span> with respect to the different
+matrix entries. In other words, we calculate the slope of <span
+class="math inline">\(\lambda\)</span> as a function of each of the
+different matrix entries. This is what we will do in the this
+exercise.</p>
 <div id="sensistivity-analysis" class="section level3">
 <h3>Sensistivity analysis</h3>
-<p>Recall from the lecture that the sensitivity of the dominant eigenvalue with respect to an arbitrary matrix entry <span class="math inline">\(a_{ij}\)</span> is given by</p>
+<p>Recall from the lecture that the sensitivity of the dominant
+eigenvalue with respect to an arbitrary matrix entry <span
+class="math inline">\(a_{ij}\)</span> is given by</p>
 <p><span class="math display">\[
-s_{ij} = \frac{\partial\lambda}{\partial a_{ij}}=\frac{v_j u_i}{&lt;\mathbf v, \mathbf u&gt;},
+s_{ij} = \frac{\partial\lambda}{\partial a_{ij}}=\frac{v_j
+u_i}{&lt;\mathbf v, \mathbf u&gt;},
 \]</span></p>
-<p>where <span class="math inline">\(\mathbf u=(u_1, \ldots, u_n)\)</span> and <span class="math inline">\(\mathbf v=(v_1, \ldots, v_n)\)</span> are the right and left eigenvector of an <span class="math inline">\(n\)</span>-dimensional population projection matrix <span class="math inline">\(\mathsf A\)</span> and give the stable age distribution and the vector of reproductive values, respectively. Furthermore, <span class="math inline">\(&lt;\mathbf v, \mathbf u&gt;\)</span> is the <em>inner product</em> of two vectors defined as</p>
+<p>where <span class="math inline">\(\mathbf u=(u_1, \ldots,
+u_n)\)</span> and <span class="math inline">\(\mathbf v=(v_1, \ldots,
+v_n)\)</span> are the right and left eigenvector of an <span
+class="math inline">\(n\)</span>-dimensional population projection
+matrix <span class="math inline">\(\mathsf A\)</span> and give the
+stable age distribution and the vector of reproductive values,
+respectively. Furthermore, <span class="math inline">\(&lt;\mathbf v,
+\mathbf u&gt;\)</span> is the <em>inner product</em> of two vectors
+defined as</p>
 <p><span class="math display">\[
 &lt;\mathbf v, \mathbf u&gt; = v_1u_1+\ldots+v_nu_n.
-\]</span> To compute the whole sensitivity matrix in one step we can make use of the <em>outer product</em> of two vectors defined as</p>
+\]</span> To compute the whole sensitivity matrix in one step we can
+make use of the <em>outer product</em> of two vectors defined as</p>
 <p><span class="math display">\[
-\mathbf v^{\mathrm T} \mathbf u = 
+\mathbf v^{\mathrm T} \mathbf u =
 \begin{pmatrix}
 v_1\\
 v_2\\
@@ -326,11 +348,20 @@ v_2u_1 &amp; \ldots &amp; v_2u_n\\
 v_nu_1 &amp; \ldots &amp; v_nu_n
 \end{pmatrix}
 \]</span></p>
-<p>The sensitity matrix <span class="math inline">\(\mathsf S\)</span> can then be computed as</p>
+<p>The sensitity matrix <span class="math inline">\(\mathsf S\)</span>
+can then be computed as</p>
 <p><span class="math display">\[
-\mathsf S=\frac{\mathbf v^{\mathrm T} \mathbf u}{&lt;\mathbf v, \mathbf u&gt;}.
+\mathsf S=\frac{\mathbf v^{\mathrm T} \mathbf u}{&lt;\mathbf v, \mathbf
+u&gt;}.
 \]</span></p>
-<p>Thus, in order to calculate the sensitivity matrix <span class="math inline">\(\sf S\)</span>, we first have to calculate the right and left eigenvector of the population projection matrix <span class="math inline">\(\sf L\)</span> corresponding to the dominant eigenvalue <span class="math inline">\(\lambda\)</span>. The right eigenvector gives the <em>stable age-distribution</em>, which we have calculated already in the first exercise. The following code simply repeats this calculation.</p>
+<p>Thus, in order to calculate the sensitivity matrix <span
+class="math inline">\(\sf S\)</span>, we first have to calculate the
+right and left eigenvector of the population projection matrix <span
+class="math inline">\(\sf L\)</span> corresponding to the dominant
+eigenvalue <span class="math inline">\(\lambda\)</span>. The right
+eigenvector gives the <em>stable age-distribution</em>, which we have
+calculated already in the first exercise. The following code simply
+repeats this calculation.</p>
 <pre class="r"><code>L &lt;- matrix(
   c(0,1 ,5, 0.25, 0, 0, 0, 0.5, 0),  # the matrix entries
   nrow = 3, # number of rows
@@ -357,7 +388,10 @@ N.tot &lt;- sum(time.series[ , length+1]) # sum of the densities contained in th
 
 right.EV &lt;- time.series[ , length+1]/N.tot # right eigenvector standardized such that its entries sum up to one. This vector represents proportions in the stable age distribution.
 right.EV # print stable age distribution</code></pre>
-<p>In order to obtain the left eigenvector, that is, the vector of reproductive values, we follow exactly the same procedure but use the transpose <span class="math inline">\(\sf L^{\mathrm{T}}\)</span> of the population projection matrix.</p>
+<p>In order to obtain the left eigenvector, that is, the vector of
+reproductive values, we follow exactly the same procedure but use the
+transpose <span class="math inline">\(\sf L^{\mathrm{T}}\)</span> of the
+population projection matrix.</p>
 <pre class="r"><code>L.transpose &lt;- t(L) # transpose of the population projection matrix L
 time.series.transpose &lt;- matrix(N.0)
 
@@ -371,36 +405,96 @@ legend(&quot;topright&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &q
 left.EV &lt;- time.series.transpose[ , length+1]/time.series.transpose[1, length+1] # left eigenvector containing reproductive values with the reproductive value for the first age-class standardized to 1.
 
 left.EV # print left eigenvector</code></pre>
-<p>We now have all ingredients to compute the sensitivity matrix <span class="math inline">\(\sf S\)</span>.</p>
+<p>We now have all ingredients to compute the sensitivity matrix <span
+class="math inline">\(\sf S\)</span>.</p>
 <pre class="r"><code>inner.prod &lt;-left.EV %*% right.EV # this corresponds to &lt;v, u&gt;
 inner.prod # prints the inner product
 outer.prod &lt;- outer(left.EV, right.EV) # this corresponds to v^T*u
 outer.prod # prints the outer product
 sensitivities &lt;- outer.prod/inner.prod[1, 1] # note that by writing inner.prod[1, 1] we extract the value from a &quot;one-dimensional matrix&quot;
 sensitivities # prints the sensitivity matrix</code></pre>
-<p>Each entry of this matrix contains the sensitivity of <span class="math inline">\(\lambda\)</span> with respect to the matrix entry at that corresponding position of the population projection matrix.</p>
+<p>Each entry of this matrix contains the sensitivity of <span
+class="math inline">\(\lambda\)</span> with respect to the matrix entry
+at that corresponding position of the population projection matrix.</p>
 <ol style="list-style-type: decimal">
-<li><p>Note that this matrix has only non-zero entries while our population projection matrix <span class="math inline">\(\sf L\)</span> has five entries that are equal to zero. What is the meaning of the sensitivity of matrix entry that is zero? For example, in <span class="math inline">\(\sf L\)</span> fecundity of one year old individuals equals zero, <span class="math inline">\(f_1=0\)</span>. But the derivative of <span class="math inline">\(\lambda\)</span> with respect to <span class="math inline">\(f_1\)</span> equals <span class="math inline">\(0.9023\)</span>. What does this mean?</p></li>
-<li><p>What conclusion do you draw from the sensitivity matrix <span class="math inline">\(\sf S\)</span> from a conservation perspective?</p></li>
-<li><p>Based on <span class="math inline">\(\sf S\)</span>, estimate by how much <span class="math inline">\(\lambda\)</span> increases if <span class="math inline">\(f_3\)</span> is increased by <span class="math inline">\(0.5\)</span>, <span class="math inline">\(1\)</span> and <span class="math inline">\(2\)</span>. Similarly,estimate by how much <span class="math inline">\(\lambda\)</span> increases if <span class="math inline">\(s_1\)</span> is increased by <span class="math inline">\(0.1\)</span> or <span class="math inline">\(0.2\)</span>.</p></li>
-<li><p>How does your prediction based on the sensitivity matrix <span class="math inline">\(\sf S\)</span> compare to the previous exercise when you increased all matrix entries equally by a value of <span class="math inline">\(0.1\)</span>?</p></li>
+<li><p>Note that this matrix has only non-zero entries while our
+population projection matrix <span class="math inline">\(\sf L\)</span>
+has five entries that are equal to zero. What is the meaning of the
+sensitivity of matrix entry that is zero? For example, in <span
+class="math inline">\(\sf L\)</span> fecundity of one year old
+individuals equals zero, <span class="math inline">\(f_1=0\)</span>. But
+the derivative of <span class="math inline">\(\lambda\)</span> with
+respect to <span class="math inline">\(f_1\)</span> equals <span
+class="math inline">\(0.9023\)</span>. What does this mean?</p></li>
+<li><p>What conclusion do you draw from the sensitivity matrix <span
+class="math inline">\(\sf S\)</span> from a conservation
+perspective?</p></li>
+<li><p>Based on <span class="math inline">\(\sf S\)</span>, estimate by
+how much <span class="math inline">\(\lambda\)</span> increases if <span
+class="math inline">\(f_3\)</span> is increased by <span
+class="math inline">\(0.5\)</span>, <span
+class="math inline">\(1\)</span> and <span
+class="math inline">\(2\)</span>. Similarly,estimate by how much <span
+class="math inline">\(\lambda\)</span> increases if <span
+class="math inline">\(s_1\)</span> is increased by <span
+class="math inline">\(0.1\)</span> or <span
+class="math inline">\(0.2\)</span>.</p></li>
+<li><p>How does your prediction based on the sensitivity matrix <span
+class="math inline">\(\sf S\)</span> compare to the previous exercise
+when you increased all matrix entries equally by a value of <span
+class="math inline">\(0.1\)</span>?</p></li>
 </ol>
 </div>
 <div id="elasticity-analysis" class="section level3">
 <h3>Elasticity analysis</h3>
-<p>Sensitivities give the absolute change in <span class="math inline">\(\lambda\)</span> given an absolute change in the demographic parameters <span class="math inline">\(a_{ij}\)</span>. Thus, sensitivities do not take into account that survival probabilities and fecundities are generally on very different scales. To correct for this, we can compute the <em>elasticity matrix</em> <span class="math inline">\(\sf E\)</span>, with entries <span class="math inline">\(e_{ij}\)</span> defined as</p>
+<p>Sensitivities give the absolute change in <span
+class="math inline">\(\lambda\)</span> given an absolute change in the
+demographic parameters <span class="math inline">\(a_{ij}\)</span>.
+Thus, sensitivities do not take into account that survival probabilities
+and fecundities are generally on very different scales. To correct for
+this, we can compute the <em>elasticity matrix</em> <span
+class="math inline">\(\sf E\)</span>, with entries <span
+class="math inline">\(e_{ij}\)</span> defined as</p>
 <p><span class="math display">\[
 e_{ij}=\frac{a_{ij}}{\lambda}s_{ij}.
-\]</span> To compute the whole elasticity matrix in one step, we can use the formula</p>
+\]</span> To compute the whole elasticity matrix in one step, we can use
+the formula</p>
 <p><span class="math display">\[
 \mathsf E=\frac{1}{\lambda}\mathsf L*\mathsf S.
-\]</span> In this last equation, the <span class="math inline">\(*\)</span> between the matrix <span class="math inline">\(\mathsf L\)</span> and <span class="math inline">\(\mathsf S\)</span> does not denote <em>normal matrix multiplication</em> but <em>element-wise multiplication</em>, that is, multiplication of <span class="math inline">\(l_{ij}\)</span> with <span class="math inline">\(s_{ij}\)</span> in all positions of the matrices.</p>
-<p>Elasticities give the <em>proportional change</em> in <span class="math inline">\(\lambda\)</span> given a proportional change in the demographic parameter <span class="math inline">\(a_{ij}\)</span>. In other words, it gives by how many percentages <span class="math inline">\(\lambda\)</span> changes given a change in percentage of the matrix entry <span class="math inline">\(a_{ij}\)</span>. We can compute the elasticity matrix as follows:</p>
+\]</span> In this last equation, the <span
+class="math inline">\(*\)</span> between the matrix <span
+class="math inline">\(\mathsf L\)</span> and <span
+class="math inline">\(\mathsf S\)</span> does not denote <em>normal
+matrix multiplication</em> but <em>element-wise multiplication</em>,
+that is, multiplication of <span class="math inline">\(l_{ij}\)</span>
+with <span class="math inline">\(s_{ij}\)</span> in all positions of the
+matrices.</p>
+<p>Elasticities give the <em>proportional change</em> in <span
+class="math inline">\(\lambda\)</span> given a proportional change in
+the demographic parameter <span class="math inline">\(a_{ij}\)</span>.
+In other words, it gives by how many percentages <span
+class="math inline">\(\lambda\)</span> changes given a change in
+percentage of the matrix entry <span
+class="math inline">\(a_{ij}\)</span>. We can compute the elasticity
+matrix as follows:</p>
 <pre class="r"><code>elasticities &lt;- (1/lambda)*L*sensitivities # matrix of elasticities. Here, L*sensitivities is the &quot;element-wise product matrix&quot;
 elasticities # print elasticities</code></pre>
-<p>Two observations are noteworthy about the elasticity matrix <span class="math inline">\(\sf E\)</span>. First, for matrix entries <span class="math inline">\(a_{ij}=0\)</span> the corresponding elasticity value <span class="math inline">\(e_{ij}\)</span> equals zero as well. This is because we multiply each sensitivity value with the corresponding value <span class="math inline">\(a_{ij}\)</span> when computing the elasticities. Second, the entries of the elasticity matrix <span class="math inline">\(\sf E\)</span> sum up to one. This indicates that its entries indeed give the proportional effect of each matrix entry <span class="math inline">\(a_{ij}\)</span> on <span class="math inline">\(\lambda\)</span>.</p>
+<p>Two observations are noteworthy about the elasticity matrix <span
+class="math inline">\(\sf E\)</span>. First, for matrix entries <span
+class="math inline">\(a_{ij}=0\)</span> the corresponding elasticity
+value <span class="math inline">\(e_{ij}\)</span> equals zero as well.
+This is because we multiply each sensitivity value with the
+corresponding value <span class="math inline">\(a_{ij}\)</span> when
+computing the elasticities. Second, the entries of the elasticity matrix
+<span class="math inline">\(\sf E\)</span> sum up to one. This indicates
+that its entries indeed give the proportional effect of each matrix
+entry <span class="math inline">\(a_{ij}\)</span> on <span
+class="math inline">\(\lambda\)</span>.</p>
 <ol style="list-style-type: decimal">
-<li>How does your prediction based on the elasticity matrix <span class="math inline">\(\sf E\)</span> compare to the previous exercise when you increased all matrix entries equally by <span class="math inline">\(40 \%\)</span>?</li>
+<li>How does your prediction based on the elasticity matrix <span
+class="math inline">\(\sf E\)</span> compare to the previous exercise
+when you increased all matrix entries equally by <span
+class="math inline">\(40 \%\)</span>?</li>
 </ol>
 </div>
 </div>
