@@ -166,12 +166,12 @@ N.tot <- colSums(time.series) # vector of total densities
 ```
 
 ```{r}
-Lambda.1 <- matrix(1, nrow=1) 
+Lambda.1 <- c() 
 for (i in 1:length){
-  Lambda.1 <- cbind(Lambda.1, time.series[1, i + 1]/time.series[1, i]) # we divide the population size of two consecutive time steps for class 1 by each other and store the result in Lambda.1
+  Lambda.1[i] <- time.series[1, i + 1]/time.series[1, i] # we divide the population size of two consecutive time steps for class 1 by each other and store the result in Lambda.1
 }
 
-plot(0:length, Lambda.1, type="l", ylab = expression(lambda[1](t)=='N'[1](t + 1)/'N'[1](t)), xlab = "time")
+plot(1:length, Lambda.1, type="l", ylab = expression(lambda[1](t)=='N'[1](t + 1)/'N'[1](t)), xlab = "time")
 ```
 
 What do you observe?
@@ -179,28 +179,28 @@ What do you observe?
 To produce the same plot for the second and third age class you have to "select" the entries from the second and third row, respectively, from the matrix ```time.series``` that contains the densities for these age classes.
 
 ```{r eval=TRUE, echo=FALSE, fig.show='hide'}
-Lambda.2 <- matrix(1, nrow=1)
+Lambda.2 <- c()
 for (i in 1:length){
-  Lambda.2 <- cbind(Lambda.2, time.series[2,i+1]/time.series[2,i]) # we select densities from the second row of the matrix time.series that contains the densities in age class 2
+  Lambda.2[i] <- time.series[2,i+1]/time.series[2,i] # we select densities from the second row of the matrix time.series that contains the densities in age class 2
 }
-plot(0:length, Lambda.2, type="l", ylab = expression(lambda[2](t)=='N'[2](t+1)/'N'[2](t)), xlab = "time")
+plot(1:length, Lambda.2, type="l", ylab = expression(lambda[2](t)=='N'[2](t+1)/'N'[2](t)), xlab = "time")
 
-Lambda.3 <- matrix(1, nrow=1)
+Lambda.3 <- c()
 for (i in 1:length){
-  Lambda.3 <- cbind(Lambda.3, time.series[3,i+1]/time.series[3,i])
+  Lambda.3[i] <- time.series[3,i+1]/time.series[3,i]
 }
-plot(0:length, Lambda.3, type="l", ylab = expression(lambda[3](t)=='N'[3](t+1)/'N'[3](t)), xlab = "time")
+plot(1:length, Lambda.3, type="l", ylab = expression(lambda[3](t)=='N'[3](t+1)/'N'[3](t)), xlab = "time")
 ```
 
 We can do the same calculation for the total population size $N_{\mathrm{tot}}$. Before you actually do this calculation, think for a second: What do you expect is the outcome?
 
 ```{r eval=TRUE, echo=TRUE, fig.show='hide'}
-Lambda.tot <- matrix(1, nrow=1)
+Lambda.tot <- c()
 for (i in 1:length){
-  Lambda.tot <- cbind(Lambda.tot, N.tot[i+1]/N.tot[i])
+  Lambda.tot[i] <- N.tot[i+1]/N.tot[i]
 }
 
-plot(0:length, Lambda.tot, type="l", ylab = expression(lambda[tot](t)=='N'[tot](t+1)/'N'[tot](t)), xlab = "time")
+plot(1:length, Lambda.tot, type="l", ylab = expression(lambda[tot](t)=='N'[tot](t+1)/'N'[tot](t)), xlab = "time")
 ```
 
 We can have a look at the last value of $\lambda$, i.e., $\lambda(t)=N_{\mathrm{tot}}(t+1)/N_{\mathrm{tot}}(t)$:

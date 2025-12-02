@@ -13,7 +13,7 @@
 
 <title>Exercise: Structured Populations - Growth</title>
 
-<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
@@ -182,8 +182,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "\e259";
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -191,9 +191,16 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "\e258";
-  font-family: 'Glyphicons Halflings';
+  content: "&#xe258;";
   border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -289,10 +296,9 @@ $(document).ready(function () {
 </script>
 <div id="structured-populations---growth" class="section level1 tabset">
 <h1 class="tabset">Structured Populations - Growth</h1>
-<p>Let us consider an age-structured population with three age-classes
-with vital rates resulting in the population projection matrix</p>
+<p>Let us consider an age-structured population with three age-classes with vital rates resulting in the population projection matrix</p>
 <p><span class="math display">\[
-\mathsf{L} =
+\mathsf{L} = 
 \begin{pmatrix}
 0 &amp; f_2 &amp; f_3\\
 s_1 &amp; 0 &amp; 0\\
@@ -305,24 +311,15 @@ s_1 &amp; 0 &amp; 0\\
 0 &amp; 0.5 &amp; 0
 \end{pmatrix}.
 \]</span></p>
-<p>In the following, we want to investigate the dynamics of such a
-population as described by the difference equation</p>
+<p>In the following, we want to investigate the dynamics of such a population as described by the difference equation</p>
 <p><span class="math display">\[
 \mathbf{N}(t+1)=\mathsf{L}\mathbf{N}(t),
 \]</span></p>
-<p>where <span
-class="math inline">\(\mathbf{N}(t+1)=(N_{1}(t+1),N_{2}(t+1),N_{3}(t+1))^\mathrm{T}\)</span>
-and <span
-class="math inline">\(\mathbf{N}(t)=(N_{1}(t),N_{2}(t),N_{3}(t))^\mathrm{T}\)</span>
-are three-dimensional column vectors. The state of the population (its
-<em>p</em>-state) <em>t</em>-time steps into the future is then given
-by</p>
+<p>where <span class="math inline">\(\mathbf{N}(t+1)=(N_{1}(t+1),N_{2}(t+1),N_{3}(t+1))^\mathrm{T}\)</span> and <span class="math inline">\(\mathbf{N}(t)=(N_{1}(t),N_{2}(t),N_{3}(t))^\mathrm{T}\)</span> are three-dimensional column vectors. The state of the population (its <em>p</em>-state) <em>t</em>-time steps into the future is then given by</p>
 <p><span class="math display">\[
 \mathbf{N}(t)=\mathsf{L}^t*\mathbf{N}(0).
 \]</span></p>
-<p>In this exercise, you use <em>R</em> to explore this dynamics. This
-exercise also serves to introduce some <em>R</em>-code that you will
-need later for your independent project work.</p>
+<p>In this exercise, you use <em>R</em> to explore this dynamics. This exercise also serves to introduce some <em>R</em>-code that you will need later for your independent project work.</p>
 <pre class="r"><code>L &lt;- matrix(
   c(0, 1 , 5, 0.3, 0, 0, 0, 0.5, 0), # we construct a matrix by giving all its entries in a single vector, which we then split into...
   nrow = 3, # ...this many rows and...
@@ -334,8 +331,7 @@ L # print the matrix</code></pre>
 ## [1,]  0.0  1.0    5
 ## [2,]  0.3  0.0    0
 ## [3,]  0.0  0.5    0</code></pre>
-<p>In the following, we revisit some code related to matrix
-manipulation.</p>
+<p>In the following, we revisit some code related to matrix manipulation.</p>
 <pre class="r"><code># The entry in the m-th row and n-th column of the matrix L can be extracted with L[m ,n].
 L[3, 2]  # entry in 3rd row and 2nd column
 
@@ -372,12 +368,7 @@ t(N.0) # the transpose of N.0, this becomes a column vector
 ## [3,]    1
 ```
 -->
-<p>Now let us start analyzing the dynamics of the model defined by the
-above matrix <span class="math inline">\(\mathsf L\)</span>. We start
-with the analysis of the model by producing a time series based on <span
-class="math inline">\(\mathsf L\)</span> and a vector of initial
-population sizes, e.g., <span
-class="math inline">\(\mathbf{N}(0)=(2,2,1)\)</span>.</p>
+<p>Now let us start analyzing the dynamics of the model defined by the above matrix <span class="math inline">\(\mathsf L\)</span>. We start with the analysis of the model by producing a time series based on <span class="math inline">\(\mathsf L\)</span> and a vector of initial population sizes, e.g., <span class="math inline">\(\mathbf{N}(0)=(2,2,1)\)</span>.</p>
 <pre class="r"><code>N.0 &lt;- c(2,2,1) # creates vector N.0 of initial densities
 N.1 &lt;- L %*% N.0 # produces the vector N.1 by multiplying L with N.0. Note that %*% indicates matrix multiplication in R
 N.1 # show N.1</code></pre>
@@ -385,10 +376,7 @@ N.1 # show N.1</code></pre>
 ## [1,]  7.0
 ## [2,]  0.6
 ## [3,]  1.0</code></pre>
-<p>This projects the population one time step into the future. Of
-course, we want to iterate this step many times. There are many
-different ways of programming the same task in <em>R</em>. One way to
-iterate the above calculation <em>t</em>-times goes as follows.</p>
+<p>This projects the population one time step into the future. Of course, we want to iterate this step many times. There are many different ways of programming the same task in <em>R</em>. One way to iterate the above calculation <em>t</em>-times goes as follows.</p>
 <pre class="r"><code>length &lt;- 10 # length of the time series
 time.series &lt;- matrix(N.0, nrow = 3) # creates a matrix with three rows, called time.series, with N.0 in the first column. This is used to store the time series.
 
@@ -399,88 +387,53 @@ for (i in 1:length){# iterates the multiplication L.N(t) as often as specified b
 matplot(0:length, t(time.series), type=&quot;l&quot;, lty=1:3, col = 1, ylab = &quot;density&quot;, xlab = &quot;time&quot;) # plots the time.series for each age-class, note that we have to transpose the matrix time.series in order to obtain the correct plot
 legend(&quot;topleft&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1, bty = &quot;N&quot;) # adds a legend</code></pre>
 <p><img src="Exercise-AgeStructure_Growth_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
-<p>What do you observe? Increase the length of the time series to
-<code>length=40</code>. What do you observe?</p>
-<p>It is instructive to produce the same plot but with population
-densities on a log-scale. This can be done by adding the option
-<code>log="y"</code> to the plot command.</p>
+<p>What do you observe? Increase the length of the time series to <code>length=40</code>. What do you observe?</p>
+<p>It is instructive to produce the same plot but with population densities on a log-scale. This can be done by adding the option <code>log="y"</code> to the plot command.</p>
 <pre class="r"><code>matplot(0:length, t(time.series), type=&quot;l&quot;, log=&quot;y&quot;, lty=1:3, col = 1, ylab = &quot;log density&quot;, xlab = &quot;time&quot;) # adding the option log=&quot;y&quot; shows the y-axis on a logarithmic scale
 legend(&quot;topleft&quot;, legend = c(&quot;age 1&quot;, &quot;age 2&quot;, &quot;age 3&quot;), lty = 1:3, col = 1, bty = &quot;N&quot;)</code></pre>
-<p>What do you conclude from this? Finally, we can produce a plot of the
-total density <span
-class="math inline">\(N_{\mathrm{tot}}(t)=N_1(t)+N_2(t)+N_3(t)\)</span>,
-i.e., where we sum over all three age-classes.</p>
+<p>What do you conclude from this? Finally, we can produce a plot of the total density <span class="math inline">\(N_{\mathrm{tot}}(t)=N_1(t)+N_2(t)+N_3(t)\)</span>, i.e., where we sum over all three age-classes.</p>
 <pre class="r"><code>N.tot &lt;- colSums(time.series) # produces vector of total densities by summing over the values in each column of the matrix time.series
 matplot(0:length, N.tot, type=&quot;l&quot;, ylab = &quot;total population size&quot;, xlab = &quot;time&quot;)
 matplot(0:length, N.tot, type=&quot;l&quot;, log=&quot;y&quot;, ylab = &quot;log total population size&quot;, xlab = &quot;time&quot;) # log scale</code></pre>
-<p>In the population projection matrix, change <span
-class="math inline">\(s_1=0.3\)</span> to <span
-class="math inline">\(s_1=0.25\)</span>. Then repeat the above steps for
-<code>length=40</code>. How does this change the population
-dynamics?</p>
-<p>Now we know how to simulate the dynamics of a structured population.
-Next, let us investigate the dynamics in a bit more detail.</p>
-<div
-id="by-what-factor-does-each-age-class-as-well-as-the-population-as-a-whole-grow-from-one-time-step-to-the-next"
-class="section level3">
-<h3>1) By what factor does each age class, as well as the population as
-a whole grow from one time step to the next?</h3>
+<p>In the population projection matrix, change <span class="math inline">\(s_1=0.3\)</span> to <span class="math inline">\(s_1=0.25\)</span>. Then repeat the above steps for <code>length=40</code>. How does this change the population dynamics?</p>
+<p>Now we know how to simulate the dynamics of a structured population. Next, let us investigate the dynamics in a bit more detail.</p>
+<div id="by-what-factor-does-each-age-class-as-well-as-the-population-as-a-whole-grow-from-one-time-step-to-the-next" class="section level3">
+<h3>1) By what factor does each age class, as well as the population as a whole grow from one time step to the next?</h3>
 <p>In unstructured populations, we have</p>
 <p><span class="math display">\[
 N(t+1)=\lambda N(t) \Longleftrightarrow  \lambda=\frac{N(t+1)}{N(t)}.
 \]</span></p>
-<p>Can we calculate something that is analogous to <span
-class="math inline">\(\lambda\)</span> but for structured populations?
-More specifically, can we find a single quantity that informs us whether
-a structured population is growing or shrinking in the long run? Let us
-look at the ratio of densities at time step <em>t</em> and
-<em>(t+1)</em> for age class <em>j</em>. We denote this quantity by
-<span class="math inline">\(\lambda_j(t)\)</span>, i.e.,</p>
+<p>Can we calculate something that is analogous to <span class="math inline">\(\lambda\)</span> but for structured populations? More specifically, can we find a single quantity that informs us whether a structured population is growing or shrinking in the long run? Let us look at the ratio of densities at time step <em>t</em> and <em>(t+1)</em> for age class <em>j</em>. We denote this quantity by <span class="math inline">\(\lambda_j(t)\)</span>, i.e.,</p>
 <p><span class="math display">\[
-\lambda_j(t) = \frac{N_j(t+1)}{N_j(t)}\,\,\,{\mathrm{for}}\,\,\,
-j\in\{1,2,3\}.
+\lambda_j(t) = \frac{N_j(t+1)}{N_j(t)}\,\,\,{\mathrm{for}}\,\,\, j\in\{1,2,3\}.
 \]</span></p>
 <p>We can do the same for the total population size, i.e.,</p>
 <p><span class="math display">\[
-\lambda_{\mathrm{tot}}(t) =
-\frac{N_{\mathrm{tot}}(t+1)}{N_{\mathrm{tot}}(t)}.
+\lambda_{\mathrm{tot}}(t) = \frac{N_{\mathrm{tot}}(t+1)}{N_{\mathrm{tot}}(t)}.
 \]</span></p>
-<p>Let us begin by calculating this quantity for age-class 1 based on a
-time series of length 40. Please first change the survival of one-year
-old individuals back to <span
-class="math inline">\(s_1=0.3\)</span>.</p>
-<pre class="r"><code>Lambda.1 &lt;- matrix(1, nrow=1) 
+<p>Let us begin by calculating this quantity for age-class 1 based on a time series of length 40. Please first change the survival of one-year old individuals back to <span class="math inline">\(s_1=0.3\)</span>.</p>
+<pre class="r"><code>Lambda.1 &lt;- c() 
 for (i in 1:length){
-  Lambda.1 &lt;- cbind(Lambda.1, time.series[1, i + 1]/time.series[1, i]) # we divide the population size of two consecutive time steps for class 1 by each other and store the result in Lambda.1
+  Lambda.1[i] &lt;- time.series[1, i + 1]/time.series[1, i] # we divide the population size of two consecutive time steps for class 1 by each other and store the result in Lambda.1
 }
 
-plot(0:length, Lambda.1, type=&quot;l&quot;, ylab = expression(lambda[1](t)==&#39;N&#39;[1](t + 1)/&#39;N&#39;[1](t)), xlab = &quot;time&quot;)</code></pre>
+plot(1:length, Lambda.1, type=&quot;l&quot;, ylab = expression(lambda[1](t)==&#39;N&#39;[1](t + 1)/&#39;N&#39;[1](t)), xlab = &quot;time&quot;)</code></pre>
 <p><img src="Exercise-AgeStructure_Growth_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <p>What do you observe?</p>
-<p>To produce the same plot for the second and third age class you have
-to “select” the entries from the second and third row, respectively,
-from the matrix <code>time.series</code> that contains the densities for
-these age classes.</p>
-<p>We can do the same calculation for the total population size <span
-class="math inline">\(N_{\mathrm{tot}}\)</span>. Before you actually do
-this calculation, think for a second: What do you expect is the
-outcome?</p>
-<pre class="r"><code>Lambda.tot &lt;- matrix(1, nrow=1)
+<p>To produce the same plot for the second and third age class you have to “select” the entries from the second and third row, respectively, from the matrix <code>time.series</code> that contains the densities for these age classes.</p>
+<p>We can do the same calculation for the total population size <span class="math inline">\(N_{\mathrm{tot}}\)</span>. Before you actually do this calculation, think for a second: What do you expect is the outcome?</p>
+<pre class="r"><code>Lambda.tot &lt;- c()
 for (i in 1:length){
-  Lambda.tot &lt;- cbind(Lambda.tot, N.tot[i+1]/N.tot[i])
+  Lambda.tot[i] &lt;- N.tot[i+1]/N.tot[i]
 }
 
-plot(0:length, Lambda.tot, type=&quot;l&quot;, ylab = expression(lambda[tot](t)==&#39;N&#39;[tot](t+1)/&#39;N&#39;[tot](t)), xlab = &quot;time&quot;)</code></pre>
-<p>We can have a look at the last value of <span
-class="math inline">\(\lambda\)</span>, i.e., <span
-class="math inline">\(\lambda(t)=N_{\mathrm{tot}}(t+1)/N_{\mathrm{tot}}(t)\)</span>:</p>
+plot(1:length, Lambda.tot, type=&quot;l&quot;, ylab = expression(lambda[tot](t)==&#39;N&#39;[tot](t+1)/&#39;N&#39;[tot](t)), xlab = &quot;time&quot;)</code></pre>
+<p>We can have a look at the last value of <span class="math inline">\(\lambda\)</span>, i.e., <span class="math inline">\(\lambda(t)=N_{\mathrm{tot}}(t+1)/N_{\mathrm{tot}}(t)\)</span>:</p>
 <pre class="r"><code>Lambda.1[length] # growth factor for age-class 1 at the end of the time series 
 Lambda.2[length] # growth factor for age-class 2 at the end of the time series (only works if you did the calculations for this age-class)
 Lambda.3[length] # growth factor for age-class 3 at the end of the time series (only works if you did the calculations for this age-class)
 Lambda.tot[length] # growth factor for the total population size</code></pre>
-<p>What do you observe? What do you conclude from your results about the
-existence of a single quantity that allows to predict whether a
-population grows or shrinks?</p>
+<p>What do you observe? What do you conclude from your results about the existence of a single quantity that allows to predict whether a population grows or shrinks?</p>
 <!--
 
 ```r
@@ -490,19 +443,9 @@ knitr::kable(
 ```
 -->
 </div>
-<div
-id="to-what-extend-does-the-population-dynamics-depend-on-the-initial-population-vector-mathbf-n0"
-class="section level3">
-<h3>2) To what extend does the population dynamics depend on the initial
-population vector <span class="math inline">\(\mathbf
-N(0)\)</span>?</h3>
-<p>How do the dynamics of a time series depend on the population vector
-<span class="math inline">\(\mathbf N(0)\)</span> specifying the initial
-population size? To investigate this question, we can repeat the above
-computations but for different initial population vectors <span
-class="math inline">\(\mathbf N(0)\)</span>, say, ten different such
-vectors. The following code facilitates the computation of many such
-time series.</p>
+<div id="to-what-extend-does-the-population-dynamics-depend-on-the-initial-population-vector-mathbf-n0" class="section level3">
+<h3>2) To what extend does the population dynamics depend on the initial population vector <span class="math inline">\(\mathbf N(0)\)</span>?</h3>
+<p>How do the dynamics of a time series depend on the population vector <span class="math inline">\(\mathbf N(0)\)</span> specifying the initial population size? To investigate this question, we can repeat the above computations but for different initial population vectors <span class="math inline">\(\mathbf N(0)\)</span>, say, ten different such vectors. The following code facilitates the computation of many such time series.</p>
 <pre class="r"><code>length &lt;- 40
 N.0 &lt;- c(c(1,0,0), c(0,1,0), c(0,0,1), c(2,0,0), c(1,1,0), c(1,0,1), c(0,1,1), c(2,1,0), c(2,0,1), c(0,2,1)) # vector of ten different initial conditions N(0)
 ten.time.series &lt;- matrix(0, nrow = 10 * nrow(L), ncol = length + 1) # matrix for storing ten time series; note that this matrix has 10 * 3 = 30 rows (make yourself clear why)
@@ -513,8 +456,7 @@ for (i in 0:9){# this nested for-loop executes the calculations for the 10 diffe
     ten.time.series[(1 + 3 * i):(3 + 3 * i), (j + 1)] &lt;- L %*% ten.time.series[(1 + 3 * i):(3 + 3 * i), j]
   } # note that there is some &quot;complicated&quot; stuff going on so as to add the new population vector in the correct place in the matrix ten.time.series
 }</code></pre>
-<p>Next, we plot the time series for each age-class for all ten time
-series.</p>
+<p>Next, we plot the time series for each age-class for all ten time series.</p>
 <pre class="r"><code>ten.age1 &lt;- ten.time.series[c(1, 4, 7, 10, 13, 16, 19, 22, 25, 28), ] # 10 time series for age class 1
 ten.age2 &lt;- ten.time.series[c(2, 5, 8, 11, 14, 17, 20, 23, 26, 29), ] # 10 time series for age class 2
 ten.age3 &lt;- ten.time.series[c(3, 6, 9, 12, 15, 18, 21, 24, 27, 30), ] # 10 time series for age class 3
@@ -522,11 +464,8 @@ par(mfrow = c(1, 3)) # arranges the next three plots in a single figure
 matplot(0:length, t(ten.age1), type=&quot;l&quot;, col = rainbow(10), ylab = &quot;density age-class 1&quot;, xlab = &quot;time&quot;)
 matplot(0:length, t(ten.age2), type=&quot;l&quot;, col = rainbow(10), ylab = &quot;density age-class 2&quot;, xlab = &quot;time&quot;)
 matplot(0:length, t(ten.age3), type=&quot;l&quot;, col = rainbow(10), ylab = &quot;density age-class 3&quot;, xlab = &quot;time&quot;)</code></pre>
-<p>By adding the plot option <code>log="y"</code>, you can plot the
-y-axis on a log scale. What do you observe?</p>
-<p>Next, let us investigate how the growth factor <span
-class="math inline">\(\lambda\)</span> depends on the initial population
-vector <span class="math inline">\(\mathbf N(0)\)</span>?</p>
+<p>By adding the plot option <code>log="y"</code>, you can plot the y-axis on a log scale. What do you observe?</p>
+<p>Next, let us investigate how the growth factor <span class="math inline">\(\lambda\)</span> depends on the initial population vector <span class="math inline">\(\mathbf N(0)\)</span>?</p>
 <pre class="r"><code>ten.lambda1 &lt;- matrix(0, nrow = 10, ncol = length)
 ten.lambda2 &lt;- matrix(0, nrow = 10, ncol = length)
 ten.lambda3 &lt;- matrix(0, nrow = 10, ncol = length)
@@ -552,24 +491,10 @@ for (i in 1:length){
 }
 matplot(1:length, t(ten.lambda3), type=&quot;l&quot;, ylim=c(0,5), col = rainbow(10), ylab = expression(lambda[3](t)==&#39;n&#39;[3](t+1)/&#39;n&#39;[3](t)), xlab = &quot;time&quot;)</code></pre>
 <ol style="list-style-type: lower-roman">
-<li><p>What do you observe? What do you conclude from your results about
-the existence of a single quantity that allows to predict population
-growth and whether such a quantity depends on initial
-conditions?</p></li>
-<li><p>Can we use this number to predict whether a population growth or
-shrinks in the long run? To investigate this question let us modify the
-above population projection matrix <span class="math inline">\(\mathsf
-L\)</span>. More specifically, please change <span
-class="math inline">\(s_1=0.3\)</span> to <span
-class="math inline">\(s_1=0.25\)</span>. Plot the time series for this
-new matrix <span class="math inline">\(\mathsf L\)</span> for one
-initial condition <span class="math inline">\(\mathbf N(0)\)</span> and
-compute <span class="math inline">\(\lambda\)</span>. What do you
-conclude?</p></li>
+<li><p>What do you observe? What do you conclude from your results about the existence of a single quantity that allows to predict population growth and whether such a quantity depends on initial conditions?</p></li>
+<li><p>Can we use this number to predict whether a population growth or shrinks in the long run? To investigate this question let us modify the above population projection matrix <span class="math inline">\(\mathsf L\)</span>. More specifically, please change <span class="math inline">\(s_1=0.3\)</span> to <span class="math inline">\(s_1=0.25\)</span>. Plot the time series for this new matrix <span class="math inline">\(\mathsf L\)</span> for one initial condition <span class="math inline">\(\mathbf N(0)\)</span> and compute <span class="math inline">\(\lambda\)</span>. What do you conclude?</p></li>
 </ol>
-<p>Note that for later exercises you will have to be able to compute the
-growth factor <span class="math inline">\(\lambda\)</span> for other
-matrices.</p>
+<p>Note that for later exercises you will have to be able to compute the growth factor <span class="math inline">\(\lambda\)</span> for other matrices.</p>
 </div>
 </div>
 
