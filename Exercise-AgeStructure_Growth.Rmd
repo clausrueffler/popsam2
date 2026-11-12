@@ -151,7 +151,7 @@ $$
 \lambda_{\mathrm{tot}}(t) = \frac{N_{\mathrm{tot}}(t+1)}{N_{\mathrm{tot}}(t)}.
 $$
 
-Let us begin by calculating this quantity for age-class 1 based on a time series of length 40. Please first change the survival of one-year old individuals back to $s_1=0.3$.
+Let us begin by calculating this quantity for the total population size based on a time series of length 40. Please first change the survival of one-year old individuals back to $s_1=0.3$. Below you can find code to do this in two different ways. First, by using a for-loop.
 
 ```{r echo=FALSE}
 length <- 40
@@ -165,18 +165,44 @@ for (i in 1:length){
 N.tot <- colSums(time.series) # vector of total densities
 ```
 
-```{r}
-Lambda.1 <- c() 
+```{r eval=TRUE}
+Lambda.tot <- c() # creating an empty vector
 for (i in 1:length){
-  Lambda.1[i] <- time.series[1, i + 1]/time.series[1, i] # we divide the population size of two consecutive time steps for class 1 by each other and store the result in Lambda.1
+  Lambda.tot[i] <- N.tot[i + 1]/N.tot[i] # we divide the population size of two consecutive time steps for class 1 by each other and store the result in Lambda.tot
 }
 
-plot(1:length, Lambda.1, type="l", ylab = expression(lambda[1](t)=='N'[1](t + 1)/'N'[1](t)), xlab = "time")
+plot(0:(length - 1), Lambda.tot, type="l", ylab = expression(lambda[tot](t)=='N'[tot](t + 1)/'N'[tot](t)), xlab = "time")
+```
+
+Alternatively, we can create two new vectors based on the vector ```N.tot```, one where we remove the first entry and another one where we remove the last entry. By dividing these two vectors with each other, we obtain the vector of $\lambda$-values. Make yourself clear why this works.
+
+```{r eval=FALSE}
+N.tot.minus.first <- N.tot[-1] # this removes the first entry
+N.tot.minus.last <- N.tot[-length] # this removes the last entry
+
+Lambda.tot <- N.tot.minus.first / N.tot.minus.last # this divides the two vectors entry by entry: N.tot[t+1]/N.tot[t]
+
+plot(0:(length - 1), Lambda.tot, type="l", ylab = expression(lambda[tot](t)=='N'[tot](t + 1)/'N'[tot](t)), xlab = "time")
 ```
 
 What do you observe?
 
-To produce the same plot for the second and third age class you have to "select" the entries from the second and third row, respectively, from the matrix ```time.series``` that contains the densities for these age classes.
+Produce the same plot for each age class separately. As I find the second method a bit more convenient, I here give the code to do it for the first age-class based on this method.
+
+```{r eval=FALSE}
+# lets create vector that contains the time series just for the first age class
+N1 <- time.series[1, ]
+
+# apply the same logic as we did for N.tot to this vector
+
+N1.minus.first <- N1[-1] # this removes the first entry
+N1.minus.last <- N1[-length] # this removes the last entry
+
+Lambda.1 <- N1.minus.first / N1.minus.last # this divides the two vectors entry by entry: N.tot[t+1]/N.tot[t]
+
+plot(0:(length - 1), Lambda.1, type="l", ylab = expression(lambda[1](t)=='N'[1](t + 1)/'N'[1](t)), xlab = "time")
+```
+
 
 ```{r eval=TRUE, echo=FALSE, fig.show='hide'}
 Lambda.2 <- c()
@@ -192,7 +218,7 @@ for (i in 1:length){
 plot(1:length, Lambda.3, type="l", ylab = expression(lambda[3](t)=='N'[3](t+1)/'N'[3](t)), xlab = "time")
 ```
 
-We can do the same calculation for the total population size $N_{\mathrm{tot}}$. Before you actually do this calculation, think for a second: What do you expect is the outcome?
+<!--We can do the same calculation for the total population size $N_{\mathrm{tot}}$. Before you actually do this calculation, think for a second: What do you expect is the outcome?
 
 ```{r eval=TRUE, echo=TRUE, fig.show='hide'}
 Lambda.tot <- c()

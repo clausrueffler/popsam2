@@ -26,7 +26,7 @@ c(1.305/1.305, 4.43/1.305, 6.41/1.305)
 
 library(popbio)
 eigen.analysis(L)
-Lin
+
 
 time.series
 
